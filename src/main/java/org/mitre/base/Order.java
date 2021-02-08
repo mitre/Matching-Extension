@@ -2,7 +2,14 @@ package org.mitre.base;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+/**
+ *
+ *
+ */
+@Component
 public class Order {
 
 	// order size
@@ -16,6 +23,7 @@ public class Order {
 
 
 	// constructor
+	@Autowired
 	public Order(int size, String contract) {
 		setSize(size);
 		setContract(contract);
@@ -23,28 +31,34 @@ public class Order {
 	}
 
 
+	@Autowired
 	public int getSize() {
 		return size;
 	}
 
+	@Autowired
 	public void setSize(int size) {
 		this.size = size;
 	}
 
 
+	@Autowired
 	public String getContract() {
 		return contract;
 	}
 
+	@Autowired
 	public void setContract(String contract) {
 		this.contract = contract;
 	}
 
 
+	@Autowired
 	public Date getDt() {
 		return dt;
 	}
 
+	@Autowired
 	public void setDt(Date dt) {
 		this.dt = dt;
 	}
