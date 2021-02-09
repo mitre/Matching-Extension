@@ -15,9 +15,13 @@ public class App
 
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 
+	private static OrderBook nb = new OrderBook();
+
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 		logger.info("started org.mitre.base spring boot application");
+
+		nb.getSellBook();
 	}
 
 }

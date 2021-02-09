@@ -9,21 +9,32 @@ import org.springframework.stereotype.Component;
  *
  *
  */
-@Component
+//@Component
 public class Order {
 
 	// order size
-	private int size = 0;
+	//@Autowired
+	private int size;
 
 	// name of contract
-	private String contract = "";
+	//@Autowired
+	private String contract;
 
 	// time submitted
-	private Date dt = new Date();
+	//@Autowired
+	private Date dt;
 
 
-	// constructor
-	@Autowired
+	// default constructor
+	//@Autowired
+	public Order() {
+		setSize(0);
+		setContract("");
+		setDt(new Date(System.currentTimeMillis()));
+	}
+
+	// args constructor
+	//@Autowired
 	public Order(int size, String contract) {
 		setSize(size);
 		setContract(contract);
@@ -31,34 +42,28 @@ public class Order {
 	}
 
 
-	@Autowired
 	public int getSize() {
 		return size;
 	}
 
-	@Autowired
 	public void setSize(int size) {
 		this.size = size;
 	}
 
 
-	@Autowired
 	public String getContract() {
 		return contract;
 	}
 
-	@Autowired
 	public void setContract(String contract) {
 		this.contract = contract;
 	}
 
 
-	@Autowired
 	public Date getDt() {
 		return dt;
 	}
 
-	@Autowired
 	public void setDt(Date dt) {
 		this.dt = dt;
 	}
