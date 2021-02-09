@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -16,32 +15,27 @@ import org.springframework.stereotype.Component;
  *
  *
  */
-//@Component
+@Component
 public class OrderBook {
 
 	// logger
 	private static final Logger log = LoggerFactory.getLogger(OrderBook.class);
 
 	// order books
-    //@Autowired
-	private static HashMap<String, Order> buyBook;
-	//@Autowired
-	private static HashMap<String, Order> sellBook;
+	private HashMap<String, Order> buyBook;
+	private HashMap<String, Order> sellBook;
 
 	// rule set
-	//@Autowired
 	private String ruleSet;
 
 
 	// default constructor
-	//@Autowired
 	public OrderBook() {
 		setRuleSet("");
 		log.info("OrderBook instantiated, NO rule set");
 	}
 
-	// args constructor
-	//@Autowired()
+	// custom constructor
 	public OrderBook(String rule) {
 		// TODO: insert rule set constructor here
 		setRuleSet(rule);
