@@ -14,21 +14,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class App
 {
 
-	private static final Logger logger = LoggerFactory.getLogger(App.class);
+	private static final Logger log = LoggerFactory.getLogger(App.class);
 
 	@Autowired
-	private OrderBook nb;
+	private static OrderBook nb;
 
-	public void findSell() {
-		// do something
-		nb.getBooks();
-	}
-	
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
-		logger.info("started org.mitre.base spring boot application");
+		log.info("started org.mitre.base spring boot application");
 
-		//findSell();
+		nb = new OrderBook();
+		log.info("{}", nb);
 	}
 
 }

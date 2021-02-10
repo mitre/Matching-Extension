@@ -27,6 +27,10 @@ public class OrderBook {
 	private static HashMap<Integer, Order> buyBook;
 	private static HashMap<Integer, Order> sellBook;
 
+	// order number counters
+	private static Integer buyCount;
+	private static Integer sellCount;
+
 	// rule set
 	private static String ruleSet;
 
@@ -53,6 +57,38 @@ public class OrderBook {
 	public static void initBooks() {
 		OrderBook.buyBook = Maps.newHashMap();
 		OrderBook.sellBook = Maps.newHashMap();
+		OrderBook.buyCount = 0;
+		OrderBook.sellCount = 0;
+	}
+
+	/**
+	 * @return order book number if successful
+	 */
+	public Integer addBuyOrder(Order order) {
+		OrderBook.buyBook.put(incBuyCount(), order);
+		return getBuyCount();
+	}
+
+	/**
+	 * @return order book number if successful
+	 */
+	public Integer addSellOrder(Order order) {
+		OrderBook.sellBook.put(incSellCount(), order);
+		return getSellCount();
+	}
+
+	/**
+	 * @return order that is removed
+	 */
+	public Order removeBuyOrder(Integer idx) {
+		return OrderBook.buyBook.remove(idx);
+	}
+
+	/**
+	 * @return order that is removed
+	 */
+	public Order removeSellOrder(Integer idx) {
+		return OrderBook.sellBook.remove(idx);
 	}
 
 	/**
@@ -94,12 +130,56 @@ public class OrderBook {
 	}
 
 	/**
+	 * @return current buy counter
+	 */
+	public Integer getBuyCount() {
+		return buyCount;
+	}
+
+	/**
+	 * @return buy count incremented
+	 */
+	public static Integer incBuyCount() {
+		return ++OrderBook.buyCount;
+	}
+
+	/**
+	 * @return current sell counter
+	 */
+	public Integer getSellCount() {
+		return sellCount;
+	}
+
+	/**
+	 * @return sell count incremented
+	 */
+	public static Integer incSellCount() {
+		return ++OrderBook.sellCount;
+	}
+
+	/**
+	 * @return current size of buy book
+	 */
+	public Integer getBuyBookSize() {
+		return OrderBook.buyBook.size();
+	}
+
+	/**
+	 * @return current size of sell book
+	 */
+	public Integer getSellBookSize() {
+		return OrderBook.sellBook.size();
+	}
+
+	/**
 	 * @return string representation of OrderBook
 	 */
 	@Override
 	public String toString() {
 		return "OrderBook with RULE=" + getRuleSet() + " SIZE(buyBook)="
-					+ getBuyBook().size() + " SIZE(sellBook)="
-					+ getSellBook().size();
+					+ getBuyBookSize() + " SIZE(sellBook)="
+					+ getSellBookSize() + " BUY_COUNTER=" + getBuyCount()
+					+ " SELL_COUNTER=" + getSellCount();
 	}
+
 }
