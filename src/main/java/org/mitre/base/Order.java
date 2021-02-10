@@ -13,60 +13,102 @@ import org.springframework.stereotype.Component;
 @Component
 public class Order {
 
-	// logger
 	private static final Logger log = LoggerFactory.getLogger(Order.class);
 
 	// order size
-	private int size;
-
+	private static int size;
 	// name of contract
-	private String contract;
-
+	private static String contract;
 	// time submitted
-	private Date dt;
+	private static Date dt;
+
+	// agent submitting
+	private static String agent;
 
 
 	// default constructor
 	public Order() {
 		setSize(0);
 		setContract("");
+		setAgent("");
 		setDt(new Date(System.currentTimeMillis()));
-		log.info("Built default order");
+		log.info("Constructed default Order");
 	}
 
 	// custom constructor
-	public Order(int size, String contract) {
+	public Order(int size, String contract, String agent) {
 		setSize(size);
 		setContract(contract);
+		setAgent(agent);
 		setDt(new Date(System.currentTimeMillis()));
-		log.info("Build custom Order: size = {}, contract = {}", size, contract);
+		log.info("Constructed custom Order: {} SIZE of {} CONTRACt from {} AGENT",
+				   size, contract, agent);
 	}
 
-
+	/**
+	 * @return
+	 */
 	public int getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
-		this.size = size;
+	/**
+	 * @param size
+	 */
+	public static void setSize(int size) {
+		Order.size = size;
 	}
 
-
+	/**
+	 * @return
+	 */
 	public String getContract() {
 		return contract;
 	}
 
-	public void setContract(String contract) {
-		this.contract = contract;
+	/**
+	 * @param contract
+	 */
+	public static void setContract(String contract) {
+		Order.contract = contract;
 	}
 
-
+	/**
+	 * @return
+	 */
 	public Date getDt() {
 		return dt;
 	}
 
-	public void setDt(Date dt) {
-		this.dt = dt;
+	/**
+	 * @param dt
+	 */
+	public static void setDt(Date dt) {
+		Order.dt = dt;
+	}
+
+	/**
+	 * @return the agent
+	 */
+	public String getAgent() {
+		return agent;
+	}
+
+	/**
+	 * @param agent the agent to set
+	 */
+	public static void setAgent(String agent) {
+		Order.agent = agent;
+	}
+
+	/**
+	 * @return string representation of class
+	 */
+	@Override
+	public String toString() {
+		return "Order@ " + getDt().toString() + " of SIZE="
+				+ getSize() + " and CONTRACT=" + getContract()
+				+ " from AGENT=" + getAgent();
 	}
 
 }

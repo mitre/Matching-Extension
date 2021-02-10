@@ -22,11 +22,11 @@ public class OrderBook {
 	private static final Logger log = LoggerFactory.getLogger(OrderBook.class);
 
 	// order books
-	private HashMap<String, Order> buyBook;
-	private HashMap<String, Order> sellBook;
+	private static HashMap<String, Order> buyBook;
+	private static HashMap<String, Order> sellBook;
 
 	// rule set
-	private String ruleSet;
+	private static String ruleSet;
 
 
 	// default constructor
@@ -39,7 +39,7 @@ public class OrderBook {
 	public OrderBook(String rule) {
 		// TODO: insert rule set constructor here
 		setRuleSet(rule);
-		log.info("OrderBook instantiated, chosen rule set: {}", this.ruleSet);
+		log.info("OrderBook instantiated, chosen rule set: {}", rule);
 	}
 
 
@@ -49,7 +49,6 @@ public class OrderBook {
 	public Map<String, Order> getBuyBook() {
 		return buyBook;
 	}
-
 
 	/**
 	 * @return the sellBook
@@ -68,7 +67,6 @@ public class OrderBook {
 		return ret;
 	}
 
-
 	/**
 	 * @return the ruleSet
 	 */
@@ -76,12 +74,11 @@ public class OrderBook {
 		return ruleSet;
 	}
 
-
 	/**
 	 * @param ruleSet the ruleSet to set
 	 */
-	public void setRuleSet(String ruleSet) {
-		this.ruleSet = ruleSet;
+	public static void setRuleSet(String ruleSet) {
+		OrderBook.ruleSet = ruleSet;
 	}
 
 }
