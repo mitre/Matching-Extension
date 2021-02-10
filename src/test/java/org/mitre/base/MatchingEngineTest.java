@@ -37,6 +37,18 @@ public class MatchingEngineTest {
 		assertEquals(0, me.getSellBook().size());
 
 		log.info("{}", me);
+	}
+
+	@Test
+	public void testMutateOrderBook() {
+		OrderBook ob = new OrderBook();
+		MatchingEngine me = new MatchingEngine(ob);
+
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(0, me.getBuyBook().size());
+		assertEquals(0, me.getSellBook().size());
+
+		log.info("{}", me);
 
 		int topBuy, topSell = 0;
 		topBuy = ob.addBuyOrder(new Order());
@@ -57,6 +69,26 @@ public class MatchingEngineTest {
 		assertEquals(0, me.getAllTrades().size());
 		assertEquals(1, me.getBuyBook().size());
 		assertEquals(0, me.getSellBook().size());
+	}
+
+	@Test
+	public void testMatchUpdater() {
+		OrderBook ob = new OrderBook();
+		MatchingEngine me = new MatchingEngine(ob);
+
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(0, me.getBuyBook().size());
+		assertEquals(0, me.getSellBook().size());
+
+		log.info("{}", me);
+
+		int topBuy, topSell = 0;
+		topBuy = ob.addBuyOrder(new Order());
+		topBuy = ob.addBuyOrder(new Order());
+		topSell = ob.addSellOrder(new Order());
+		
+		
+	
 	}
 
 }

@@ -1,9 +1,13 @@
 package org.mitre.base;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import javafx.util.Pair;
 
 @Component
 public class MatchingEngine {
@@ -24,6 +30,11 @@ public class MatchingEngine {
 
 	// record of matches
 	private static ArrayList<CompletedOrder> trades;
+
+
+	// for internal use only
+	private List<Pair<Integer, Order>> buyOrders;
+	private List<Pair<Integer, Order>> sellOrders;
 
 
 	// default constructor
@@ -58,18 +69,37 @@ public class MatchingEngine {
 		MatchingEngine.trades = Lists.newArrayList();
 	}
 
-	/**
-	 * @param:
-	 * @param:
-	 *
-	 * @return: Completed Order object
-	 *
-	 *  - mutates: buy and sell OrderBook
-	 *
-	 */
-	public CompletedOrder matchUpdate() {
-		return null;
 
+	/**
+	 * comparator for list of Pair<Integer, Order>
+	 */
+     private Comparator<Pair<Integer, Order>> cmp = new Comparator<Pair<Integer, Order>>(){
+		@Override
+		public int compare(Pair<Integer, Order> lhs, Pair<Integer, Order> rhs) {
+			return Order.compare(lhs.getValue(), rhs.getValue());
+		}
+	};
+
+	/**
+	 * search for matches between buy and sell book, then
+	 *     log completed trades to completed trades log
+	 */
+	public void matchUpdate() {
+		// dump HashMaps into lists
+		buyOrders = buyBook.entrySet().stream().map(e -> new Pair<Integer, Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
+		sellOrders = sellBook.entrySet().stream().map(e -> new Pair<Integer, Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
+
+		// sort lists by time and order size
+		Collections.sort(buyOrders, cmp);
+		Collections.sort(sellOrders, cmp);
+
+		// search for matches
+
+
+		// log completed trades to trades list
+
+
+		// remove matches from order books
 	}
 
 	/**
@@ -130,4 +160,5 @@ public class MatchingEngine {
 				   + " size(BUY_BOOK)=" + getBuyBook().size()
 				   + " size(SELL_BOOK)=" + getSellBook().size();
 	}
+
 }

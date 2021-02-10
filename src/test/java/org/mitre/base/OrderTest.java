@@ -35,4 +35,15 @@ public class OrderTest {
 
 		log.info("Created object: {}", ord);
 	}
+
+	@Test
+	public void testCompare() {
+		Order cord = new Order(3, "comp-contract", "comp-buyer-sam");
+		Order cord2 = new Order(1, "test-contract4", "buyer-sam13");
+
+		log.info("Created object: {}", cord);
+		log.info("Created object: {}", cord2);
+
+		assertEquals(-1, Order.compare(cord, cord2));
+	}
 }
