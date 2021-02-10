@@ -16,7 +16,7 @@ public class Order {
 	private static final Logger log = LoggerFactory.getLogger(Order.class);
 
 	// order size
-	private static int size;
+	private static Integer size;
 	// name of contract
 	private static String contract;
 	// time submitted
@@ -48,7 +48,7 @@ public class Order {
 	/**
 	 * @return
 	 */
-	public int getSize() {
+	public Integer getSize() {
 		return size;
 	}
 

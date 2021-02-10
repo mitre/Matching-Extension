@@ -12,7 +12,7 @@ public class CompletedOrder {
 	private static final Logger log = LoggerFactory.getLogger(CompletedOrder.class);
 
 	// order size
-	private static int size;
+	private static Integer size;
 	// contract name
 	private static String contract;
 	// time of order close
@@ -49,7 +49,7 @@ public class CompletedOrder {
 	/**
 	 * @return the size
 	 */
-	public int getSize() {
+	public Integer getSize() {
 		return size;
 	}
 

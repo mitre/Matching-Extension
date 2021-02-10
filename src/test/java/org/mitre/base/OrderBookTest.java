@@ -15,6 +15,8 @@ public class OrderBookTest {
 		OrderBook nb = new OrderBook();
 
 		assertEquals("", nb.getRuleSet());
+
+		log.info("Created object: {}", nb);
 	}
 
 	@Test
@@ -22,6 +24,8 @@ public class OrderBookTest {
 		OrderBook nb = new OrderBook("climate-derivatives");
 
 		assertEquals("climate-derivatives", nb.getRuleSet());
+
+		log.info("Created object: {}", nb);
 	}
 
 }

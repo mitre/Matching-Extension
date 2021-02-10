@@ -17,7 +17,7 @@ public class CompletedOrderTest {
 		CompletedOrder ord = new CompletedOrder();
 
 		// assert default constructor
-		assertEquals(0, ord.getSize());
+		assertEquals(0, ord.getSize().intValue());
 		assertEquals("none", ord.getContract());
 		assertEquals("testBuyer", ord.getBuyAgent());
 		assertEquals("testSeller", ord.getSellAgent());
@@ -30,7 +30,7 @@ public class CompletedOrderTest {
 		CompletedOrder ord = new CompletedOrder(5, "test-contract", "buyer-sam", "seller-sanith");
 
 		// assert default constructor
-		assertEquals(5, ord.getSize());
+		assertEquals(5, ord.getSize().intValue());
 		assertEquals("test-contract", ord.getContract());
 		assertEquals("buyer-sam", ord.getBuyAgent());
 		assertEquals("seller-sanith", ord.getSellAgent());
