@@ -22,14 +22,14 @@ import javafx.util.Pair;
 public class MatchingEngine {
 
 	// logger
-	private static final Logger log = LoggerFactory.getLogger(MatchingEngine.class);
+	private final Logger log = LoggerFactory.getLogger(MatchingEngine.class);
 
 	// order books
-	private static HashMap<Integer, Order> buyBook;
-	private static HashMap<Integer, Order> sellBook;
+	private HashMap<Integer, Order> buyBook;
+	private HashMap<Integer, Order> sellBook;
 
 	// record of matches
-	private static ArrayList<CompletedOrder> trades;
+	private ArrayList<CompletedOrder> trades;
 
 
 	// default constructor
@@ -45,23 +45,23 @@ public class MatchingEngine {
 		setBuyBook(ob.getBuyBook());
 		setSellBook(ob.getSellBook());
 		initTrades();
-		log.info("Constructed custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}",
+		log.info("Constructed custom this. BUY_BOOK={} SELL_BOOK={}",
 					buyBook, sellBook);
 	}
 
 	/**
 	 * initialize empty buy and sell books
 	 */
-	private static void initBooks() {
-		MatchingEngine.buyBook = Maps.newHashMap();
-		MatchingEngine.sellBook = Maps.newHashMap();
+	private void initBooks() {
+		this.buyBook = Maps.newHashMap();
+		this.sellBook = Maps.newHashMap();
 	}
 
 	/**
 	 * initialize empty list
 	 */
-	private static void initTrades() {
-		MatchingEngine.trades = Lists.newArrayList();
+	private void initTrades() {
+		this.trades = Lists.newArrayList();
 	}
 
 
@@ -106,22 +106,22 @@ public class MatchingEngine {
 	/**
 	 * @param: Order to add to trades list
 	 */
-	public static void addTrade(CompletedOrder order) {
-		MatchingEngine.trades.add(order);
+	public void addTrade(CompletedOrder order) {
+		this.trades.add(order);
 	}
 
 	/**
 	 * @return: all CompletedOrders in trades
 	 */
 	public List<CompletedOrder> getAllTrades() {
-		return MatchingEngine.trades;
+		return this.trades;
 	}
 
 	/**
 	 * @return: a single CompletedOrder by index
 	 */
-	public static CompletedOrder getTrade(Integer idx){
-		return MatchingEngine.trades.get(idx);
+	public CompletedOrder getTrade(Integer idx){
+		return this.trades.get(idx);
 	}
 
 	/**
@@ -141,15 +141,15 @@ public class MatchingEngine {
 	/**
 	 * @param buyBook the buyBook to set
 	 */
-	public static void setBuyBook(Map<Integer, Order> buyBook) {
-		MatchingEngine.buyBook = (HashMap<Integer, Order>) buyBook;
+	public void setBuyBook(Map<Integer, Order> buyBook) {
+		this.buyBook = (HashMap<Integer, Order>) buyBook;
 	}
 
 	/**
 	 * @param sellBook the sellBook to set
 	 */
-	public static void setSellBook(Map<Integer, Order> sellBook) {
-		MatchingEngine.sellBook = (HashMap<Integer, Order>) sellBook;
+	public void setSellBook(Map<Integer, Order> sellBook) {
+		this.sellBook = (HashMap<Integer, Order>) sellBook;
 	}
 
 	/**

@@ -46,6 +46,15 @@ public class Order {
 				   size, contract, agent);
 	}
 
+	public Order(int size, String contract, String agent, Instant inst) {
+		setSize(size);
+		setContract(contract);
+		setAgent(agent);
+		setDt(inst);
+		log.info("Constructed custom Order: {} SIZE of {} CONTRACT from {} AGENT at {}",
+				   size, contract, agent, inst);
+	}
+
 	/**
 	 * @return
 	 */
@@ -106,6 +115,11 @@ public class Order {
 	 * @return integer whether to move left or right in sort
 	 */
 	public static int compare(Order lhs, Order rhs) {
+		// if not the same contract don't move
+		if (!lhs.getContract().equals(rhs.getContract())) {
+			return 0;
+		}
+
 		// sort by time first then size
 		if (lhs.getDt().isBefore(rhs.getDt())) {
 			return -1;
@@ -115,7 +129,7 @@ public class Order {
 			// in this case equal priority base on time
 			if (lhs.getSize() < rhs.getSize()) {
 				return -1;
-			} else if (lhs.getSize().equals(rhs.getSize())) {
+			} else if (lhs.getSize() > rhs.getSize()) {
 				return 1;
 			} else {
 				return 0;
