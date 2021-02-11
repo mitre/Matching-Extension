@@ -21,18 +21,18 @@ import com.google.common.collect.Maps;
 public class OrderBook {
 
 	// logger
-	private static final Logger log = LoggerFactory.getLogger(OrderBook.class);
+	private final Logger log = LoggerFactory.getLogger(OrderBook.class);
 
 	// order books
-	private static HashMap<Integer, Order> buyBook;
-	private static HashMap<Integer, Order> sellBook;
+	private HashMap<Integer, Order> buyBook;
+	private HashMap<Integer, Order> sellBook;
 
 	// order number counters
-	private static Integer buyCount;
-	private static Integer sellCount;
+	private Integer buyCount;
+	private Integer sellCount;
 
 	// rule set
-	private static String ruleSet;
+	private String ruleSet;
 
 
 	// default constructor
@@ -54,18 +54,18 @@ public class OrderBook {
 	/**
 	 * initialize buyBook and sellBook
 	 */
-	public static void initBooks() {
-		OrderBook.buyBook = Maps.newHashMap();
-		OrderBook.sellBook = Maps.newHashMap();
-		OrderBook.buyCount = 0;
-		OrderBook.sellCount = 0;
+	public void initBooks() {
+		this.buyBook = Maps.newHashMap();
+		this.sellBook = Maps.newHashMap();
+		this.buyCount = 0;
+		this.sellCount = 0;
 	}
 
 	/**
 	 * @return order book number if successful
 	 */
 	public Integer addBuyOrder(Order order) {
-		OrderBook.buyBook.put(incBuyCount(), order);
+		this.buyBook.put(incBuyCount(), order);
 		return getBuyCount();
 	}
 
@@ -73,7 +73,7 @@ public class OrderBook {
 	 * @return order book number if successful
 	 */
 	public Integer addSellOrder(Order order) {
-		OrderBook.sellBook.put(incSellCount(), order);
+		this.sellBook.put(incSellCount(), order);
 		return getSellCount();
 	}
 
@@ -81,14 +81,14 @@ public class OrderBook {
 	 * @return order that is removed
 	 */
 	public Order removeBuyOrder(Integer idx) {
-		return OrderBook.buyBook.remove(idx);
+		return this.buyBook.remove(idx);
 	}
 
 	/**
 	 * @return order that is removed
 	 */
 	public Order removeSellOrder(Integer idx) {
-		return OrderBook.sellBook.remove(idx);
+		return this.sellBook.remove(idx);
 	}
 
 	/**
@@ -125,8 +125,8 @@ public class OrderBook {
 	/**
 	 * @param ruleSet the ruleSet to set
 	 */
-	public static void setRuleSet(String ruleSet) {
-		OrderBook.ruleSet = ruleSet;
+	public void setRuleSet(String ruleSet) {
+		this.ruleSet = ruleSet;
 	}
 
 	/**
@@ -139,8 +139,8 @@ public class OrderBook {
 	/**
 	 * @return buy count incremented
 	 */
-	public static Integer incBuyCount() {
-		return ++OrderBook.buyCount;
+	public Integer incBuyCount() {
+		return ++this.buyCount;
 	}
 
 	/**
@@ -153,22 +153,22 @@ public class OrderBook {
 	/**
 	 * @return sell count incremented
 	 */
-	public static Integer incSellCount() {
-		return ++OrderBook.sellCount;
+	public Integer incSellCount() {
+		return ++this.sellCount;
 	}
 
 	/**
 	 * @return current size of buy book
 	 */
 	public Integer getBuyBookSize() {
-		return OrderBook.buyBook.size();
+		return this.buyBook.size();
 	}
 
 	/**
 	 * @return current size of sell book
 	 */
 	public Integer getSellBookSize() {
-		return OrderBook.sellBook.size();
+		return this.sellBook.size();
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package org.mitre.base;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -9,26 +10,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompletedOrder {
 
-	private static final Logger log = LoggerFactory.getLogger(CompletedOrder.class);
+	private final Logger log = LoggerFactory.getLogger(CompletedOrder.class);
 
 	// order size
-	private static Integer size;
+	private Integer size;
 	// contract name
-	private static String contract;
+	private String contract;
 	// time of order close
-	private static Date closeDt;
+	private Instant closeDt;
 
 	// agent that is buying
-	private static String buyAgent;
+	private String buyAgent;
 	// agent that is selling
-	private static String sellAgent;
+	private String sellAgent;
 
 
 	// default constructor
 	public CompletedOrder() {
 		setSize(0);
 		setContract("none");
-		setCloseDt(new Date(System.currentTimeMillis()));
+		setCloseDt(new Date(System.currentTimeMillis()).toInstant());
 		setBuyAgent("testBuyer");
 		setSellAgent("testSeller");
 		log.info("Constructed default CompletedOrder");
@@ -38,7 +39,7 @@ public class CompletedOrder {
 	public CompletedOrder(int size, String contract, String buyAgent, String sellAgent) {
 		setSize(size);
 		setContract(contract);
-		setCloseDt(new Date(System.currentTimeMillis()));
+		setCloseDt(new Date(System.currentTimeMillis()).toInstant());
 		setBuyAgent(buyAgent);
 		setSellAgent(sellAgent);
 		log.info("Constructed CompletedOrder: {} SIZE of {} CONTRACT between AGENTS {} and {}",
@@ -56,8 +57,8 @@ public class CompletedOrder {
 	/**
 	 * @param size the size to set
 	 */
-	public static void setSize(int size) {
-		CompletedOrder.size = size;
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	/**
@@ -70,22 +71,22 @@ public class CompletedOrder {
 	/**
 	 * @param contract the contract to set
 	 */
-	public static void setContract(String contract) {
-		CompletedOrder.contract = contract;
+	public void setContract(String contract) {
+		this.contract = contract;
 	}
 
 	/**
 	 * @return the closeDt
 	 */
-	public static Date getCloseDt() {
+	public Instant getCloseDt() {
 		return closeDt;
 	}
 
 	/**
 	 * @param closeDt the closeDt to set
 	 */
-	public static void setCloseDt(Date closeDt) {
-		CompletedOrder.closeDt = closeDt;
+	public void setCloseDt(Instant closeDt) {
+		this.closeDt = closeDt;
 	}
 
 	/**
@@ -98,8 +99,8 @@ public class CompletedOrder {
 	/**
 	 * @param buyAgent the buyAgent to set
 	 */
-	public static void setBuyAgent(String buyAgent) {
-		CompletedOrder.buyAgent = buyAgent;
+	public void setBuyAgent(String buyAgent) {
+		this.buyAgent = buyAgent;
 	}
 
 	/**
@@ -112,8 +113,8 @@ public class CompletedOrder {
 	/**
 	 * @param sellAgent the sellAgent to set
 	 */
-	public static void setSellAgent(String sellAgent) {
-		CompletedOrder.sellAgent = sellAgent;
+	public void setSellAgent(String sellAgent) {
+		this.sellAgent = sellAgent;
 	}
 
 	/**

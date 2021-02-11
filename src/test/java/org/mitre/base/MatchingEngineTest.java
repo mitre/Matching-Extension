@@ -5,6 +5,8 @@ package org.mitre.base;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,12 +84,19 @@ public class MatchingEngineTest {
 
 		log.info("{}", me);
 
-		int topBuy, topSell = 0;
-		topBuy = ob.addBuyOrder(new Order());
-		topBuy = ob.addBuyOrder(new Order());
-		topSell = ob.addSellOrder(new Order());
+		ob.addBuyOrder(new Order(3, "contr1", "buyer-sanith"));
+		ob.addBuyOrder(new Order(5, "contr1", "buyer-sam"));
+		ob.addSellOrder(new Order(4, "contr1", "seller-matt"));
+		ob.addSellOrder(new Order(2, "contr1", "seller-sam"));
+		try {
+			TimeUnit.MILLISECONDS.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ob.addBuyOrder(new Order(5, "contr1", "buyer-matt"));
 		
-		
+		me.matchUpdate();
 	
 	}
 

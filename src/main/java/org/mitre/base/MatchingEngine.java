@@ -1,7 +1,6 @@
 package org.mitre.base;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -18,6 +17,7 @@ import com.google.common.collect.Maps;
 
 import javafx.util.Pair;
 
+
 @Component
 public class MatchingEngine {
 
@@ -30,11 +30,6 @@ public class MatchingEngine {
 
 	// record of matches
 	private static ArrayList<CompletedOrder> trades;
-
-
-	// for internal use only
-	private List<Pair<Integer, Order>> buyOrders;
-	private List<Pair<Integer, Order>> sellOrders;
 
 
 	// default constructor
@@ -73,28 +68,34 @@ public class MatchingEngine {
 	/**
 	 * comparator for list of Pair<Integer, Order>
 	 */
-     private Comparator<Pair<Integer, Order>> cmp = new Comparator<Pair<Integer, Order>>(){
-		@Override
-		public int compare(Pair<Integer, Order> lhs, Pair<Integer, Order> rhs) {
-			return Order.compare(lhs.getValue(), rhs.getValue());
-		}
-	};
+	private static Comparator<Pair<Integer, Order>> cmp =
+				(lhs, rhs) -> Order.compare(lhs.getValue(), rhs.getValue());
+
 
 	/**
 	 * search for matches between buy and sell book, then
 	 *     log completed trades to completed trades log
 	 */
 	public void matchUpdate() {
+		List<Pair<Integer, Order>> buyOrders;
+		List<Pair<Integer, Order>> sellOrders;
+
 		// dump HashMaps into lists
-		buyOrders = buyBook.entrySet().stream().map(e -> new Pair<Integer, Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
-		sellOrders = sellBook.entrySet().stream().map(e -> new Pair<Integer, Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
+		buyOrders = buyBook.entrySet().stream().map(e -> new Pair<Integer,
+						Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
+		sellOrders = sellBook.entrySet().stream().map(e -> new Pair<Integer,
+						Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
 
 		// sort lists by time and order size
+		log.info("BUY ORDER BEFORE {}", buyOrders);
+		log.info("SELL ORDER BEFORE {}", sellOrders);
 		Collections.sort(buyOrders, cmp);
 		Collections.sort(sellOrders, cmp);
+		log.info("BUY ORDER AFTER {}", buyOrders);
+		log.info("SELL ORDER AFTER {}", sellOrders);
+
 
 		// search for matches
-
 
 		// log completed trades to trades list
 

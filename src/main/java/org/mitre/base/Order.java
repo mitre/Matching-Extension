@@ -1,5 +1,6 @@
 package org.mitre.base;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -13,17 +14,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class Order {
 
-	private static final Logger log = LoggerFactory.getLogger(Order.class);
+	private final Logger log = LoggerFactory.getLogger(Order.class);
 
 	// order size
-	private static Integer size;
+	private Integer size;
 	// name of contract
-	private static String contract;
+	private String contract;
 	// time submitted
-	private static Date dt;
+	private Instant dt;
 
 	// agent submitting
-	private static String agent;
+	private String agent;
 
 
 	// default constructor
@@ -31,7 +32,7 @@ public class Order {
 		setSize(0);
 		setContract("");
 		setAgent("");
-		setDt(new Date(System.currentTimeMillis()));
+		setDt(new Date(System.currentTimeMillis()).toInstant());
 		log.info("Constructed default Order");
 	}
 
@@ -40,7 +41,7 @@ public class Order {
 		setSize(size);
 		setContract(contract);
 		setAgent(agent);
-		setDt(new Date(System.currentTimeMillis()));
+		setDt(new Date(System.currentTimeMillis()).toInstant());
 		log.info("Constructed custom Order: {} SIZE of {} CONTRACT from {} AGENT",
 				   size, contract, agent);
 	}
@@ -55,8 +56,8 @@ public class Order {
 	/**
 	 * @param size
 	 */
-	public static void setSize(int size) {
-		Order.size = size;
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	/**
@@ -69,22 +70,22 @@ public class Order {
 	/**
 	 * @param contract
 	 */
-	public static void setContract(String contract) {
-		Order.contract = contract;
+	public void setContract(String contract) {
+		this.contract = contract;
 	}
 
 	/**
 	 * @return
 	 */
-	public Date getDt() {
+	public Instant getDt() {
 		return dt;
 	}
 
 	/**
 	 * @param dt
 	 */
-	public static void setDt(Date dt) {
-		Order.dt = dt;
+	public void setDt(Instant dt) {
+		this.dt = dt;
 	}
 
 	/**
@@ -97,8 +98,8 @@ public class Order {
 	/**
 	 * @param agent the agent to set
 	 */
-	public static void setAgent(String agent) {
-		Order.agent = agent;
+	public void setAgent(String agent) {
+		this.agent = agent;
 	}
 
 	/**
@@ -106,16 +107,16 @@ public class Order {
 	 */
 	public static int compare(Order lhs, Order rhs) {
 		// sort by time first then size
-		if (lhs.getDt().before(rhs.getDt())) {
-			return 1;
-		} else if (lhs.getDt().after(rhs.getDt())) {
+		if (lhs.getDt().isBefore(rhs.getDt())) {
 			return -1;
+		} else if (lhs.getDt().isAfter(rhs.getDt())) {
+			return 1;
 		} else {
 			// in this case equal priority base on time
 			if (lhs.getSize() < rhs.getSize()) {
-				return 1;
-			} else if (lhs.getSize().equals(rhs.getSize())) {
 				return -1;
+			} else if (lhs.getSize().equals(rhs.getSize())) {
+				return 1;
 			} else {
 				return 0;
 			}

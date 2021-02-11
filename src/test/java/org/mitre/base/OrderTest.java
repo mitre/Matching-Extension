@@ -44,6 +44,32 @@ public class OrderTest {
 		log.info("Created object: {}", cord);
 		log.info("Created object: {}", cord2);
 
-		assertEquals(-1, Order.compare(cord, cord2));
+		// these are different contracts so should be different
+		assertEquals(0, Order.compare(cord, cord2));
 	}
+
+	@Test
+	public void testCompare2() {
+		Order cord = new Order(3, "comp-contract", "comp-buyer-sam");
+		Order cord2 = new Order(1, "comp-contract", "buyer-sam13");
+
+		log.info("Created object: {}", cord);
+		log.info("Created object: {}", cord2);
+
+		// these are same contract and different time, order by size
+		assertEquals(0, Order.compare(cord, cord2));
+	}
+
+	@Test
+	public void testCompare3() {
+		Order cord = new Order(3, "comp-contract", "comp-buyer-sam");
+		Order cord2 = new Order(3, "comp-contract", "buyer-sam13");
+
+		log.info("Created object: {}", cord);
+		log.info("Created object: {}", cord2);
+
+		// these are same contract and different time, order by size
+		assertEquals(1, Order.compare(cord, cord2));
+	}
+
 }
