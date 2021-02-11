@@ -18,6 +18,8 @@ public class Order {
 
 	// order size
 	private Integer size;
+	//price
+	private Float price;
 	// name of contract
 	private String contract;
 	// time submitted
@@ -30,6 +32,7 @@ public class Order {
 	// default constructor
 	public Order() {
 		setSize(0);
+		setPrice(0.0f);
 		setContract("");
 		setAgent("");
 		setDt(new Date(System.currentTimeMillis()).toInstant());
@@ -37,22 +40,38 @@ public class Order {
 	}
 
 	// custom constructor
-	public Order(int size, String contract, String agent) {
+	public Order(Integer size, Float price, String contract, String agent) {
 		setSize(size);
+		setPrice(price);
 		setContract(contract);
 		setAgent(agent);
 		setDt(new Date(System.currentTimeMillis()).toInstant());
-		log.info("Constructed custom Order: {} SIZE of {} CONTRACT from {} AGENT",
-				   size, contract, agent);
+		log.info("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT",
+				   size, contract, price, agent);
 	}
 
-	public Order(int size, String contract, String agent, Instant inst) {
+	public Order(int size, Float price, String contract, String agent, Instant inst) {
 		setSize(size);
+		setPrice(price);
 		setContract(contract);
 		setAgent(agent);
 		setDt(inst);
-		log.info("Constructed custom Order: {} SIZE of {} CONTRACT from {} AGENT at {}",
-				   size, contract, agent, inst);
+		log.info("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT at {}",
+				   size, contract, price, agent, inst);
+	}
+
+	/**
+	 * @return the price
+	 */
+	public Float getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(Float price) {
+		this.price = price;
 	}
 
 	/**
@@ -144,7 +163,7 @@ public class Order {
 	public String toString() {
 		return "Order@ " + getDt().toString() + " of SIZE="
 				+ getSize() + " and CONTRACT=" + getContract()
-				+ " from AGENT=" + getAgent();
+				+ " @ $" + getPrice() + " from AGENT=" + getAgent();
 	}
 
 }

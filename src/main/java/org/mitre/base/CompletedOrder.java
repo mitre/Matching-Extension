@@ -14,6 +14,8 @@ public class CompletedOrder {
 
 	// order size
 	private Integer size;
+	// order price
+	private Float price;
 	// contract name
 	private String contract;
 	// time of order close
@@ -28,6 +30,7 @@ public class CompletedOrder {
 	// default constructor
 	public CompletedOrder() {
 		setSize(0);
+		setPrice(0.0f);
 		setContract("none");
 		setCloseDt(new Date(System.currentTimeMillis()).toInstant());
 		setBuyAgent("testBuyer");
@@ -36,14 +39,15 @@ public class CompletedOrder {
 	}
 
 	// custom constructor
-	public CompletedOrder(int size, String contract, String buyAgent, String sellAgent) {
+	public CompletedOrder(Integer size, Float price, String contract, String buyAgent, String sellAgent) {
 		setSize(size);
+		setPrice(price);
 		setContract(contract);
 		setCloseDt(new Date(System.currentTimeMillis()).toInstant());
 		setBuyAgent(buyAgent);
 		setSellAgent(sellAgent);
-		log.info("Constructed CompletedOrder: {} SIZE of {} CONTRACT between AGENTS {} and {}",
-				   size, contract, buyAgent, sellAgent);
+		log.info("Constructed CompletedOrder: {} SIZE of {} CONTRACT @ {} between AGENTS {} and {}",
+				   size, contract, price, buyAgent, sellAgent);
 	}
 
 
@@ -118,13 +122,27 @@ public class CompletedOrder {
 	}
 
 	/**
+	 * @return the price
+	 */
+	public Float getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
+	/**
 	 * @return string representation of class
 	 */
 	@Override
 	public String toString() {
 		return "CompletedOrder@ " + getCloseDt().toString() + " of SIZE="
 				+ getSize() + " and CONTRACT=" + getContract()
-				+ " between SELLER=" + getSellAgent() + " and BUYER="
-				+ getBuyAgent();
+				+ " @ $" + getPrice() + " between SELLER="
+				+ getSellAgent() + " and BUYER=" + getBuyAgent();
 	}
 }

@@ -74,7 +74,7 @@ public class MatchingEngineTest {
 	}
 
 	@Test
-	public void testMatchUpdater() {
+	public void testMatchUpdater() throws Exception {
 		OrderBook ob = new OrderBook();
 		MatchingEngine me = new MatchingEngine(ob);
 
@@ -84,17 +84,14 @@ public class MatchingEngineTest {
 
 		log.info("{}", me);
 
-		ob.addBuyOrder(new Order(3, "contr1", "buyer-sanith"));
-		ob.addBuyOrder(new Order(5, "contr1", "buyer-sam"));
-		ob.addSellOrder(new Order(4, "contr1", "seller-matt"));
-		ob.addSellOrder(new Order(2, "contr1", "seller-sam"));
-		try {
-			TimeUnit.MILLISECONDS.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ob.addBuyOrder(new Order(5, "contr1", "buyer-matt"));
+		ob.addBuyOrder(new Order(3, 0.345f, "contr1", "buyer-sanith"));
+		ob.addBuyOrder(new Order(5, 0.341f, "contr1", "buyer-sam"));
+		ob.addSellOrder(new Order(4, 0.349f, "contr1", "seller-matt"));
+		ob.addSellOrder(new Order(2, 0.347f, "contr1", "seller-sam"));
+
+		TimeUnit.MILLISECONDS.sleep(100);
+
+		ob.addBuyOrder(new Order(5, 0.344f, "contr1", "buyer-matt"));
 		
 		me.matchUpdate();
 	

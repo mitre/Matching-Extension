@@ -86,21 +86,56 @@ public class MatchingEngine {
 		sellOrders = sellBook.entrySet().stream().map(e -> new Pair<Integer,
 						Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
 
-		// sort lists by time and order size
-		log.info("BUY ORDER BEFORE {}", buyOrders);
-		log.info("SELL ORDER BEFORE {}", sellOrders);
+		// sort lists by time and order size, as long as same contract
 		Collections.sort(buyOrders, cmp);
 		Collections.sort(sellOrders, cmp);
-		log.info("BUY ORDER AFTER {}", buyOrders);
-		log.info("SELL ORDER AFTER {}", sellOrders);
 
-
+		// pair is <buyBook idx, sellBook idx>
+		ArrayList<Pair<Integer, Integer>> matches = Lists.newArrayList();
 		// search for matches
+		//for (Pair<Integer, Order> el: )
+
+
 
 		// log completed trades to trades list
-
+		for (Pair<Integer, Integer> el : matches) {
+			// pick the minimum size to take out of the order books and remove
+			//   assume same contract so take from buy book (sellBook should work)
+			//   get buyBook agent
+			Order buy = buyBook.get(el.getKey());
+			Order sell = sellBook.get(el.getValue());
+			//   get sellBook agent
+			trades.add(new CompletedOrder(Math.min(buy.getSize(), sell.getSize()),
+							(buy.getPrice() + sell.getPrice())/2,
+							buy.getContract(), buy.getAgent(), sell.getAgent()));
+		}
 
 		// remove matches from order books
+		for (Pair<Integer, Integer> el : matches) {
+			// do not use OrderBook .remove*() as that is for agent,
+			//    and not the MatchingEngine
+			// see if there is a full fill, if not mutate the order
+			//    that was not filled
+			int buySize = buyBook.get(el.getKey()).getSize();
+			int sellSize = sellBook.get(el.getValue()).getSize();
+
+			if (buySize < sellSize) {
+				// remove buyBook entry
+				buyBook.remove(el.getKey());
+				// set sellBook entry to sellSize - buySize
+				sellBook.get(el.getValue()).setSize(sellSize - buySize);
+			} else if (buySize > sellSize){
+				// remove sellBook entry
+				sellBook.remove(el.getValue());
+				// set buyBook entry to buySize - sellSize
+				buyBook.get(el.getKey()).setSize(buySize - sellSize);
+			} else {
+				// in this case the match is equal
+				buyBook.remove(el.getKey());
+				sellBook.remove(el.getValue());
+			}
+		}
+
 	}
 
 	/**
