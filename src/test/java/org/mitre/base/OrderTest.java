@@ -76,13 +76,19 @@ public class OrderTest {
 		Instant tm = new Date(System.currentTimeMillis()).toInstant();
 		Order cord = new Order(3, 0.983f, "comp-contract", "comp-buyer-sam", tm);
 		Order cord2 = new Order(1, 0.983f, "comp-contract", "buyer-sam13", tm);
+		Order cord3 = new Order(1, 0.983f, "comp-contract", "buyer-sam15", tm);
 
 		log.info("Created object: {}", cord);
 		log.info("Created object: {}", cord2);
+		log.info("Created object: {}", cord3);
 
 		// these are same contract and same time, order by size
 		assertEquals(1, Order.compare(cord, cord2));
 		assertEquals(-1, Order.compare(cord2, cord));
+		assertEquals(1, Order.compare(cord, cord3));
+		assertEquals(-1, Order.compare(cord3, cord));
+		assertEquals(0, Order.compare(cord2, cord3));
+		assertEquals(0, Order.compare(cord3, cord2));
 	}
 
 	@Test
@@ -97,6 +103,26 @@ public class OrderTest {
 		// these are same contract and different time, order by time
 		assertEquals(-1, Order.compare(cord, cord2));
 		assertEquals(1, Order.compare(cord2, cord));
+	}
+
+	@Test
+	public void testComparePrice() {
+		Instant tm = new Date(System.currentTimeMillis()).toInstant();
+		Order cord = new Order(3, 0.981f, "comp-contract", "comp-buyer-sam", tm);
+		Order cord2 = new Order(3, 0.989f, "comp-contract", "buyer-sam13", tm);
+		Order cord3 = new Order(3, 0.985f, "comp-contract", "buyer-sam15", tm);
+
+		log.info("Created object: {}", cord);
+		log.info("Created object: {}", cord2);
+		log.info("Created object: {}", cord3);
+
+		// these are same contract and same time, order by size
+		assertEquals(-1, Order.compare(cord, cord2));
+		assertEquals(1, Order.compare(cord2, cord));
+		assertEquals(-1, Order.compare(cord, cord3));
+		assertEquals(1, Order.compare(cord3, cord));
+		assertEquals(1, Order.compare(cord2, cord3));
+		assertEquals(-1, Order.compare(cord3, cord2));
 	}
 
 }

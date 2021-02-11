@@ -106,16 +106,6 @@ public class OrderBook {
 	}
 
 	/**
-	 * @return both buy and sell books
-	 */
-	public Map<String, Map<Integer, Order>> getBooks() {
-		Map<String, Map<Integer, Order>> ret = new HashMap<>();
-		ret.put("BUY", getBuyBook());
-		ret.put("SELL", getSellBook());
-		return ret;
-	}
-
-	/**
 	 * @return the ruleSet
 	 */
 	public String getRuleSet() {

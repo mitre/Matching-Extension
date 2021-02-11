@@ -139,19 +139,26 @@ public class Order {
 			return 0;
 		}
 
-		// sort by time first then size
-		if (lhs.getDt().isBefore(rhs.getDt())) {
+		// sort by time then size
+		if (lhs.getPrice() < rhs.getPrice()) {
 			return -1;
-		} else if (lhs.getDt().isAfter(rhs.getDt())) {
+		} else if (lhs.getPrice() > rhs.getPrice()) {
 			return 1;
 		} else {
-			// in this case equal priority base on time
-			if (lhs.getSize() < rhs.getSize()) {
+			// price is equal
+			if (lhs.getDt().isBefore(rhs.getDt())) {
 				return -1;
-			} else if (lhs.getSize() > rhs.getSize()) {
+			} else if (lhs.getDt().isAfter(rhs.getDt())) {
 				return 1;
 			} else {
-				return 0;
+				// in this case equal priority base on time
+				if (lhs.getSize() < rhs.getSize()) {
+					return -1;
+				} else if (lhs.getSize() > rhs.getSize()) {
+					return 1;
+				} else {
+					return 0;
+				}
 			}
 		}
 	}
