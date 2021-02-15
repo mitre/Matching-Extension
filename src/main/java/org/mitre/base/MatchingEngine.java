@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import javafx.util.Pair;
-
 
 @Component
 public class MatchingEngine {
@@ -66,6 +64,28 @@ public class MatchingEngine {
 	 */
 	private void initTrades() {
 		this.trades = Lists.newArrayList();
+	}
+
+
+	/**
+	 *  Pair implementation
+	 */
+	private class Pair<T, V>{
+		private T key;
+		private V value;
+
+		public Pair(T t1, V v1){
+			this.key = t1;
+			this.value = v1;
+		}
+
+		public T getKey() {
+			return this.key;
+		}
+
+		public V getValue() {
+			return this.value;
+		}
 	}
 
 
