@@ -18,7 +18,7 @@ public class Order {
 
 	// order size
 	private Integer size;
-	//price
+	// order price
 	private Float price;
 	// name of contract
 	private String contract;
@@ -139,19 +139,19 @@ public class Order {
 			return 0;
 		}
 
-		// sort by time then size
+		// sort by price then time then size
 		if (lhs.getPrice() < rhs.getPrice()) {
 			return -1;
 		} else if (lhs.getPrice() > rhs.getPrice()) {
 			return 1;
 		} else {
-			// price is equal
+			// price is equal, compare time
 			if (lhs.getDt().isBefore(rhs.getDt())) {
 				return -1;
 			} else if (lhs.getDt().isAfter(rhs.getDt())) {
 				return 1;
 			} else {
-				// in this case equal priority base on time
+				// price and time are equal, compare size
 				if (lhs.getSize() < rhs.getSize()) {
 					return -1;
 				} else if (lhs.getSize() > rhs.getSize()) {

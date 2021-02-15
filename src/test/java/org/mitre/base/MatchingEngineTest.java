@@ -76,24 +76,23 @@ public class MatchingEngineTest {
 	@Test
 	public void testMatchUpdater() throws Exception {
 		OrderBook ob = new OrderBook();
-		MatchingEngine me = new MatchingEngine(ob);
-
-		assertEquals(0, me.getAllTrades().size());
-		assertEquals(0, me.getBuyBook().size());
-		assertEquals(0, me.getSellBook().size());
-
-		log.info("{}", me);
 
 		ob.addBuyOrder(new Order(3, 0.345f, "contr1", "buyer-sanith"));
 		ob.addBuyOrder(new Order(5, 0.341f, "contr1", "buyer-sam"));
 		ob.addSellOrder(new Order(4, 0.349f, "contr1", "seller-matt"));
 		ob.addSellOrder(new Order(2, 0.347f, "contr1", "seller-sam"));
-
 		TimeUnit.MILLISECONDS.sleep(100);
-
 		ob.addBuyOrder(new Order(5, 0.344f, "contr1", "buyer-matt"));
-		
+
+		MatchingEngine me = new MatchingEngine(ob);
+
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(3, me.getBuyBook().size());
+		assertEquals(2, me.getSellBook().size());
+
 		me.matchUpdate();
+
+		log.info("TEST GET ALL TRADES {}", me.getAllTrades());
 	
 	}
 

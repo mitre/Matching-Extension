@@ -54,7 +54,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-base</artifactId>
-      <version>16-ea+6</version>
+      <version>15.0.1</version>
     </dependency>
 
     <dependency>
