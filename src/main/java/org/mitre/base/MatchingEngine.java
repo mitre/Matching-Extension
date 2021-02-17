@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -47,7 +48,7 @@ public class MatchingEngine {
 		setBuyBook(ob.getBuyBook());
 		setSellBook(ob.getSellBook());
 		initTrades();
-		log.info("Constructed custom this. BUY_BOOK={} SELL_BOOK={}",
+		log.info("Constructed custom MatchingEngine for weather derivatives. BUY_BOOK={} SELL_BOOK={}",
 					buyBook, sellBook);
 	}
 
@@ -70,6 +71,7 @@ public class MatchingEngine {
 	/**
 	 *  Pair implementation
 	 */
+	@Component
 	private class Pair<T, V>{
 		private T key;
 		private V value;
@@ -86,6 +88,11 @@ public class MatchingEngine {
 		public V getValue() {
 			return this.value;
 		}
+
+		@Override
+		public String toString() {
+			return "(" + this.key + ", " + this.value + ")";
+		}
 	}
 
 
@@ -97,20 +104,13 @@ public class MatchingEngine {
 
 
 	/**
-	 * search for matches between buy and sell book, then
-	 *     log completed trades to completed trades log
+	 *  @param: sorted lists of Pairs of order books (buy/sell)
+	 *  @return matches of trades that will be executed
+	 *
+	 *  matching part of the clearing house algorithm
 	 */
-	public void matchUpdate() {
-		// dump HashMaps into lists
-		List<Pair<Integer, Order>> buyOrders = buyBook.entrySet().stream().map(e -> new Pair<Integer,
-						Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
-		List<Pair<Integer, Order>> sellOrders = sellBook.entrySet().stream().map(e -> new Pair<Integer,
-						Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
-
-		// sort lists by time and order size, as long as same contract
-		Collections.sort(buyOrders, cmp);
-		Collections.sort(sellOrders, cmp);
-
+	private ArrayList<Pair<Integer, Integer>> findMatches(List<Pair<Integer, Order>> buyOrders,
+													List<Pair<Integer, Order>> sellOrders){
 		// pair is <buyBook idx, sellBook idx>
 		ArrayList<Pair<Integer, Integer>> matches = Lists.newArrayList();
 
@@ -124,7 +124,7 @@ public class MatchingEngine {
 		Integer sellLeftover = 0;
 
 		// actual matching loop
-		while (buyItr.hasNext() || sellItr.hasNext()) {
+		while (buyItr.hasNext() && sellItr.hasNext()) {
 			if (buyItr.hasNext() && buyLeftover.equals(0)) {
 				Pair<Integer, Order> tmp = buyItr.next();
 				buyIdx = tmp.getKey();
@@ -135,16 +135,14 @@ public class MatchingEngine {
 				sellIdx = tmp.getKey();
 				sellOrd = tmp.getValue();
 			}
+			log.info("\t buyOrd:{} buyLeftover:{} sellOrd:{}  sellLeftover:{}",
+						buyOrd, buyLeftover, sellOrd, sellLeftover);
 
 			// first check the contracts are the same
-			if (!buyOrd.getContract().equalsIgnoreCase(sellOrd.getContract())) {
-				continue;
-			}
-
 			// now see if the orders prices are within margin
 			if (Math.abs(buyOrd.getPrice() - sellOrd.getPrice()) < SPREAD_TOL){
 				// check size and decide update buy or sell if not total fill
-				/*if (buyOrd.getSize() < sellOrd.getSize()) {
+				if (buyOrd.getSize() < sellOrd.getSize()) {
 					buyLeftover = 0;
 					sellLeftover = sellOrd.getSize() - buyOrd.getSize();
 				} else if (buyOrd.getSize() > sellOrd.getSize()) {
@@ -154,14 +152,23 @@ public class MatchingEngine {
 					// equal size
 					buyLeftover = 0;
 					sellLeftover = 0;
-				}*/
+				}
 
 				// add to matches
 				matches.add(new Pair<>(buyIdx, sellIdx));
 			}
 		}
+		// pair is <buyBook idx, sellBook idx>
+		return matches;
+	}
 
-		// log completed trades to trades list
+
+	/**
+	 *  @param: matches list
+	 *
+	 *  parse matches list into CompletedOrder objects in trades
+	 */
+	private void logTrades(ArrayList<Pair<Integer, Integer>> matches) {
 		for (Pair<Integer, Integer> el : matches) {
 			// pick the minimum size to take out of the order books and remove
 			//   assume same contract so take from buy book (sellBook should work)
@@ -170,20 +177,24 @@ public class MatchingEngine {
 			Order sell = sellBook.get(el.getValue());
 			//   get sellBook agent
 			trades.add(new CompletedOrder(Math.min(buy.getSize(), sell.getSize()),
-							(buy.getPrice() + sell.getPrice())/2,
+							Precision.round((buy.getPrice() + sell.getPrice())/2, 6),
 							buy.getContract(), buy.getAgent(), sell.getAgent()));
 		}
+	}
 
-		// remove matches from order books
+
+	/**
+	 * @param: matches list
+	 *
+	 * remove filled orders based on matches list from order books
+	 */
+	private void removeFilledOrders(ArrayList<Pair<Integer, Integer>> matches) {
 		for (Pair<Integer, Integer> el : matches) {
 			// do not use OrderBook .remove*() as that is for agent,
 			//    and not the MatchingEngine
 			// see if there is a full fill, if not mutate the order
 			//    that was not filled
-			if (!buyBook.containsKey(el.getKey())) {
-				continue;
-			}
-			if (!sellBook.containsKey(el.getValue())) {
+			if (!buyBook.containsKey(el.getKey()) || !sellBook.containsKey(el.getValue())) {
 				continue;
 			}
 
@@ -195,7 +206,7 @@ public class MatchingEngine {
 				buyBook.remove(el.getKey());
 				// set sellBook entry to sellSize - buySize
 				sellBook.get(el.getValue()).setSize(sellSize - buySize);
-			} else if (buySize > sellSize){
+			} else if (buySize > sellSize) {
 				// remove sellBook entry
 				sellBook.remove(el.getValue());
 				// set buyBook entry to buySize - sellSize
@@ -206,6 +217,33 @@ public class MatchingEngine {
 				sellBook.remove(el.getValue());
 			}
 		}
+	}
+
+	/**
+	 *
+	 * search for matches between buy and sell book, then
+	 *     log completed trades to completed trades log
+	 *
+	 */
+	public void matchUpdate() {
+		// dump HashMaps into lists
+		List<Pair<Integer, Order>> buyOrders = buyBook.entrySet().stream().map(e -> new Pair<Integer,
+						Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
+		List<Pair<Integer, Order>> sellOrders = sellBook.entrySet().stream().map(e -> new Pair<Integer,
+						Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
+
+		// sort lists by time and order size, as long as same contract
+		Collections.sort(buyOrders, Collections.reverseOrder(cmp));
+		Collections.sort(sellOrders, cmp);
+
+		// find the matches
+		ArrayList<Pair<Integer, Integer>> matches = findMatches(buyOrders, sellOrders);
+
+		// log completed trades to trades list
+		logTrades(matches);
+
+		// remove matches from order books
+		removeFilledOrders(matches);
 	}
 
 

@@ -91,7 +91,9 @@ public class MatchingEngineTest {
 		assertEquals(2, me.getSellBook().size());
 
 		me.matchUpdate();
+		log.info("TEST GET ALL TRADES {}", me.getAllTrades());
 
+		me.matchUpdate();
 		log.info("TEST GET ALL TRADES {}", me.getAllTrades());
 	
 	}
