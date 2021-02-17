@@ -114,50 +114,62 @@ public class MatchingEngine {
 		// pair is <buyBook idx, sellBook idx>
 		ArrayList<Pair<Integer, Integer>> matches = Lists.newArrayList();
 
+		// guaranteed to have something in each.. or no matches possible
 		Iterator<Pair<Integer, Order>> buyItr = buyOrders.iterator();
 		Iterator<Pair<Integer, Order>> sellItr = sellOrders.iterator();
-		Order sellOrd = new Order();
-		Order buyOrd = new Order();
-		Integer sellIdx = 0;
-		Integer buyIdx = 0;
-		Integer buyLeftover = 0;
-		Integer sellLeftover = 0;
+
+		// find the first pair of each book
+		Pair<Integer, Order> tmpB = buyItr.next();
+		Pair<Integer, Order> tmpS = sellItr.next();
+
+		// now record idx and order from each book to match
+		Integer sellIdx = tmpS.getKey();
+		Integer buyIdx = tmpB.getKey();
+		Order sellOrd = tmpS.getValue();
+		Order buyOrd = tmpB.getValue();
+
+		// find initial leftover size for itrs
+		Integer buyLeftover = buyOrd.getSize();
+		Integer sellLeftover = sellOrd.getSize();
 
 		// actual matching loop
-		while (buyItr.hasNext() && sellItr.hasNext()) {
-			if (buyItr.hasNext() && buyLeftover.equals(0)) {
-				Pair<Integer, Order> tmp = buyItr.next();
-				buyIdx = tmp.getKey();
-				buyOrd = tmp.getValue();
-			}
-			if (sellItr.hasNext() && sellLeftover.equals(0)) {
-				Pair<Integer, Order> tmp = sellItr.next();
-				sellIdx = tmp.getKey();
-				sellOrd = tmp.getValue();
-			}
-			log.info("\t buyOrd:{} buyLeftover:{} sellOrd:{}  sellLeftover:{}",
-						buyOrd, buyLeftover, sellOrd, sellLeftover);
-
+		while (!buyLeftover.equals(0) && !sellLeftover.equals(0)) {
 			// first check the contracts are the same
 			// now see if the orders prices are within margin
 			if (Math.abs(buyOrd.getPrice() - sellOrd.getPrice()) < SPREAD_TOL){
 				// check size and decide update buy or sell if not total fill
-				if (buyOrd.getSize() < sellOrd.getSize()) {
+				if (buyLeftover < sellLeftover) {
+					sellLeftover -= buyLeftover;
 					buyLeftover = 0;
-					sellLeftover = sellOrd.getSize() - buyOrd.getSize();
-				} else if (buyOrd.getSize() > sellOrd.getSize()) {
+				} else if (buyLeftover > sellLeftover) {
+					buyLeftover -= sellLeftover;
 					sellLeftover = 0;
-					buyLeftover = buyOrd.getSize() - sellOrd.getSize();
 				} else {
 					// equal size
 					buyLeftover = 0;
 					sellLeftover = 0;
 				}
-
 				// add to matches
 				matches.add(new Pair<>(buyIdx, sellIdx));
 			}
+
+			// update for next iteration
+			if (sellLeftover.equals(0) && sellItr.hasNext()) {
+				// sell order is finished
+				tmpS = sellItr.next();
+				sellIdx = tmpS.getKey();
+				sellOrd = tmpS.getValue();
+				sellLeftover = sellOrd.getSize();
+			}
+			if (buyLeftover.equals(0) && buyItr.hasNext()) {
+				// buy order is finished
+				tmpB = buyItr.next();
+				buyIdx = tmpB.getKey();
+				buyOrd = tmpB.getValue();
+				buyLeftover = buyOrd.getSize();
+			}
 		}
+
 		// pair is <buyBook idx, sellBook idx>
 		return matches;
 	}
@@ -169,14 +181,45 @@ public class MatchingEngine {
 	 *  parse matches list into CompletedOrder objects in trades
 	 */
 	private void logTrades(ArrayList<Pair<Integer, Integer>> matches) {
+		// record the last order size fill
+		Integer fillSize = 0;
+		Integer unfilledBuySize = 0;
+		Integer unfilledSellSize = 0;
+
+		// initialize orders
+		Order buy;
+		Order sell;
+
+		// iterate though the matches logging them
 		for (Pair<Integer, Integer> el : matches) {
 			// pick the minimum size to take out of the order books and remove
 			//   assume same contract so take from buy book (sellBook should work)
 			//   get buyBook agent
-			Order buy = buyBook.get(el.getKey());
-			Order sell = sellBook.get(el.getValue());
-			//   get sellBook agent
-			trades.add(new CompletedOrder(Math.min(buy.getSize(), sell.getSize()),
+			buy = buyBook.get(el.getKey());
+			sell = sellBook.get(el.getValue());
+
+			// find fill size
+			// basic fill
+			fillSize = Math.min(buy.getSize(), sell.getSize());
+
+			// leftover unfilled buy orders
+			if (!unfilledBuySize.equals(0)) {
+				fillSize = Math.min(unfilledBuySize, sell.getSize());
+				unfilledBuySize = 0;
+			} else {
+				unfilledBuySize = Math.max(buy.getSize() - fillSize, 0);
+			}
+
+			// leftover unfilled sell orders
+			if (!unfilledSellSize.equals(0)) {
+				fillSize = Math.min(buy.getSize(), unfilledSellSize);
+				unfilledSellSize = 0;
+			} else {
+				unfilledSellSize = Math.max(sell.getSize() - fillSize, 0);
+			}
+
+			// append to trade log of completed orders
+			trades.add(new CompletedOrder(fillSize,
 							Precision.round((buy.getPrice() + sell.getPrice())/2, 6),
 							buy.getContract(), buy.getAgent(), sell.getAgent()));
 		}
@@ -235,6 +278,13 @@ public class MatchingEngine {
 		// sort lists by time and order size, as long as same contract
 		Collections.sort(buyOrders, Collections.reverseOrder(cmp));
 		Collections.sort(sellOrders, cmp);
+
+		// check that both have elements
+		if (buyOrders.isEmpty() || sellOrders.isEmpty()) {
+			return;
+		}
+
+		// TODO: ensure that same contracts are being traded
 
 		// find the matches
 		ArrayList<Pair<Integer, Integer>> matches = findMatches(buyOrders, sellOrders);
