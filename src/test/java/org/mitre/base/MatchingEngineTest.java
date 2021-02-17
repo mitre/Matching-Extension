@@ -8,15 +8,11 @@ import static org.junit.Assert.assertEquals;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
  */
 public class MatchingEngineTest {
-
-	private static final Logger log = LoggerFactory.getLogger(MatchingEngineTest.class);
 
 	@Test
 	public void testDefaultConstructor() {
@@ -25,8 +21,6 @@ public class MatchingEngineTest {
 		assertEquals(0, me.getAllTrades().size());
 		assertEquals(0, me.getBuyBook().size());
 		assertEquals(0, me.getSellBook().size());
-
-		log.info("{}", me);
 	}
 
 	@Test
@@ -37,8 +31,6 @@ public class MatchingEngineTest {
 		assertEquals(0, me.getAllTrades().size());
 		assertEquals(0, me.getBuyBook().size());
 		assertEquals(0, me.getSellBook().size());
-
-		log.info("{}", me);
 	}
 
 	@Test
@@ -50,14 +42,10 @@ public class MatchingEngineTest {
 		assertEquals(0, me.getBuyBook().size());
 		assertEquals(0, me.getSellBook().size());
 
-		log.info("{}", me);
-
 		int topBuy, topSell = 0;
 		topBuy = ob.addBuyOrder(new Order());
 		topBuy = ob.addBuyOrder(new Order());
 		topSell = ob.addSellOrder(new Order());
-
-		log.info("{}", me);
 
 		assertEquals(0, me.getAllTrades().size());
 		assertEquals(2, me.getBuyBook().size());
@@ -65,8 +53,6 @@ public class MatchingEngineTest {
 
 		ob.removeBuyOrder(topBuy);
 		ob.removeSellOrder(topSell);
-
-		log.info("{}", me);
 
 		assertEquals(0, me.getAllTrades().size());
 		assertEquals(1, me.getBuyBook().size());

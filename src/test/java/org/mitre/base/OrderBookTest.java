@@ -3,17 +3,12 @@ package org.mitre.base;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class OrderBookTest {
-
-	private static final Logger log = LoggerFactory.getLogger(OrderBookTest.class);
 
 	@Test
 	public void testDefaultConstructor() {
 		OrderBook nb = new OrderBook();
-		log.info("Created object: {}", nb);
 
 		assertEquals("", nb.getRuleSet());
 		assertEquals(0, nb.getBuyCount().intValue());
@@ -23,7 +18,6 @@ public class OrderBookTest {
 	@Test
 	public void testCustomConstructor() {
 		OrderBook nb = new OrderBook("climate-derivatives");
-		log.info("Created object: {}", nb);
 
 		assertEquals("climate-derivatives", nb.getRuleSet());
 		assertEquals(0, nb.getBuyCount().intValue());
@@ -33,7 +27,6 @@ public class OrderBookTest {
 	@Test
 	public void testAddOrder() {
 		OrderBook nb = new OrderBook();
-		log.info("Created object: {}", nb);
 
 		assertEquals("", nb.getRuleSet());
 		assertEquals(0, nb.getBuyCount().intValue());
@@ -51,7 +44,6 @@ public class OrderBookTest {
 	@Test
 	public void testRemoveOrder() {
 		OrderBook nb = new OrderBook();
-		log.info("Created object: {}", nb);
 
 		assertEquals("", nb.getRuleSet());
 		assertEquals(0, nb.getBuyBookSize().intValue());

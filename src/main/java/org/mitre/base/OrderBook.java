@@ -39,7 +39,7 @@ public class OrderBook {
 	public OrderBook() {
 		setRuleSet("");
 		initBooks();
-		log.info("OrderBook instantiated, NO rule set");
+		log.debug("OrderBook instantiated, NO rule set");
 	}
 
 	// custom constructor
@@ -47,7 +47,7 @@ public class OrderBook {
 		// TODO: insert rule set constructor here
 		setRuleSet(rule);
 		initBooks();
-		log.info("OrderBook instantiated, chosen rule set: {}", rule);
+		log.debug("OrderBook instantiated, chosen rule set: {}", rule);
 	}
 
 

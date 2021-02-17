@@ -4,14 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CompletedOrderTest {
-
-	// logger
-	private static final Logger log = LoggerFactory.getLogger(CompletedOrderTest.class);
-
 
 	@Test
 	public void testDefaultConstructor() {
@@ -23,8 +17,6 @@ public class CompletedOrderTest {
 		assertEquals("none", ord.getContract());
 		assertEquals("testBuyer", ord.getBuyAgent());
 		assertEquals("testSeller", ord.getSellAgent());
-
-		log.info("Created object: {}", ord);
 	}
 
 	@Test
@@ -37,8 +29,6 @@ public class CompletedOrderTest {
 		assertEquals("test-contract", ord.getContract());
 		assertEquals("buyer-sam", ord.getBuyAgent());
 		assertEquals("seller-sanith", ord.getSellAgent());
-
-		log.info("Created object: {}", ord);
 	}
 
 }

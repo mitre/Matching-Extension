@@ -35,7 +35,7 @@ public class CompletedOrder {
 		setCloseDt(new Date(System.currentTimeMillis()).toInstant());
 		setBuyAgent("testBuyer");
 		setSellAgent("testSeller");
-		log.info("Constructed default CompletedOrder");
+		log.debug("Constructed default CompletedOrder");
 	}
 
 	// custom constructor
@@ -46,7 +46,7 @@ public class CompletedOrder {
 		setCloseDt(new Date(System.currentTimeMillis()).toInstant());
 		setBuyAgent(buyAgent);
 		setSellAgent(sellAgent);
-		log.info("Constructed CompletedOrder: {} SIZE of {} CONTRACT @ {} between AGENTS {} and {}",
+		log.debug("Constructed CompletedOrder: {} SIZE of {} CONTRACT @ {} between AGENTS {} and {}",
 				   size, contract, price, buyAgent, sellAgent);
 	}
 

@@ -36,7 +36,7 @@ public class Order {
 		setContract("");
 		setAgent("");
 		setDt(new Date(System.currentTimeMillis()).toInstant());
-		log.info("Constructed default Order");
+		log.debug("Constructed default Order");
 	}
 
 	// custom constructor
@@ -46,7 +46,7 @@ public class Order {
 		setContract(contract);
 		setAgent(agent);
 		setDt(new Date(System.currentTimeMillis()).toInstant());
-		log.info("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT",
+		log.debug("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT",
 				   size, contract, price, agent);
 	}
 
@@ -56,7 +56,7 @@ public class Order {
 		setContract(contract);
 		setAgent(agent);
 		setDt(inst);
-		log.info("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT at {}",
+		log.debug("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT at {}",
 				   size, contract, price, agent, inst);
 	}
 
@@ -136,7 +136,7 @@ public class Order {
 	public static int compare(Order lhs, Order rhs) {
 		// if not the same contract don't move
 		if (!lhs.getContract().equals(rhs.getContract())) {
-			return 0;
+			throw new UnsupportedOperationException("Must compare Orders of same contract");
 		}
 
 		// sort by price then time then size

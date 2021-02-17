@@ -8,14 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class OrderTest {
-
-	// logger
-	private final Logger log = LoggerFactory.getLogger(OrderTest.class);
-
 
 	@Test
 	public void testDefaultConstructor() {
@@ -26,8 +20,6 @@ public class OrderTest {
 		assertEquals(0.0f, ord.getPrice().floatValue(), Precision.EPSILON);
 		assertEquals("", ord.getContract());
 		assertEquals("", ord.getAgent());
-
-		log.info("Created object: {}", ord);
 	}
 
 	@Test
@@ -39,14 +31,11 @@ public class OrderTest {
 		assertEquals(4.732f, ord.getPrice().floatValue(), Precision.EPSILON);
 		assertEquals("test-contract", ord.getContract());
 		assertEquals("buyer-sam", ord.getAgent());
-
-		log.info("Created object: {}", ord);
 	}
 
 	@Test
 	public void testCustomConstructorTime() {
 		Instant tm = new Date(System.currentTimeMillis()).toInstant();
-
 		Order ord = new Order(3, 4.732f, "test-contract", "buyer-sam", tm);
 
 		// assert default constructor
@@ -55,8 +44,6 @@ public class OrderTest {
 		assertEquals(4.732f, ord.getPrice().floatValue(), Precision.EPSILON);
 		assertEquals("buyer-sam", ord.getAgent());
 		assertEquals(tm, ord.getDt());
-
-		log.info("Created object: {}", ord);
 	}
 
 	@Test
@@ -64,11 +51,12 @@ public class OrderTest {
 		Order cord = new Order(3, 0.983f, "comp-contract", "comp-buyer-sam");
 		Order cord2 = new Order(1, 0.983f, "test-contract4", "buyer-sam13");
 
-		log.info("Created object: {}", cord);
-		log.info("Created object: {}", cord2);
-
 		// these are different contracts so should be different
-		assertEquals(0, Order.compare(cord, cord2));
+		try {
+			assertEquals(0, Order.compare(cord, cord2));
+		} catch (UnsupportedOperationException e) {
+			assertEquals("Must compare Orders of same contract", e.getMessage());
+		}
 	}
 
 	@Test
@@ -77,10 +65,6 @@ public class OrderTest {
 		Order cord = new Order(3, 0.983f, "comp-contract", "comp-buyer-sam", tm);
 		Order cord2 = new Order(1, 0.983f, "comp-contract", "buyer-sam13", tm);
 		Order cord3 = new Order(1, 0.983f, "comp-contract", "buyer-sam15", tm);
-
-		log.info("Created object: {}", cord);
-		log.info("Created object: {}", cord2);
-		log.info("Created object: {}", cord3);
 
 		// these are same contract and same time, order by size
 		assertEquals(1, Order.compare(cord, cord2));
@@ -97,9 +81,6 @@ public class OrderTest {
 		TimeUnit.MILLISECONDS.sleep(100);
 		Order cord2 = new Order(3, 0.983f, "comp-contract", "buyer-sam13");
 
-		log.info("Created object: {}", cord);
-		log.info("Created object: {}", cord2);
-
 		// these are same contract and different time, order by time
 		assertEquals(-1, Order.compare(cord, cord2));
 		assertEquals(1, Order.compare(cord2, cord));
@@ -111,10 +92,6 @@ public class OrderTest {
 		Order cord = new Order(3, 0.981f, "comp-contract", "comp-buyer-sam", tm);
 		Order cord2 = new Order(3, 0.989f, "comp-contract", "buyer-sam13", tm);
 		Order cord3 = new Order(3, 0.985f, "comp-contract", "buyer-sam15", tm);
-
-		log.info("Created object: {}", cord);
-		log.info("Created object: {}", cord2);
-		log.info("Created object: {}", cord3);
 
 		// these are same contract and same time, order by size
 		assertEquals(-1, Order.compare(cord, cord2));
