@@ -71,7 +71,6 @@ public class MatchingEngine {
 	/**
 	 *  Pair implementation
 	 */
-	@Component
 	private class Pair<T, V>{
 		private T key;
 		private V value;
@@ -219,7 +218,7 @@ public class MatchingEngine {
 			}
 
 			// append to trade log of completed orders
-			trades.add(new CompletedOrder(fillSize,
+			this.addTrade(new CompletedOrder(fillSize,
 							Precision.round((buy.getPrice() + sell.getPrice())/2, 6),
 							buy.getContract(), buy.getAgent(), sell.getAgent()));
 		}
