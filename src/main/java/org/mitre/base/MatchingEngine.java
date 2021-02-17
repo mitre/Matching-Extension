@@ -110,7 +110,7 @@ public class MatchingEngine {
 	 *  matching part of the clearing house algorithm
 	 */
 	private ArrayList<Pair<Integer, Integer>> findMatches(List<Pair<Integer, Order>> buyOrders,
-													List<Pair<Integer, Order>> sellOrders){
+                                                          List<Pair<Integer, Order>> sellOrders){
 		// pair is <buyBook idx, sellBook idx>
 		ArrayList<Pair<Integer, Integer>> matches = Lists.newArrayList();
 
