@@ -25,7 +25,7 @@ public class MatchingEngine {
 	private final Logger log = LoggerFactory.getLogger(MatchingEngine.class);
 
 	// spread tolerance
-	private final Float SPREAD_TOL = 0.005f;
+	private static final Float SPREAD_TOL = 0.005f;
 
 	// order books
 	private HashMap<Integer, Order> buyBook;
