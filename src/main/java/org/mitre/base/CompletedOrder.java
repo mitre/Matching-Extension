@@ -50,6 +50,17 @@ public class CompletedOrder {
 				   size, contract, price, buyAgent, sellAgent);
 	}
 
+	// custom constructor with time stamp
+	public CompletedOrder(Integer size, Float price, String contract, String buyAgent, String sellAgent, Instant close) {
+		setSize(size);
+		setPrice(price);
+		setContract(contract);
+		setCloseDt(close);
+		setBuyAgent(buyAgent);
+		setSellAgent(sellAgent);
+		log.debug("Constructed CompletedOrder: {} SIZE of {} CONTRACT @ {} between AGENTS {} and {}",
+				   size, contract, price, buyAgent, sellAgent);
+	}
 
 	/**
 	 * @return the size

@@ -66,4 +66,11 @@ public class OrderBookTest {
 		assertEquals(0, nb.getSellBookSize().intValue());
 	}
 
+	@Test
+	public void testToString() {
+		OrderBook ob = new OrderBook();
+		assertEquals("OrderBook with RULE= SIZE(buyBook)=0 SIZE(sellBook)=0 BUY_COUNTER=0 SELL_COUNTER=0",
+						ob.toString());
+	}
+
 }

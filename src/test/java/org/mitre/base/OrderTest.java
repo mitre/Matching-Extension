@@ -102,4 +102,11 @@ public class OrderTest {
 		assertEquals(-1, Order.compare(cord3, cord2));
 	}
 
+	@Test
+	public void testToString() {
+		Instant tm = new Date(System.currentTimeMillis()).toInstant();
+		Order o = new Order(4, 1.132f, "ordtest", "buyer", tm);
+		assertEquals("Order@ " + tm.toString() + " of SIZE=4 and CONTRACT=ordtest @ $1.132 from AGENT=buyer",
+						o.toString());
+	}
 }

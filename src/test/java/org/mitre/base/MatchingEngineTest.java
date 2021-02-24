@@ -175,4 +175,10 @@ public class MatchingEngineTest {
 		assertEquals(1, me.getSellBook().size());
 	}
 
+	@Test
+	public void testToString() {
+		MatchingEngine me = new MatchingEngine();
+		assertEquals("MatchingEngine: size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0",
+						me.toString());
+	}
 }
