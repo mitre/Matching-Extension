@@ -80,7 +80,99 @@ public class MatchingEngineTest {
 		assertEquals(3, me.getAllTrades().size());
 		assertEquals(2, me.getBuyBook().size());
 		assertEquals(0, me.getSellBook().size());
+
+		OrderBook ob2 = new OrderBook();
+		ob2.addSellOrder(new Order(3, 0.348f, "contr1", "buyer-sanith"));
+		ob2.addSellOrder(new Order(5, 0.349f, "contr1", "buyer-sam"));
+		ob2.addBuyOrder(new Order(4, 0.345f, "contr1", "seller-matt"));
+		ob2.addBuyOrder(new Order(3, 0.347f, "contr1", "seller-sam"));
+		TimeUnit.MILLISECONDS.sleep(100);
+		ob2.addSellOrder(new Order(5, 0.354f, "contr1", "buyer-matt"));
+
+		MatchingEngine me2 = new MatchingEngine(ob2);
+
+		assertEquals(0, me2.getAllTrades().size());
+		assertEquals(2, me2.getBuyBook().size());
+		assertEquals(3, me2.getSellBook().size());
+
+		me2.matchUpdate();
+		assertEquals(2, me2.getAllTrades().size());
+		assertEquals(0, me2.getBuyBook().size());
+		assertEquals(2, me2.getSellBook().size());
+	}
+
+	@Test
+	public void testMatchUpdateDiffContracts() {
+		OrderBook ob = new OrderBook();
+
+		ob.addBuyOrder(new Order(3, 0.345f, "contr0", "buyer-test"));
+		ob.addSellOrder(new Order(3, 0.3445f, "contr1", "seller-sam"));
+
+		MatchingEngine me = new MatchingEngine(ob);
+
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(1, me.getBuyBook().size());
+		assertEquals(1, me.getSellBook().size());
+
+		me.matchUpdate();
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(1, me.getBuyBook().size());
+		assertEquals(1, me.getSellBook().size());
+	}
 	
+	@Test
+	public void testMatchUpdateNoTrades() {
+		OrderBook ob = new OrderBook();
+
+		ob.addBuyOrder(new Order(3, 0.340f, "contr1", "buyer-test"));
+		ob.addSellOrder(new Order(3, 0.3465f, "contr1", "seller-sam"));
+
+		MatchingEngine me = new MatchingEngine(ob);
+
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(1, me.getBuyBook().size());
+		assertEquals(1, me.getSellBook().size());
+
+		me.matchUpdate();
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(1, me.getBuyBook().size());
+		assertEquals(1, me.getSellBook().size());
+	}
+
+	@Test
+	public void testMatchUpdateNoOrders() {
+		OrderBook ob = new OrderBook();
+		MatchingEngine me = new MatchingEngine(ob);
+
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(0, me.getBuyBook().size());
+		assertEquals(0, me.getSellBook().size());
+
+		me.matchUpdate();
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(0, me.getBuyBook().size());
+		assertEquals(0, me.getSellBook().size());
+
+		ob.addBuyOrder(new Order(3, 0.345f, "contr0", "buyer-test"));
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(1, me.getBuyBook().size());
+		assertEquals(0, me.getSellBook().size());
+
+		me.matchUpdate();
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(1, me.getBuyBook().size());
+		assertEquals(0, me.getSellBook().size());
+
+		ob.removeBuyOrder(1);
+		ob.addSellOrder(new Order(3, 0.345f, "contr1", "seller-test"));
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(0, me.getBuyBook().size());
+		assertEquals(1, me.getSellBook().size());
+
+		me.matchUpdate();
+		assertEquals(0, me.getAllTrades().size());
+		assertEquals(0, me.getBuyBook().size());
+		assertEquals(1, me.getSellBook().size());
 	}
 
 }
