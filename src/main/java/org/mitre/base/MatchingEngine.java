@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
@@ -24,8 +26,13 @@ public class MatchingEngine {
 	// logger
 	private final Logger log = LoggerFactory.getLogger(MatchingEngine.class);
 
+	// configuration properties
+	@Autowired
+	private Properties props = new MarketPropertiesParser("floods").getProp();
+
 	// spread tolerance
-	private static final Float SPREAD_TOL = 0.005f;
+	private final Float SPREAD_TOL = Float.parseFloat(props.getProperty("tolerance"));
+
 
 	// order books
 	private HashMap<Integer, Order> buyBook;
@@ -39,7 +46,6 @@ public class MatchingEngine {
 	public MatchingEngine() {
 		initBooks();
 		initTrades();
-		// use time-order priority matching method here
 		log.debug("Constructed default MatchingEngine");
 	}
 

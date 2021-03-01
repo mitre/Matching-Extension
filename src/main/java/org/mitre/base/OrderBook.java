@@ -31,21 +31,15 @@ public class OrderBook {
 	private Integer buyCount;
 	private Integer sellCount;
 
-	// rule set
-	private String ruleSet;
-
 
 	// default constructor
 	public OrderBook() {
-		setRuleSet("");
 		initBooks();
 		log.debug("OrderBook instantiated, NO rule set");
 	}
 
 	// custom constructor
 	public OrderBook(String rule) {
-		// TODO: insert rule set constructor here
-		setRuleSet(rule);
 		initBooks();
 		log.debug("OrderBook instantiated, chosen rule set: {}", rule);
 	}
@@ -106,20 +100,6 @@ public class OrderBook {
 	}
 
 	/**
-	 * @return the ruleSet
-	 */
-	public String getRuleSet() {
-		return ruleSet;
-	}
-
-	/**
-	 * @param ruleSet the ruleSet to set
-	 */
-	public void setRuleSet(String ruleSet) {
-		this.ruleSet = ruleSet;
-	}
-
-	/**
 	 * @return current buy counter
 	 */
 	public Integer getBuyCount() {
@@ -166,7 +146,7 @@ public class OrderBook {
 	 */
 	@Override
 	public String toString() {
-		return "OrderBook with RULE=" + getRuleSet() + " SIZE(buyBook)="
+		return "OrderBook with SIZE(buyBook)="
 					+ getBuyBookSize() + " SIZE(sellBook)="
 					+ getSellBookSize() + " BUY_COUNTER=" + getBuyCount()
 					+ " SELL_COUNTER=" + getSellCount();

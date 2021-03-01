@@ -10,7 +10,6 @@ public class OrderBookTest {
 	public void testDefaultConstructor() {
 		OrderBook nb = new OrderBook();
 
-		assertEquals("", nb.getRuleSet());
 		assertEquals(0, nb.getBuyCount().intValue());
 		assertEquals(0, nb.getSellCount().intValue());
 	}
@@ -19,7 +18,6 @@ public class OrderBookTest {
 	public void testCustomConstructor() {
 		OrderBook nb = new OrderBook("climate-derivatives");
 
-		assertEquals("climate-derivatives", nb.getRuleSet());
 		assertEquals(0, nb.getBuyCount().intValue());
 		assertEquals(0, nb.getSellCount().intValue());
 	}
@@ -28,7 +26,6 @@ public class OrderBookTest {
 	public void testAddOrder() {
 		OrderBook nb = new OrderBook();
 
-		assertEquals("", nb.getRuleSet());
 		assertEquals(0, nb.getBuyCount().intValue());
 		assertEquals(0, nb.getSellCount().intValue());
 
@@ -36,7 +33,6 @@ public class OrderBookTest {
 		nb.addBuyOrder(new Order());
 		nb.addSellOrder(new Order());
 
-		assertEquals("", nb.getRuleSet());
 		assertEquals(2, nb.getBuyCount().intValue());
 		assertEquals(1, nb.getSellCount().intValue());
 	}
@@ -45,7 +41,6 @@ public class OrderBookTest {
 	public void testRemoveOrder() {
 		OrderBook nb = new OrderBook();
 
-		assertEquals("", nb.getRuleSet());
 		assertEquals(0, nb.getBuyBookSize().intValue());
 		assertEquals(0, nb.getSellBookSize().intValue());
 
@@ -54,14 +49,12 @@ public class OrderBookTest {
 		topBuy = nb.addBuyOrder(new Order());
 		topSell = nb.addSellOrder(new Order());
 
-		assertEquals("", nb.getRuleSet());
 		assertEquals(2, nb.getBuyBookSize().intValue());
 		assertEquals(1, nb.getSellBookSize().intValue());
 
 		nb.removeBuyOrder(topBuy);
 		nb.removeSellOrder(topSell);
 
-		assertEquals("", nb.getRuleSet());
 		assertEquals(1, nb.getBuyBookSize().intValue());
 		assertEquals(0, nb.getSellBookSize().intValue());
 	}
@@ -69,7 +62,7 @@ public class OrderBookTest {
 	@Test
 	public void testToString() {
 		OrderBook ob = new OrderBook();
-		assertEquals("OrderBook with RULE= SIZE(buyBook)=0 SIZE(sellBook)=0 BUY_COUNTER=0 SELL_COUNTER=0",
+		assertEquals("OrderBook with SIZE(buyBook)=0 SIZE(sellBook)=0 BUY_COUNTER=0 SELL_COUNTER=0",
 						ob.toString());
 	}
 
