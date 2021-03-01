@@ -40,7 +40,7 @@ public class MatchingEngine {
 		initBooks();
 		initTrades();
 		// use time-order priority matching method here
-		log.debug("Constructed default MatchingEngine for weather derivatives");
+		log.debug("Constructed default MatchingEngine");
 	}
 
 	// custom constructor
@@ -48,7 +48,7 @@ public class MatchingEngine {
 		setBuyBook(ob.getBuyBook());
 		setSellBook(ob.getSellBook());
 		initTrades();
-		log.debug("Constructed custom MatchingEngine for weather derivatives. BUY_BOOK={} SELL_BOOK={}",
+		log.debug("Constructed custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}",
 					buyBook, sellBook);
 	}
 
