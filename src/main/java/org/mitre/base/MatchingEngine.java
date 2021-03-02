@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
@@ -27,7 +26,6 @@ public class MatchingEngine {
 	private final Logger log = LoggerFactory.getLogger(MatchingEngine.class);
 
 	// configuration properties, default to flood
-	@Autowired
 	private Properties props = new MarketPropertiesParser("floods").getProp();
 
 	// spread tolerance
@@ -65,6 +63,8 @@ public class MatchingEngine {
 		initTrades();
 		props = new MarketPropertiesParser(template).getProp();
 		spreadTol = Float.parseFloat(props.getProperty("tolerance"));
+		log.debug("Constructed OrderBook, config custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}  CONFIG={}",
+				buyBook, sellBook, props);
 	}
 
 
