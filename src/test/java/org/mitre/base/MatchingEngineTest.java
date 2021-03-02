@@ -7,7 +7,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
+
 
 /**
  *
@@ -31,6 +33,16 @@ public class MatchingEngineTest {
 		assertEquals(0, me.getAllTrades().size());
 		assertEquals(0, me.getBuyBook().size());
 		assertEquals(0, me.getSellBook().size());
+	}
+
+	@Test
+	public void testCustomConstructorTemplate() {
+		OrderBook ob = new OrderBook();
+		MatchingEngine meFlood = new MatchingEngine(ob, "floods");
+		MatchingEngine meSpectrum = new MatchingEngine(ob, "spectrum");
+
+		assertEquals(0.005f, meFlood.getSpreadTol(), Precision.EPSILON);
+		assertEquals(0.001f, meSpectrum.getSpreadTol(), Precision.EPSILON);
 	}
 
 	@Test
@@ -178,7 +190,7 @@ public class MatchingEngineTest {
 	@Test
 	public void testToString() {
 		MatchingEngine me = new MatchingEngine();
-		assertEquals("MatchingEngine: size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0",
+		assertEquals("MatchingEngine: FLOOD_CLIMATE size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0",
 						me.toString());
 	}
 }

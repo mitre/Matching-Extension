@@ -26,12 +26,12 @@ public class MatchingEngine {
 	// logger
 	private final Logger log = LoggerFactory.getLogger(MatchingEngine.class);
 
-	// configuration properties
+	// configuration properties, default to flood
 	@Autowired
 	private Properties props = new MarketPropertiesParser("floods").getProp();
 
 	// spread tolerance
-	private final Float SPREAD_TOL = Float.parseFloat(props.getProperty("tolerance"));
+	private Float spreadTol = Float.parseFloat(props.getProperty("tolerance"));
 
 
 	// order books
@@ -54,8 +54,25 @@ public class MatchingEngine {
 		setBuyBook(ob.getBuyBook());
 		setSellBook(ob.getSellBook());
 		initTrades();
-		log.debug("Constructed custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}",
+		log.debug("Constructed OrderBook custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}",
 					buyBook, sellBook);
+	}
+
+	// custom constructor 2
+	public MatchingEngine(OrderBook ob, String template) {
+		setBuyBook(ob.getBuyBook());
+		setSellBook(ob.getSellBook());
+		initTrades();
+		props = new MarketPropertiesParser(template).getProp();
+		spreadTol = Float.parseFloat(props.getProperty("tolerance"));
+	}
+
+
+	/**
+	 * @return the spreadTol
+	 */
+	public Float getSpreadTol() {
+		return spreadTol;
 	}
 
 	/**
@@ -136,7 +153,7 @@ public class MatchingEngine {
 		while (!buyLeftover.equals(0) && !sellLeftover.equals(0)) {
 			// first check the contracts are the same
 			// now see if the orders prices are within margin
-			if (sellOrd.getPrice() - buyOrd.getPrice() < SPREAD_TOL){
+			if (sellOrd.getPrice() - buyOrd.getPrice() < spreadTol){
 				// check size and decide update buy or sell if not total fill
 				if (buyLeftover < sellLeftover) {
 					sellLeftover -= buyLeftover;
@@ -352,7 +369,8 @@ public class MatchingEngine {
 	 */
 	@Override
 	public String toString() {
-		return "MatchingEngine: size(COMPLETED_TRADES)=" + getAllTrades().size()
+		return "MatchingEngine: " + props.getProperty("name")
+				   + " size(COMPLETED_TRADES)=" + getAllTrades().size()
 				   + " size(BUY_BOOK)=" + getBuyBook().size()
 				   + " size(SELL_BOOK)=" + getSellBook().size();
 	}
