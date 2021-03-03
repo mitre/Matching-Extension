@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
@@ -26,10 +27,13 @@ public class MatchingEngine {
 	private final Logger log = LoggerFactory.getLogger(MatchingEngine.class);
 
 	// configuration properties, default to flood
-	private Properties props = new MarketPropertiesParser("floods").getProp();
+	private static final String DEFAULT_MARKET = "floods";
+
+	@Autowired
+	private Properties props = new MarketPropertiesParser(DEFAULT_MARKET).getProp();
 
 	// spread tolerance
-	private Float spreadTol = Float.parseFloat(props.getProperty("tolerance"));
+	private Float spreadTol;
 
 
 	// order books
@@ -44,6 +48,7 @@ public class MatchingEngine {
 	public MatchingEngine() {
 		initBooks();
 		initTrades();
+		initProps(DEFAULT_MARKET);
 		log.debug("Constructed default MatchingEngine");
 	}
 
@@ -52,6 +57,7 @@ public class MatchingEngine {
 		setBuyBook(ob.getBuyBook());
 		setSellBook(ob.getSellBook());
 		initTrades();
+		initProps(DEFAULT_MARKET);
 		log.debug("Constructed OrderBook custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}",
 					buyBook, sellBook);
 	}
@@ -61,18 +67,21 @@ public class MatchingEngine {
 		setBuyBook(ob.getBuyBook());
 		setSellBook(ob.getSellBook());
 		initTrades();
-		props = new MarketPropertiesParser(template).getProp();
-		spreadTol = Float.parseFloat(props.getProperty("tolerance"));
+		initProps(template);
 		log.debug("Constructed OrderBook, config custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}  CONFIG={}",
 				buyBook, sellBook, props);
 	}
 
 
 	/**
-	 * @return the spreadTol
+	 * initialize properties file
 	 */
-	public Float getSpreadTol() {
-		return spreadTol;
+	private void initProps(String template) {
+		props = new MarketPropertiesParser(template).getProp();
+
+		if (props.containsKey("tolerance")) {
+			spreadTol = Float.parseFloat(props.getProperty("tolerance"));
+		}
 	}
 
 	/**
@@ -321,6 +330,13 @@ public class MatchingEngine {
 		removeFilledOrders(matches);
 	}
 
+
+	/**
+	 * @return the spreadTol
+	 */
+	public Float getSpreadTol() {
+		return spreadTol;
+	}
 
 	/**
 	 * @param: Order to add to trades list

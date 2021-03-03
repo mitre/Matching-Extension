@@ -28,6 +28,9 @@ public class App
 
 		MatchingEngine me2 = new MatchingEngine(nb, "spectrum");
 		log.info("{}", me2);
+
+		MatchingEngine me3 = new MatchingEngine(nb, "floods");
+		log.info("{}", me3);
 	}
 
 }
