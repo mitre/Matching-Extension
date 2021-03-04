@@ -34,11 +34,6 @@
 						{
 							"key": "agent",
 							"value": "buy-samtest1"
-						},
-						{
-							"key": "file",
-							"value": "/Users/srohrer/Downloads/test.nlogo",
-							"disabled": true
 						}
 					]
 				}
