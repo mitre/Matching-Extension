@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "44e5a2a9-5137-4478-9b5e-1660d21171b5",
+		"name": "market-simulator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "netlogo-upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/srohrer/Downloads/test.nlogo"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/netlogo/upload?agent=buy-samtest1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"netlogo",
+						"upload"
+					],
+					"query": [
+						{
+							"key": "agent",
+							"value": "buy-samtest1"
+						},
+						{
+							"key": "file",
+							"value": "/Users/srohrer/Downloads/test.nlogo",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
