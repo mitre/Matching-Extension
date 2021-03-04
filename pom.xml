@@ -22,8 +22,7 @@
 		<artifactId>spring-boot-maven-plugin</artifactId>
 	  </plugin>
     </plugins>
-   </build>
-
+  </build>
 
   <!-- NetLogo jar source repository -->
   <repositories>
