@@ -3,14 +3,21 @@ package org.mitre.base;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+import org.nlogo.api.LogoException;
+import org.nlogo.core.CompilerException;
 import org.nlogo.headless.HeadlessWorkspace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 
+@Component
 @RestController
 public class NetLogoController {
 
@@ -65,12 +73,12 @@ public class NetLogoController {
 	 * @throws IOException
 	 *
 	 */
-	@PostMapping("/netlogo/upload")
-	public ResponseEntity<String> uploadAgentModel(@RequestParam("agent") String agent,
+	@PostMapping("/netlogo/uploadAgent")
+	public ResponseEntity<String> uploadAgent(@RequestParam("agent") String agent,
 			                 @RequestParam("file") MultipartFile file) throws IOException {
 		// capture the file and turn it into a reader
-		InputStreamReader isr = new InputStreamReader(file.getInputStream(), "UTF-8");
-		BufferedReader rd = new BufferedReader(isr);
+		BufferedReader rd = new BufferedReader(new
+				             InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
 
 		// now use readLine to copy into ArrayList
 		ArrayList<String> nlcode = Lists.newArrayList();
@@ -83,8 +91,61 @@ public class NetLogoController {
 		// add agent + netlogo program pair to global routines
 		routines.put(agent, nlcode);
 
+		log.debug("Put agent {} with Netlogo program code {}.", agent,
+				         file.getOriginalFilename());
+
 		// return successful
-		return new ResponseEntity<>("File upload success!", HttpStatus.OK);
+		return new ResponseEntity<>("Agent file upload success!", HttpStatus.OK);
+	}
+
+
+	/**
+	 *
+	 * @param workspace name for logging
+	 * @param workspace file to initialize
+	 *
+	 * @return response whether parsed successfully
+	 * @throws LogoException
+	 * @throws CompilerException
+	 * @throws IOException
+	 *
+	 */
+	@PostMapping("/netlogo/initWorkspace")
+	public ResponseEntity<String> initWorkspace(@RequestParam("wsName") String wsName,
+			                 @RequestParam("file") MultipartFile file)
+			                throws CompilerException, LogoException, IOException {
+		// copy to file system
+		Path newFile = Files.createTempFile("tmp", ".nlogo");
+		file.transferTo(newFile);
+
+		this.ws.open(newFile.toFile().toString(), true);
+
+		log.debug("Initialized workspace {} with Netlogo file {}", wsName,
+				       file.getOriginalFilename());
+
+		// return successful
+		return new ResponseEntity<>("Workspace file initialization success!", HttpStatus.OK);
+	}
+
+	/**
+	 * @return the routines
+	 */
+	public Map<String, ArrayList<String>> getRoutines() {
+		return routines;
+	}
+
+	/**
+	 * @return the workspace
+	 */
+	public HeadlessWorkspace getWs() {
+		return ws;
+	}
+
+	/**
+	 * @param ws the workspace to set
+	 */
+	public void setWs(HeadlessWorkspace ws) {
+		this.ws = ws;
 	}
 
 }

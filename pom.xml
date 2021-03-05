@@ -41,7 +41,7 @@
     <dependency>
       <groupId>org.nlogo</groupId>
       <artifactId>netlogo</artifactId>
-      <version>6.1.0</version>
+      <version>6.1.1</version>
     </dependency>
 
     <dependency>
