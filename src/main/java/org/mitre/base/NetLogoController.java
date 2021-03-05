@@ -1,8 +1,8 @@
 package org.mitre.base;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -76,16 +76,21 @@ public class NetLogoController {
 	@PostMapping("/netlogo/uploadAgent")
 	public ResponseEntity<String> uploadAgent(@RequestParam("agent") String agent,
 			                 @RequestParam("file") MultipartFile file) throws IOException {
-		// capture the file and turn it into a reader
-		BufferedReader rd = new BufferedReader(new
-				             InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
+		// copy to file system
+		Path newFile = Files.createTempFile("agent", ".nlogo");
+		file.transferTo(newFile);
 
-		// now use readLine to copy into ArrayList
+		// list to save code into
 		ArrayList<String> nlcode = Lists.newArrayList();
-		String next = rd.readLine();
-		while (next != null) {
-			nlcode.add(next);
-			next = rd.readLine();
+
+		// capture the file and turn it into a reader
+		try (BufferedReader rd = new BufferedReader(new FileReader(newFile.toString(), StandardCharsets.UTF_8))) {
+			// now use readLine to copy into ArrayList
+			String next = rd.readLine();
+			while (next != null) {
+				nlcode.add(next);
+				next = rd.readLine();
+			}
 		}
 
 		// add agent + netlogo program pair to global routines
@@ -115,7 +120,7 @@ public class NetLogoController {
 			                 @RequestParam("file") MultipartFile file)
 			                throws CompilerException, LogoException, IOException {
 		// copy to file system
-		Path newFile = Files.createTempFile("tmp", ".nlogo");
+		Path newFile = Files.createTempFile("ws", ".nlogo");
 		file.transferTo(newFile);
 
 		this.ws.open(newFile.toFile().toString(), true);
