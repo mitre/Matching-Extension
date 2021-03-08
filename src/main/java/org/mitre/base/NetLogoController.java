@@ -1,8 +1,8 @@
 package org.mitre.base;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -76,15 +76,11 @@ public class NetLogoController {
 	@PostMapping("/netlogo/uploadAgent")
 	public ResponseEntity<String> uploadAgent(@RequestParam("agent") String agent,
 			                 @RequestParam("file") MultipartFile file) throws IOException {
-		// copy to file system
-		Path newFile = Files.createTempFile("agent", ".nlogo");
-		file.transferTo(newFile);
-
 		// list to save code into
 		ArrayList<String> nlcode = Lists.newArrayList();
 
 		// capture the file and turn it into a reader
-		try (BufferedReader rd = new BufferedReader(new FileReader(newFile.toString(), StandardCharsets.UTF_8))) {
+		try (BufferedReader rd = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
 			// now use readLine to copy into ArrayList
 			String next = rd.readLine();
 			while (next != null) {
@@ -105,28 +101,19 @@ public class NetLogoController {
 
 
 	/**
-	 *
-	 * @param workspace name for logging
 	 * @param workspace file to initialize
 	 *
 	 * @return response whether parsed successfully
-	 * @throws LogoException
-	 * @throws CompilerException
 	 * @throws IOException
-	 *
 	 */
 	@PostMapping("/netlogo/initWorkspace")
-	public ResponseEntity<String> initWorkspace(@RequestParam("wsName") String wsName,
-			                 @RequestParam("file") MultipartFile file)
-			                throws CompilerException, LogoException, IOException {
+	public ResponseEntity<String> initWorkspace(@RequestParam("file") MultipartFile file) throws IOException {
 		// copy to file system
 		Path newFile = Files.createTempFile("ws", ".nlogo");
 		file.transferTo(newFile);
 
-		this.ws.open(newFile.toFile().toString(), true);
-
-		log.debug("Initialized workspace {} with Netlogo file {}", wsName,
-				       file.getOriginalFilename());
+		// actually open workspace, factored out for test
+		openWorkspace(newFile.toFile().toString());
 
 		// return successful
 		return new ResponseEntity<>("Workspace file initialization success!", HttpStatus.OK);
@@ -140,6 +127,19 @@ public class NetLogoController {
 	}
 
 	/**
+	 * @param string name of path
+	 *
+	 * @throws IOException
+	 * @throws LogoException
+	 * @throws CompilerException
+	 *
+	 */
+	public void openWorkspace(String path) throws CompilerException, LogoException, IOException {
+		this.ws.open(path, true);
+		log.debug("Initialized workspace with Netlogo file {}", path);
+	}
+
+	/**
 	 * @return the workspace
 	 */
 	public HeadlessWorkspace getWs() {
@@ -147,10 +147,9 @@ public class NetLogoController {
 	}
 
 	/**
-	 * @param ws the workspace to set
+	 * clears routines
 	 */
-	public void setWs(HeadlessWorkspace ws) {
-		this.ws = ws;
+	public void clearRoutines() {
+		routines = Maps.newHashMap();
 	}
-
 }
