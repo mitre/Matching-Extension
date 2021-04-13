@@ -1,0 +1,4 @@
+Manifest-Version: 0.1
+Tab-Name: Market Simulator
+Class-Name: org.mitre.base.MarketSimulator
+NetLogo-API-Version: 6.1.1
