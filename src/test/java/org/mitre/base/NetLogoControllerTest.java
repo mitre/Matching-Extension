@@ -56,15 +56,4 @@ public class NetLogoControllerTest {
 		assertEquals(eq, nlc.getRoutines());
 	}
 
-	@Test
-	public void testInitWorkspace() throws IOException {
-		// find the empty net logo file
-		String ws = this.getClass().getClassLoader().getResource("empty-test.nlogo").getPath();
-
-		// now upload
-		nlc.openWorkspace(ws);
-
-		assertEquals("empty-test.nlogo", nlc.getWs().getModelFileName());
-		assertEquals(HeadlessWorkspace.class, nlc.getWs().getClass());
-	}
 }

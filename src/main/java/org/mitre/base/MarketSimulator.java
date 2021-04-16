@@ -8,21 +8,36 @@ import javax.swing.JPanel;
 import org.nlogo.api.NetLogoListener;
 import org.nlogo.core.CompilerException;
 import org.nlogo.window.GUIWorkspace;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 /**
  * @author srohrer
  *
  */
-@Component
+@SpringBootApplication
 public class MarketSimulator extends JPanel implements NetLogoListener {
 
+	// logger
+	private static final transient Logger log = LoggerFactory.getLogger(MarketSimulator.class);
+
 	/**
-	 *
+	 * for netlogo plugin
 	 */
 	private static final long serialVersionUID = -8256754655837394131L;
 	private transient GUIWorkspace wspace;
+
+
+	// for running the market simulator
+	@Autowired
+	private final transient OrderBook ob = new OrderBook();
+
+	@Autowired
+	private final transient MatchingEngine me = new MatchingEngine(ob);
 
 
 	/**
@@ -117,6 +132,15 @@ public class MarketSimulator extends JPanel implements NetLogoListener {
 	public void tickCounterChanged(double ticks) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		SpringApplication.run(MarketSimulator.class, args);
+		log.info("main method run");
 	}
 
 }

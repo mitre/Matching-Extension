@@ -15,6 +15,8 @@ public class MarketSimulatorTest {
 
 	@Test
 	public void testDefault() {
+		MarketSimulator ms = new MarketSimulator();
+
 		assertEquals(0, 0);
 	}
 
