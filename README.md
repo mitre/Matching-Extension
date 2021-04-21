@@ -14,3 +14,4 @@ Documentation can be found on MITREpedia at this link: [Market simulator](https:
 * `mvn test`
 * `mvn spring-boot:run`
 * `mvn spring-boot:build-image`
+* `mvn clean dependency:copy-dependencies package`
