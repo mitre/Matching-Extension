@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mitre</groupId>
 	<artifactId>market-simulator</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -39,7 +39,7 @@
 							</manifest>
 							<manifestEntries>
 								<Extension-Name>msim</Extension-Name>
-								<NetLogo-Extension-API-Version>6.1.1</NetLogo-Extension-API-Version>
+								<NetLogo-Extension-API-Version>6.1</NetLogo-Extension-API-Version>
 								<Class-Manager>org.mitre.base.MarketSimulator</Class-Manager>
 							</manifestEntries>
 						</archive>

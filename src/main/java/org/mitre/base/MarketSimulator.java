@@ -8,8 +8,6 @@ import javax.swing.JPanel;
 import org.nlogo.api.NetLogoListener;
 import org.nlogo.core.CompilerException;
 import org.nlogo.window.GUIWorkspace;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,9 +19,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class MarketSimulator extends JPanel implements NetLogoListener {
-
-	// logger
-	private static final transient Logger log = LoggerFactory.getLogger(MarketSimulator.class);
 
 	/**
 	 * for netlogo plugin
@@ -140,7 +135,6 @@ public class MarketSimulator extends JPanel implements NetLogoListener {
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(MarketSimulator.class, args);
-		log.info("main method run");
 	}
 
 }
