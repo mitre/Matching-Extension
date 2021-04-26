@@ -3,11 +3,14 @@
  */
 package org.mitre.base;
 
-import javax.swing.JPanel;
+import java.util.List;
 
-import org.nlogo.api.NetLogoListener;
-import org.nlogo.core.CompilerException;
-import org.nlogo.window.GUIWorkspace;
+import org.nlogo.api.ClassManager;
+import org.nlogo.api.ExtensionException;
+import org.nlogo.api.ExtensionManager;
+import org.nlogo.api.ImportErrorHandler;
+import org.nlogo.api.PrimitiveManager;
+import org.nlogo.core.ExtensionObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,123 +21,84 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-public class MarketSimulator extends JPanel implements NetLogoListener {
+public class MarketSimulator implements ClassManager {
 
-	/**
-	 * for netlogo plugin
-	 */
-	private static final long serialVersionUID = -8256754655837394131L;
-	private transient GUIWorkspace wspace;
+  /**
+   * for netlogo plugin
+   */
+  private static final long serialVersionUID = -8256754655837394131L;
 
+  // for running the market simulator
+  @Autowired
+  private final OrderBook ob = new OrderBook();
 
-	// for running the market simulator
-	@Autowired
-	private final transient OrderBook ob = new OrderBook();
-
-	@Autowired
-	private final transient MatchingEngine me = new MatchingEngine(ob);
+  @Autowired
+  private final MatchingEngine me = new MatchingEngine(ob);
 
 
-	/**
-	 *
-	 * @param workspace
-	 */
-	public MarketSimulator(GUIWorkspace workspace) {
-		this.wspace = workspace;
-		wspace.listenerManager.addListener(this);
-	}
+  /**
+   *
+   * @param workspace
+   */
+  public MarketSimulator() {
+  }
 
-	/**
-	 *
-	 */
-	public MarketSimulator() {
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   *
+   * @param args
+   */
+  public static void main(String[] args) {
+    SpringApplication.run(MarketSimulator.class, args);
+  }
 
+  @Override
+  public List<String> additionalJars() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	@Override
-	public void buttonPressed(String buttonName) {
-		// TODO Auto-generated method stub
+  @Override
+  public void clearAll() {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
+  @Override
+  public StringBuilder exportWorld() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	@Override
-	public void buttonStopped(String buttonName) {
-		// TODO Auto-generated method stub
+  @Override
+  public void importWorld(List<String[]> lines, ExtensionManager reader, ImportErrorHandler handler)
+      throws ExtensionException {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
+  @Override
+  public void load(PrimitiveManager primManager) throws ExtensionException {
+    // TODO Auto-generated method stub
 
-	@Override
-	public void chooserChanged(String name, Object value, boolean valueChanged) {
-		// TODO Auto-generated method stub
+  }
 
-	}
+  @Override
+  public ExtensionObject readExtensionObject(ExtensionManager reader, String typeName, String value)
+      throws ExtensionException {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
+  @Override
+  public void runOnce(ExtensionManager em) throws ExtensionException {
+    // TODO Auto-generated method stub
 
-	@Override
-	public void codeTabCompiled(String text, CompilerException errorMsg) {
-		// TODO Auto-generated method stub
+  }
 
-	}
+  @Override
+  public void unload(ExtensionManager em) throws ExtensionException {
+    // TODO Auto-generated method stub
 
-
-	@Override
-	public void commandEntered(String owner, String text, char agentType, CompilerException errorMsg) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void inputBoxChanged(String name, Object value, boolean valueChanged) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void modelOpened(String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void possibleViewUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void sliderChanged(String name, double value, double min, double increment, double max, boolean valueChanged,
-			boolean buttonReleased) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void switchChanged(String name, boolean value, boolean valueChanged) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void tickCounterChanged(double ticks) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 *
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(MarketSimulator.class, args);
-	}
+  }
 
 }
