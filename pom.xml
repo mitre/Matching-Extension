@@ -35,7 +35,7 @@
 							<manifest>
 								<mainClass>org.mitre.base.MarketSimulator</mainClass>
 							</manifest>
-								<manifestEntries>
+							<manifestEntries>
 								<Extension-Name>msim</Extension-Name>
 								<NetLogo-Extension-API-Version>6.1</NetLogo-Extension-API-Version>
 								<Class-Manager>org.mitre.base.MarketSimulator</Class-Manager>

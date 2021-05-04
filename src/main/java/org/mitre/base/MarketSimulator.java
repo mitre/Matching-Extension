@@ -5,42 +5,78 @@ package org.mitre.base;
 
 import java.util.List;
 
-import org.nlogo.api.ClassManager;
+import org.nlogo.api.DefaultClassManager;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.ExtensionManager;
 import org.nlogo.api.ImportErrorHandler;
 import org.nlogo.api.PrimitiveManager;
 import org.nlogo.core.ExtensionObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 
 /**
  * @author srohrer
  *
  */
 @SpringBootApplication
-public class MarketSimulator implements ClassManager {
+public class MarketSimulator extends DefaultClassManager {
 
-  /**
-   * for netlogo plugin
-   */
-  private static final long serialVersionUID = -8256754655837394131L;
+  // logger
+  private final Logger logger = LoggerFactory.getLogger(MarketSimulator.class);
 
   // for running the market simulator
   @Autowired
-  private final OrderBook ob = new OrderBook();
+  private OrderBook orderBook = new OrderBook();
 
   @Autowired
-  private final MatchingEngine me = new MatchingEngine(ob);
-
+  private MatchingEngine matchEngine = new MatchingEngine();
 
   /**
    *
-   * @param workspace
    */
   public MarketSimulator() {
+    logger.debug("Constructed MarketSimulator with no OrderBook or MatchingEngine");
+  }
+
+  /**
+   * @param ob, new OrderBook
+   * @param me, new MatchingEngine
+   */
+  public MarketSimulator(OrderBook ob, MatchingEngine me) {
+    setOrderBook(ob);
+    setMatchEngine(me);
+    logger.debug("Constructed MarketSimulator with OrderBook and MatchingEngine");
+  }
+
+  /**
+   * @return the orderBook
+   */
+  public OrderBook getOrderBook() {
+    return orderBook;
+  }
+
+  /**
+   * @param orderBook the orderBook to set
+   */
+  private void setOrderBook(OrderBook orderBook) {
+    this.orderBook = orderBook;
+  }
+
+  /**
+   * @return the matchEngine
+   */
+  public MatchingEngine getMatchEngine() {
+    return matchEngine;
+  }
+
+  /**
+   * @param matchEngine the matchEngine to set
+   */
+  private void setMatchEngine(MatchingEngine matchEngine) {
+    this.matchEngine = matchEngine;
   }
 
   /**
@@ -52,15 +88,9 @@ public class MarketSimulator implements ClassManager {
   }
 
   @Override
-  public List<String> additionalJars() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
   public void clearAll() {
-    // TODO Auto-generated method stub
-
+    setOrderBook(new OrderBook());
+    setMatchEngine(new MatchingEngine());
   }
 
   @Override
@@ -77,26 +107,24 @@ public class MarketSimulator implements ClassManager {
   }
 
   @Override
-  public void load(PrimitiveManager primManager) throws ExtensionException {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
   public ExtensionObject readExtensionObject(ExtensionManager reader, String typeName, String value)
       throws ExtensionException {
     // TODO Auto-generated method stub
     return null;
   }
 
+  /**
+   *
+   */
   @Override
   public void runOnce(ExtensionManager em) throws ExtensionException {
-    // TODO Auto-generated method stub
+    setOrderBook(new OrderBook());
+    setMatchEngine(new MatchingEngine());
 
   }
 
   @Override
-  public void unload(ExtensionManager em) throws ExtensionException {
+  public void load(PrimitiveManager primManager) throws ExtensionException {
     // TODO Auto-generated method stub
 
   }
