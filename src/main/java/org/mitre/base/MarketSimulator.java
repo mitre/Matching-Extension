@@ -95,8 +95,7 @@ public class MarketSimulator extends DefaultClassManager {
 
   @Override
   public StringBuilder exportWorld() {
-    // TODO Auto-generated method stub
-    return null;
+    return new StringBuilder();
   }
 
   @Override
