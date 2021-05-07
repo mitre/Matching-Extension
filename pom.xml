@@ -36,14 +36,22 @@
 								<mainClass>org.mitre.base.MarketSimulator</mainClass>
 							</manifest>
 							<manifestEntries>
-								<Extension-Name>msim</Extension-Name>
+								<Extension-Name>market-matching</Extension-Name>
 								<NetLogo-Extension-API-Version>6.1</NetLogo-Extension-API-Version>
-								<Class-Manager>org.mitre.base.MarketSimulator</Class-Manager>
+								<Class-Manager>org.mitre.base.MarketMatchingExtension</Class-Manager>
 							</manifestEntries>
 						</archive>
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
+						<finalName>market-matching</finalName>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<finalName>market-matching</finalName>
 					</configuration>
 				</plugin>
 			</plugins>

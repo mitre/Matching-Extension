@@ -9,10 +9,10 @@ A Java implementation of a market simulator using the spring-boot framework and 
 
 ### NetLogo Installation
  1. Run the `mvn clean compile assembly:single` maven goal to build the jar with all dependencies attached.
- 2. The fully built jar should be located in `./target/market-simulator-SNAPSHOT.jar`
- 3. Copy jar to your NetLogo installation directory. An example would be: `cp ./target/market-simulator.jar /Applications/NetLogo 6.1.1/extensions/msim/msim.jar`
- 4. Now you should be able to run the extension `msim` from NetLogo. It appears as a Conflicting Library under Tools > Extensions
- 5. The NetLogo code should include: `extensions [msim]`
+ 2. The fully built jar should be located in `./target/market-matching-jar-with-dependencies.jar`
+ 3. Copy jar to your NetLogo installation directory. An example would be: `cp ./target/market-matching-jar-with-dependencies.jar /Applications/NetLogo 6.1.1/extensions/market-matching/market-matching.jar`
+ 4. Now you should be able to run the extension `market-matching` from NetLogo. It appears as a Conflicting Library under Tools > Extensions
+ 5. The NetLogo code should include: `extensions [market-matching]`
 
 
 #### Documentation
