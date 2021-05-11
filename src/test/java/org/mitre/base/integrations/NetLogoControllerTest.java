@@ -44,6 +44,7 @@ public class NetLogoControllerTest {
     assertEquals(HeadlessWorkspace.class, nlc.getWs().getClass());
   }
 
+  @Ignore
   @Test
   public void testUploadAgent() throws IOException {
     // mock the file

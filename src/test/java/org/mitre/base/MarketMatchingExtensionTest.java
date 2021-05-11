@@ -19,9 +19,9 @@ public class MarketMatchingExtensionTest {
     OrderBook ob = new OrderBook();
     MatchingEngine me = new MatchingEngine();
 
-    assertEquals(ob.getBuyCount(), mme.getOrderBook().getBuyCount());
-    assertEquals(ob.getSellCount(), mme.getOrderBook().getSellCount());
-    assertEquals(me.getAllTrades(), mme.getMatchEngine().getAllTrades());
+    assertEquals(ob.getBuyCount(), mme.getNlogoExtension().getOrderBook().getBuyCount());
+    assertEquals(ob.getSellCount(), mme.getNlogoExtension().getOrderBook().getSellCount());
+    assertEquals(me.getAllTrades(), mme.getNlogoExtension().getMatchingEngine().getAllTrades());
   }
 
   @Test
@@ -30,12 +30,12 @@ public class MarketMatchingExtensionTest {
     MatchingEngine me = new MatchingEngine();
     MarketMatchingExtension mme = new MarketMatchingExtension(ob, me);
 
-    assertEquals(ob.getBuyCount(), mme.getOrderBook().getBuyCount());
-    assertEquals(ob.getSellCount(), mme.getOrderBook().getSellCount());
-    assertEquals(me.getAllTrades(), mme.getMatchEngine().getAllTrades());
+    assertEquals(ob.getBuyCount(), mme.getNlogoExtension().getOrderBook().getBuyCount());
+    assertEquals(ob.getSellCount(), mme.getNlogoExtension().getOrderBook().getSellCount());
+    assertEquals(me.getAllTrades(), mme.getNlogoExtension().getMatchingEngine().getAllTrades());
 
-    assertEquals(ob, mme.getOrderBook());
-    assertEquals(me, mme.getMatchEngine());
+    assertEquals(ob, mme.getNlogoExtension().getOrderBook());
+    assertEquals(me, mme.getNlogoExtension().getMatchingEngine());
   }
 
   @Test
@@ -44,14 +44,25 @@ public class MarketMatchingExtensionTest {
     MatchingEngine me = new MatchingEngine();
     MarketMatchingExtension mme = new MarketMatchingExtension(ob, me);
 
-    assertEquals(ob, mme.getOrderBook());
-    assertEquals(me, mme.getMatchEngine());
+    assertEquals(ob, mme.getNlogoExtension().getOrderBook());
+    assertEquals(me, mme.getNlogoExtension().getMatchingEngine());
 
     mme.clearAll();
-    assertEquals(ob.getBuyCount(), mme.getOrderBook().getBuyCount());
-    assertEquals(ob.getSellCount(), mme.getOrderBook().getSellCount());
-    assertEquals(me.getAllTrades(), mme.getMatchEngine().getAllTrades());
+    assertEquals(ob.getBuyCount(), mme.getNlogoExtension().getOrderBook().getBuyCount());
+    assertEquals(ob.getSellCount(), mme.getNlogoExtension().getOrderBook().getSellCount());
+    assertEquals(me.getAllTrades(), mme.getNlogoExtension().getMatchingEngine().getAllTrades());
+  }
 
-    assertEquals(new StringBuilder().toString(), mme.exportWorld().toString());
+  @Test
+  public void testLogoMatching1() {
+    OrderBook ob = new OrderBook();
+    MatchingEngine me = new MatchingEngine();
+    MarketMatchingExtension mme = new MarketMatchingExtension(ob, me);
+
+    assertEquals(ob, mme.getNlogoExtension().getOrderBook());
+    assertEquals(me, mme.getNlogoExtension().getMatchingEngine());
+
+    assertEquals("matcher", mme.getNlogoExtension().getNLTypeName());
+    assertEquals("market-matching", mme.getNlogoExtension().getExtensionName());
   }
 }
