@@ -3,10 +3,15 @@
  */
 package org.mitre.base;
 
+import org.nlogo.api.Argument;
+import org.nlogo.api.Context;
 import org.nlogo.api.DefaultClassManager;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.PrimitiveManager;
+import org.nlogo.api.Reporter;
 import org.nlogo.core.ExtensionObject;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +99,7 @@ public class MarketMatchingExtension extends DefaultClassManager {
      */
     @Override
     public String getExtensionName() {
-      return "market-matching";
+      return "matching";
     }
 
     /**
@@ -102,7 +107,7 @@ public class MarketMatchingExtension extends DefaultClassManager {
      */
     @Override
     public String getNLTypeName() {
-      return "matcher";
+      return "";
     }
 
     /**
@@ -110,7 +115,10 @@ public class MarketMatchingExtension extends DefaultClassManager {
      */
     @Override
     public String dump(boolean readable, boolean exporting, boolean reference) {
-      return null;
+      if (!readable) {
+        return this.toString();
+      }
+      return "LogoMatching: " + getOrderBook().toString() + " " + getMatchingEngine().toString();
     }
 
     @Override
@@ -150,6 +158,25 @@ public class MarketMatchingExtension extends DefaultClassManager {
   }
 
   /**
+   *
+   * @author srohrer
+   *
+   */
+  public class DefaultMatcher implements Reporter {
+
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.ListType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return new LogoMatching();
+    }
+
+  }
+
+  /**
    * reset order book and matching engine
    */
   @Override
@@ -162,7 +189,7 @@ public class MarketMatchingExtension extends DefaultClassManager {
    */
   @Override
   public void load(PrimitiveManager primManager) throws ExtensionException {
-    primManager.addPrimitive("make-order", null);
+    primManager.addPrimitive("create-default", new DefaultMatcher());
   }
 
 }

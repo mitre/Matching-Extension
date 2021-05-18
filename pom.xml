@@ -36,7 +36,7 @@
 								<mainClass>org.mitre.base.MarketSimulator</mainClass>
 							</manifest>
 							<manifestEntries>
-								<Extension-Name>market-matching</Extension-Name>
+								<Extension-Name>matching</Extension-Name>
 								<NetLogo-Extension-API-Version>6.1</NetLogo-Extension-API-Version>
 								<Class-Manager>org.mitre.base.MarketMatchingExtension</Class-Manager>
 							</manifestEntries>
@@ -44,7 +44,7 @@
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
-						<finalName>market-matching</finalName>
+						<finalName>matching</finalName>
 					</configuration>
 				</plugin>
 				<plugin>

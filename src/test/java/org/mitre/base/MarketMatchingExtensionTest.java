@@ -62,7 +62,7 @@ public class MarketMatchingExtensionTest {
     assertEquals(ob, mme.getNlogoExtension().getOrderBook());
     assertEquals(me, mme.getNlogoExtension().getMatchingEngine());
 
-    assertEquals("matcher", mme.getNlogoExtension().getNLTypeName());
-    assertEquals("market-matching", mme.getNlogoExtension().getExtensionName());
+    assertEquals("", mme.getNlogoExtension().getNLTypeName());
+    assertEquals("matching", mme.getNlogoExtension().getExtensionName());
   }
 }
