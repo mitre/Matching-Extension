@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Extension-Name: matching
+Tab-Name: Market Matching
+Class-Name: org.mitre.base.MarketMatchingExtension
+NetLogo-API-Version: 6.1
+NetLogo-Extension-API-Version: 6.1
