@@ -11,11 +11,11 @@ import org.junit.Test;
  * @author srohrer
  *
  */
-public class MarketMatchingExtensionTest {
+public class MatchingExtensionTest {
 
   @Test
   public void testDefault() {
-    MarketMatchingExtension mme = new MarketMatchingExtension();
+    MatchingExtension mme = new MatchingExtension();
     OrderBook ob = new OrderBook();
     MatchingEngine me = new MatchingEngine();
 
@@ -28,7 +28,7 @@ public class MarketMatchingExtensionTest {
   public void testCustom() {
     OrderBook ob = new OrderBook();
     MatchingEngine me = new MatchingEngine();
-    MarketMatchingExtension mme = new MarketMatchingExtension(ob, me);
+    MatchingExtension mme = new MatchingExtension(ob, me);
 
     assertEquals(ob.getBuyCount(), mme.getNlogoExtension().getOrderBook().getBuyCount());
     assertEquals(ob.getSellCount(), mme.getNlogoExtension().getOrderBook().getSellCount());
@@ -42,7 +42,7 @@ public class MarketMatchingExtensionTest {
   public void testNetLogoFuncs() {
     OrderBook ob = new OrderBook();
     MatchingEngine me = new MatchingEngine();
-    MarketMatchingExtension mme = new MarketMatchingExtension(ob, me);
+    MatchingExtension mme = new MatchingExtension(ob, me);
 
     assertEquals(ob, mme.getNlogoExtension().getOrderBook());
     assertEquals(me, mme.getNlogoExtension().getMatchingEngine());
@@ -57,7 +57,7 @@ public class MarketMatchingExtensionTest {
   public void testLogoMatching1() {
     OrderBook ob = new OrderBook();
     MatchingEngine me = new MatchingEngine();
-    MarketMatchingExtension mme = new MarketMatchingExtension(ob, me);
+    MatchingExtension mme = new MatchingExtension(ob, me);
 
     assertEquals(ob, mme.getNlogoExtension().getOrderBook());
     assertEquals(me, mme.getNlogoExtension().getMatchingEngine());

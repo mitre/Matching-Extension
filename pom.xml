@@ -33,12 +33,12 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<mainClass>org.mitre.base.MarketSimulator</mainClass>
+								<mainClass>org.mitre.base.MatchingExtension</mainClass>
 							</manifest>
 							<manifestEntries>
 								<Extension-Name>matching</Extension-Name>
 								<NetLogo-Extension-API-Version>6.1</NetLogo-Extension-API-Version>
-								<Class-Manager>org.mitre.base.MarketMatchingExtension</Class-Manager>
+								<Class-Manager>org.mitre.base.MatchingExtension</Class-Manager>
 							</manifestEntries>
 						</archive>
 						<descriptorRefs>

@@ -22,10 +22,10 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class MarketMatchingExtension extends DefaultClassManager {
+public class MatchingExtension extends DefaultClassManager {
 
   // logger
-  private final Logger logger = LoggerFactory.getLogger(MarketMatchingExtension.class);
+  private final Logger logger = LoggerFactory.getLogger(MatchingExtension.class);
 
   // build the netlogo extension
   @Autowired
@@ -34,9 +34,9 @@ public class MarketMatchingExtension extends DefaultClassManager {
   /**
    *
    */
-  public MarketMatchingExtension() {
+  public MatchingExtension() {
     setNlogoExtension(new LogoMatching());
-    logger.debug("Constructed MarketMatchingExtension with no OrderBook or MatchingEngine");
+    logger.debug("Constructed MatchingExtension with no OrderBook or MatchingEngine");
   }
 
   /**
@@ -44,9 +44,9 @@ public class MarketMatchingExtension extends DefaultClassManager {
    * @param ob
    * @param me
    */
-  public MarketMatchingExtension(OrderBook ob, MatchingEngine me) {
+  public MatchingExtension(OrderBook ob, MatchingEngine me) {
     setNlogoExtension(new LogoMatching(ob, me));
-    logger.debug("Constructed MarketMatchingExtension with OrderBook or MatchingEngine");
+    logger.debug("Constructed MatchingExtension with OrderBook or MatchingEngine");
   }
 
   ///////////////////////////////////////////////////////////////////////////
@@ -114,11 +114,16 @@ public class MarketMatchingExtension extends DefaultClassManager {
      *
      */
     @Override
-    public String dump(boolean readable, boolean exporting, boolean reference) {
-      if (!readable) {
-        return this.toString();
-      }
+    public String toString() {
       return "LogoMatching: " + getOrderBook().toString() + " " + getMatchingEngine().toString();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public String dump(boolean readable, boolean exporting, boolean reference) {
+      return this.toString();
     }
 
     @Override

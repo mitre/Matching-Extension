@@ -25,3 +25,19 @@ Documentation can be found on MITREpedia at this link: [Market simulator](https:
 * `mvn spring-boot:run` - run spring-boot application locally
 * `mvn spring-boot:build-image` - build docker image of spring-boot application
 * `mvn clean compile assembly:single` - build combined jar for NetLogo extension
+
+
+#### Sample NetLogo
+```
+extensions [matching]
+
+to setup
+  clear-all
+  reset-ticks
+end
+
+to go
+  let t matching:create-default []
+  print t
+end
+```
