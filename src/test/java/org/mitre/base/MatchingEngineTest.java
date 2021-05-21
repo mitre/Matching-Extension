@@ -74,12 +74,12 @@ public class MatchingEngineTest {
   public void testMatchUpdater() throws Exception {
     OrderBook ob = new OrderBook();
 
-    ob.addBuyOrder(new Order(3, 0.345f, "contr1", "buyer-sanith"));
-    ob.addBuyOrder(new Order(5, 0.341f, "contr1", "buyer-sam"));
-    ob.addSellOrder(new Order(4, 0.349f, "contr1", "seller-matt"));
-    ob.addSellOrder(new Order(2, 0.347f, "contr1", "seller-sam"));
+    ob.addBuyOrder(new Order(3, 0.345f, "GC1!", "sam"));
+    ob.addBuyOrder(new Order(5, 0.341f, "GC1!", "fred"));
+    ob.addSellOrder(new Order(4, 0.349f, "GC1!", "bob"));
+    ob.addSellOrder(new Order(2, 0.347f, "GC1!", "sam"));
     TimeUnit.MILLISECONDS.sleep(100);
-    ob.addBuyOrder(new Order(5, 0.344f, "contr1", "buyer-matt"));
+    ob.addBuyOrder(new Order(5, 0.344f, "GC1!", "mike"));
 
     MatchingEngine me = new MatchingEngine(ob);
 
@@ -93,12 +93,12 @@ public class MatchingEngineTest {
     assertEquals(0, me.getSellBook().size());
 
     OrderBook ob2 = new OrderBook();
-    ob2.addSellOrder(new Order(3, 0.348f, "contr1", "buyer-sanith"));
-    ob2.addSellOrder(new Order(5, 0.349f, "contr1", "buyer-sam"));
-    ob2.addBuyOrder(new Order(4, 0.345f, "contr1", "seller-matt"));
-    ob2.addBuyOrder(new Order(3, 0.347f, "contr1", "seller-sam"));
+    ob2.addSellOrder(new Order(3, 0.348f, "GC1!", "sam"));
+    ob2.addSellOrder(new Order(5, 0.349f, "GC1!", "fred"));
+    ob2.addBuyOrder(new Order(4, 0.345f, "GC1!", "bob"));
+    ob2.addBuyOrder(new Order(3, 0.347f, "GC1!", "sam"));
     TimeUnit.MILLISECONDS.sleep(100);
-    ob2.addSellOrder(new Order(5, 0.354f, "contr1", "buyer-matt"));
+    ob2.addSellOrder(new Order(5, 0.354f, "GC1!", "mike"));
 
     MatchingEngine me2 = new MatchingEngine(ob2);
 

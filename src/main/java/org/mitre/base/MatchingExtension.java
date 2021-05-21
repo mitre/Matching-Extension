@@ -7,6 +7,7 @@ import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
 import org.nlogo.api.DefaultClassManager;
 import org.nlogo.api.ExtensionException;
+import org.nlogo.api.LogoException;
 import org.nlogo.api.PrimitiveManager;
 import org.nlogo.api.Reporter;
 import org.nlogo.core.ExtensionObject;
@@ -81,7 +82,7 @@ public class MatchingExtension extends DefaultClassManager {
      */
     public LogoMatching() {
       setOrderBook(new OrderBook());
-      setMatchingEngine(new MatchingEngine());
+      setMatchingEngine(new MatchingEngine(getOrderBook()));
     }
 
     /**
@@ -115,7 +116,7 @@ public class MatchingExtension extends DefaultClassManager {
      */
     @Override
     public String toString() {
-      return "LogoMatching: " + getOrderBook().toString() + " " + getMatchingEngine().toString();
+      return getMatchingEngine().toString();
     }
 
     /**
@@ -123,9 +124,12 @@ public class MatchingExtension extends DefaultClassManager {
      */
     @Override
     public String dump(boolean readable, boolean exporting, boolean reference) {
-      return this.toString();
+      return toString();
     }
 
+    /**
+     *
+     */
     @Override
     public boolean recursivelyEqual(Object obj) {
       LogoMatching lm = (LogoMatching) obj;
@@ -164,8 +168,6 @@ public class MatchingExtension extends DefaultClassManager {
 
   /**
    *
-   * @author srohrer
-   *
    */
   public class DefaultMatcher implements Reporter {
 
@@ -176,17 +178,120 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return new LogoMatching();
+      LogoMatching newLogoMatch = new LogoMatching();
+      setNlogoExtension(newLogoMatch);
+      return newLogoMatch;
     }
 
   }
 
   /**
-   * reset order book and matching engine
+   *
+   * @param args
+   * @return
+   * @throws LogoException
+   * @throws ExtensionException
    */
-  @Override
-  public void clearAll() {
-    setNlogoExtension(new LogoMatching());
+  private Order orderFromArgs(Argument[] args) throws LogoException, ExtensionException {
+    return new Order(Integer.valueOf(args[1].getIntValue()), Float.valueOf((float) args[2].getDoubleValue()),
+        String.valueOf(args[3].getString()), String.valueOf(args[4].getString()));
+  }
+
+  /**
+   *
+   */
+  public class AddBuyOrder implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType(), Syntax.NumberType(), Syntax.NumberType(),
+          Syntax.StringType(), Syntax.StringType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      Order newOrder = orderFromArgs(args);
+      ((LogoMatching) args[0].get()).getOrderBook().addBuyOrder(newOrder);
+      return newOrder.toString();
+    }
+  }
+
+  /**
+  *
+  */
+  public class AddSellOrder implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType(), Syntax.NumberType(), Syntax.NumberType(),
+          Syntax.StringType(), Syntax.StringType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      Order newOrder = orderFromArgs(args);
+      ((LogoMatching) args[0].get()).getOrderBook().addSellOrder(newOrder);
+      return newOrder.toString();
+    }
+  }
+
+  /**
+   *
+   */
+  public class MatchUpdate implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      ((LogoMatching) args[0].get()).getMatchingEngine().matchUpdate();
+      return ((LogoMatching) args[0].get()).getMatchingEngine().getAllTrades().toString();
+    }
+  }
+
+  /**
+  *
+  */
+  public class GetTrades implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return ((LogoMatching) args[0].get()).getMatchingEngine().getAllTrades().toString();
+    }
+  }
+
+  /**
+  *
+  */
+  public class GetBuyBook implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return ((LogoMatching) args[0].get()).getMatchingEngine().getBuyBook().toString();
+    }
+  }
+
+  /**
+   *
+   */
+  public class GetSellBook implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return ((LogoMatching) args[0].get()).getMatchingEngine().getSellBook().toString();
+    }
   }
 
   /**
@@ -194,7 +299,28 @@ public class MatchingExtension extends DefaultClassManager {
    */
   @Override
   public void load(PrimitiveManager primManager) throws ExtensionException {
+    // constructor in netlogo
     primManager.addPrimitive("create-default", new DefaultMatcher());
+
+    // populate the order books and edit them
+    primManager.addPrimitive("add-buy-order", new AddBuyOrder());
+    primManager.addPrimitive("add-sell-order", new AddSellOrder());
+
+    // run the match updater
+    primManager.addPrimitive("match-update", new MatchUpdate());
+
+    // get completed trades and buy/sell books
+    primManager.addPrimitive("get-trades", new GetTrades());
+    primManager.addPrimitive("get-buy-book", new GetBuyBook());
+    primManager.addPrimitive("get-sell-book", new GetSellBook());
+  }
+
+  /**
+   * reset order book and matching engine
+   */
+  @Override
+  public void clearAll() {
+    setNlogoExtension(null);
   }
 
 }

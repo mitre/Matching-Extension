@@ -46,11 +46,6 @@ public class MatchingExtensionTest {
 
     assertEquals(ob, mme.getNlogoExtension().getOrderBook());
     assertEquals(me, mme.getNlogoExtension().getMatchingEngine());
-
-    mme.clearAll();
-    assertEquals(ob.getBuyCount(), mme.getNlogoExtension().getOrderBook().getBuyCount());
-    assertEquals(ob.getSellCount(), mme.getNlogoExtension().getOrderBook().getSellCount());
-    assertEquals(me.getAllTrades(), mme.getNlogoExtension().getMatchingEngine().getAllTrades());
   }
 
   @Test
