@@ -170,7 +170,6 @@ public class MatchingExtension extends DefaultClassManager {
    *
    */
   public class DefaultMatcher implements Reporter {
-
     @Override
     public Syntax getSyntax() {
       return SyntaxJ.reporterSyntax(new int[] { Syntax.ListType() }, Syntax.WildcardType());
@@ -182,7 +181,6 @@ public class MatchingExtension extends DefaultClassManager {
       setNlogoExtension(newLogoMatch);
       return newLogoMatch;
     }
-
   }
 
   /**

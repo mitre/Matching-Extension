@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.AfterClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.nlogo.headless.HeadlessWorkspace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,6 @@ public class NetLogoControllerTest {
     assertEquals(HeadlessWorkspace.class, nlc.getWs().getClass());
   }
 
-  @Ignore
   @Test
   public void testUploadAgent() throws IOException {
     // mock the file
@@ -64,16 +62,4 @@ public class NetLogoControllerTest {
     assertEquals(eq, nlc.getRoutines());
   }
 
-  @Ignore
-  @Test
-  public void testInitWorkspace() throws IOException {
-    // find the empty net logo file
-    String ws = this.getClass().getClassLoader().getResource("empty-test.nlogo").getPath();
-
-    // now upload
-    nlc.openWorkspace(ws);
-
-    assertEquals("empty-test.nlogo", nlc.getWs().getModelFileName());
-    assertEquals(HeadlessWorkspace.class, nlc.getWs().getClass());
-  }
 }
