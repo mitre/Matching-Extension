@@ -29,7 +29,6 @@ Documentation can be found on MITREpedia at this link: [Market simulator](https:
 
 #### Sample NetLogo Code
 ```
-; add the extension
 extensions [matching]
 
 to setup
@@ -38,31 +37,25 @@ to setup
 end
 
 to go
-  let _ random 10
-  let t random 10
-  ;print matching:get-trades t
-  ;print matching:get-buy-book t
-  ;print matching:get-sell-book t
-
   ; corresponds to java unit test MatchingEngineTest.testMatchUpdater()
-  set t matching:create-default []
-  set _ matching:add-buy-order t 3 0.345 "GC1!" "sam"
-  set _ matching:add-buy-order t 5 0.341 "GC1!" "fred"
-  set _ matching:add-sell-order t 4 0.349 "GC1!" "bob"
-  set _ matching:add-sell-order t 2 0.347 "GC1!" "sam"
-  set _ matching:add-buy-order t 5 0.344 "GC1!" "mike"
+  let t matching:create-default []
+  let tmp matching:add-buy-order t 3 0.345 "GC1!" "sam"
+  let tmp matching:add-buy-order t 5 0.341 "GC1!" "fred"
+  let tmp matching:add-sell-order t 4 0.349 "GC1!" "bob"
+  let tmp matching:add-sell-order t 2 0.347 "GC1!" "sam"
+  let tmp matching:add-buy-order t 5 0.344 "GC1!" "mike"
   print t
-  set _ matching:match-update t
+  let tmp matching:match-update t
   print t
 
-  set t matching:create-default []
-  set _ matching:add-sell-order t 3 0.348 "GC1!" "sam"
-  set _ matching:add-sell-order t 5 0.349 "GC1!" "fred"
-  set _ matching:add-buy-order t 4 0.345 "GC1!" "bob"
-  set _ matching:add-buy-order t 3 0.347 "GC1!" "sam"
-  set _ matching:add-sell-order t 5 0.354 "GC1!" "mike"
+  let t matching:create-default []
+  let tmp matching:add-sell-order t 3 0.348 "GC1!" "sam"
+  let tmp matching:add-sell-order t 5 0.349 "GC1!" "fred"
+  let tmp matching:add-buy-order t 4 0.345 "GC1!" "bob"
+  let tmp matching:add-buy-order t 3 0.347 "GC1!" "sam"
+  let tmp matching:add-sell-order t 5 0.354 "GC1!" "mike"
   print t
-  set _ matching:match-update t
+  let tmp matching:match-update t
   print t
 
   tick
