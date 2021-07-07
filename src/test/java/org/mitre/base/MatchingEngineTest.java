@@ -187,6 +187,74 @@ public class MatchingEngineTest {
   }
 
   @Test
+  public void testMatchUpdateNetLogoEmpty() {
+    OrderBook ob = new OrderBook();
+    MatchingEngine me = new MatchingEngine(ob);
+
+    me.matchUpdate();
+
+    assertEquals(0.0f, me.getSpread(), Precision.EPSILON);
+    assertEquals(0, me.countBuys().intValue());
+    assertEquals(0, me.countSells().intValue());
+    assertEquals(0, me.countTrades().intValue());
+    assertEquals(0, me.getMarketMean(), Precision.EPSILON);
+    assertEquals(0, me.bestBuyPrice(), Precision.EPSILON);
+    assertEquals(0, me.bestSellPrice(), Precision.EPSILON);
+    assertEquals(0, me.lastFillPrice(), Precision.EPSILON);
+  }
+
+  @Test
+  public void testMatchUpdateNetLogoMarket() {
+    OrderBook ob = new OrderBook();
+    MatchingEngine me = new MatchingEngine(ob);
+
+    me.matchUpdate();
+
+    assertEquals(0.0f, me.getSpread(), Precision.EPSILON);
+    assertEquals(0, me.countBuys().intValue());
+    assertEquals(0, me.countSells().intValue());
+    assertEquals(0, me.countTrades().intValue());
+    assertEquals(0, me.getMarketMean(), Precision.EPSILON);
+    assertEquals(0, me.bestBuyPrice(), Precision.EPSILON);
+    assertEquals(0, me.bestSellPrice(), Precision.EPSILON);
+    assertEquals(0, me.lastFillPrice(), Precision.EPSILON);
+
+    ob.addBuyOrder(new Order(3, 0.347f, "GC1!", "sam"));
+    ob.addBuyOrder(new Order(5, 0.341f, "GC1!", "fred"));
+    ob.addSellOrder(new Order(4, 0.349f, "GC1!", "bob"));
+    ob.addSellOrder(new Order(2, 0.347f, "GC1!", "sam"));
+    ob.addBuyOrder(new Order(5, 0.344f, "GC1!", "mike"));
+
+    me.matchUpdate();
+
+    assertEquals(0.0f, me.getSpread(), Precision.EPSILON);
+    assertEquals(2, me.countBuys().intValue());
+    assertEquals(0, me.countSells().intValue());
+    assertEquals(3, me.countTrades().intValue());
+    assertEquals(0.342f, me.getMarketMean(), Precision.EPSILON);
+    assertEquals(0.347f, me.bestBuyPrice(), Precision.EPSILON);
+    assertEquals(0.347f, me.bestSellPrice(), Precision.EPSILON);
+    assertEquals(0.347f, me.lastFillPrice(), Precision.EPSILON);
+
+    ob.addSellOrder(new Order(3, 0.348f, "GC1!", "sam"));
+    ob.addSellOrder(new Order(5, 0.349f, "GC1!", "fred"));
+    ob.addBuyOrder(new Order(4, 0.345f, "GC1!", "bob"));
+    ob.addBuyOrder(new Order(3, 0.347f, "GC1!", "sam"));
+    ob.addSellOrder(new Order(5, 0.354f, "GC1!", "mike"));
+
+    me.matchUpdate();
+
+    assertEquals(-0.001f, me.getSpread(), Precision.EPSILON);
+    assertEquals(4, me.countBuys().intValue());
+    assertEquals(3, me.countSells().intValue());
+    assertEquals(3, me.countTrades().intValue());
+    assertEquals(0.347f, me.getMarketMean(), Precision.EPSILON);
+    assertEquals(0.347f, me.bestBuyPrice(), Precision.EPSILON);
+    assertEquals(0.348f, me.bestSellPrice(), Precision.EPSILON);
+    assertEquals(0.347f, me.lastFillPrice(), Precision.EPSILON);
+  }
+
+  @Test
   public void testToString() {
     MatchingEngine me = new MatchingEngine();
     assertEquals("MatchingEngine: FLOOD_CLIMATE size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0",

@@ -38,6 +38,10 @@ public class MatchingEngine {
   private HashMap<Integer, Order> buyBook;
   private HashMap<Integer, Order> sellBook;
 
+  // sorted order books
+  private List<Pair<Integer, Order>> buyBookSorted;
+  private List<Pair<Integer, Order>> sellBookSorted;
+
   // record of matches
   private ArrayList<CompletedOrder> trades;
 
@@ -302,6 +306,10 @@ public class MatchingEngine {
     Collections.sort(buyOrders, Collections.reverseOrder(cmp));
     Collections.sort(sellOrders, cmp);
 
+    // save sorted list to calculate spread
+    setBuyBookSorted(buyOrders);
+    setSellBookSorted(sellOrders);
+
     // check that both have elements
     if (buyOrders.isEmpty() || sellOrders.isEmpty()) {
       return;
@@ -367,12 +375,146 @@ public class MatchingEngine {
   }
 
   /**
+   * @return the buyBookSorted
+   */
+  private List<Pair<Integer, Order>> getBuyBookSorted() {
+    return buyBookSorted;
+  }
+
+  /**
+   * @param buyBookSorted the buyBookSorted to set
+   */
+  private void setBuyBookSorted(List<Pair<Integer, Order>> buyBookSorted) {
+    this.buyBookSorted = buyBookSorted;
+  }
+
+  /**
+   * @return the sellBookSorted
+   */
+  private List<Pair<Integer, Order>> getSellBookSorted() {
+    return sellBookSorted;
+  }
+
+  /**
+   * @param sellBookSorted the sellBookSorted to set
+   */
+  private void setSellBookSorted(List<Pair<Integer, Order>> sellBookSorted) {
+    this.sellBookSorted = sellBookSorted;
+  }
+
+  /**
    * print the MatchingEngine to string
    */
   @Override
   public String toString() {
     return "MatchingEngine: " + props.getProperty("name") + " size(COMPLETED_TRADES)=" + getAllTrades().size()
         + " size(BUY_BOOK)=" + getBuyBook().size() + " size(SELL_BOOK)=" + getSellBook().size();
+  }
+
+  /**
+   *
+   * @param in
+   * @return
+   */
+  private Float roundF(Float in) {
+    return Precision.round(in, 3);
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Float getSpread() {
+    if (!getBuyBookSorted().isEmpty() && !getSellBookSorted().isEmpty()) {
+      return roundF(getBuyBookSorted().get(0).getValue().getPrice() - getSellBookSorted().get(0).getValue().getPrice());
+    } else {
+      return roundF(0.0f);
+    }
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Integer countBuys() {
+    return getBuyBook().size();
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Integer countSells() {
+    return getSellBook().size();
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Integer countTrades() {
+    return getAllTrades().size();
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Float getMarketMean() {
+    Integer totalSize = 0;
+    Float marketSum = 0.0f;
+
+    // sum all bids/offers
+    for (Order ord : getBuyBook().values()) {
+      marketSum += (ord.getPrice() * ord.getSize());
+      totalSize += ord.getSize();
+    }
+    for (Order ord : getSellBook().values()) {
+      marketSum += (ord.getPrice() * ord.getSize());
+      totalSize += ord.getSize();
+    }
+
+    if (totalSize.equals(0)) {
+      return roundF(0.0f);
+    }
+
+    return roundF(marketSum / totalSize);
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Float lastFillPrice() {
+    if (!getAllTrades().isEmpty()) {
+      return roundF(getAllTrades().get(getAllTrades().size() - 1).getPrice());
+    } else {
+      return roundF(0.0f);
+    }
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Float bestBuyPrice() {
+    if (!getBuyBookSorted().isEmpty()) {
+      return roundF(getBuyBookSorted().get(0).getValue().getPrice());
+    } else {
+      return roundF(0.0f);
+    }
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Float bestSellPrice() {
+    if (!getSellBookSorted().isEmpty()) {
+      return roundF(getSellBookSorted().get(0).getValue().getPrice());
+    } else {
+      return roundF(0.0f);
+    }
   }
 
 }
