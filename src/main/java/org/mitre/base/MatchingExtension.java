@@ -333,7 +333,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().countTrades();
+      return ((LogoMatching) args[0].get()).getMatchingEngine().countTrades().intValue();
     }
   }
 
@@ -348,7 +348,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().countBuys();
+      return ((LogoMatching) args[0].get()).getMatchingEngine().countBuys().intValue();
     }
   }
 
@@ -363,7 +363,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().countSells();
+      return ((LogoMatching) args[0].get()).getMatchingEngine().countSells().intValue();
     }
   }
 

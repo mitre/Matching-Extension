@@ -306,14 +306,14 @@ public class MatchingEngine {
     Collections.sort(buyOrders, Collections.reverseOrder(cmp));
     Collections.sort(sellOrders, cmp);
 
-    // save sorted list to calculate spread
-    setBuyBookSorted(buyOrders);
-    setSellBookSorted(sellOrders);
-
     // check that both have elements
     if (buyOrders.isEmpty() || sellOrders.isEmpty()) {
       return;
     }
+
+    // save sorted list to calculate spread
+    setBuyBookSorted(buyOrders);
+    setSellBookSorted(sellOrders);
 
     // find the matches
     ArrayList<Pair<Integer, Integer>> matches = findMatches(buyOrders, sellOrders);
@@ -430,7 +430,7 @@ public class MatchingEngine {
    */
   public Float getSpread() {
     if (!getBuyBookSorted().isEmpty() && !getSellBookSorted().isEmpty()) {
-      return roundF(getBuyBookSorted().get(0).getValue().getPrice() - getSellBookSorted().get(0).getValue().getPrice());
+      return roundF(getSellBookSorted().get(0).getValue().getPrice() - getBuyBookSorted().get(0).getValue().getPrice());
     } else {
       return Float.NaN;
     }
