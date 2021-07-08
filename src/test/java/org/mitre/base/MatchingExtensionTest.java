@@ -8,12 +8,17 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.mitre.base.MatchingExtension.AddBuyOrder;
 import org.mitre.base.MatchingExtension.AddSellOrder;
+import org.mitre.base.MatchingExtension.BestBid;
+import org.mitre.base.MatchingExtension.BestOffer;
+import org.mitre.base.MatchingExtension.CountBids;
+import org.mitre.base.MatchingExtension.CountOffers;
+import org.mitre.base.MatchingExtension.CountTrades;
 import org.mitre.base.MatchingExtension.DefaultMatcher;
-import org.mitre.base.MatchingExtension.GetBuyBook;
-import org.mitre.base.MatchingExtension.GetSellBook;
-import org.mitre.base.MatchingExtension.GetTrades;
 import org.mitre.base.MatchingExtension.LogoMatching;
+import org.mitre.base.MatchingExtension.MarketMean;
 import org.mitre.base.MatchingExtension.MatchUpdate;
+import org.mitre.base.MatchingExtension.PriceTicker;
+import org.mitre.base.MatchingExtension.Spread;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.workspace.ExtensionPrimitiveManager;
 
@@ -139,41 +144,91 @@ public class MatchingExtensionTest {
   }
 
   @Test
-  public void testGetBuyBook() throws ExtensionException {
-    MatchingExtension mme = new MatchingExtension();
-    GetBuyBook ab = mme.new GetBuyBook();
-
-    assertEquals(GetBuyBook.class, ab.getClass());
-    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
-    assertEquals(ans, ab.getSyntax().toString());
-  }
-
-  @Test
-  public void testGetSellBook() throws ExtensionException {
-    MatchingExtension mme = new MatchingExtension();
-    GetSellBook ab = mme.new GetSellBook();
-
-    assertEquals(GetSellBook.class, ab.getClass());
-    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
-    assertEquals(ans, ab.getSyntax().toString());
-  }
-
-  @Test
-  public void testGetTrades() throws ExtensionException {
-    MatchingExtension mme = new MatchingExtension();
-    GetTrades ab = mme.new GetTrades();
-
-    assertEquals(GetTrades.class, ab.getClass());
-    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
-    assertEquals(ans, ab.getSyntax().toString());
-  }
-
-  @Test
   public void testMatchUpdate() throws ExtensionException {
     MatchingExtension mme = new MatchingExtension();
     MatchUpdate ab = mme.new MatchUpdate();
 
     assertEquals(MatchUpdate.class, ab.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, ab.getSyntax().toString());
+  }
+
+  @Test
+  public void testPriceTicker() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    PriceTicker ab = mme.new PriceTicker();
+
+    assertEquals(PriceTicker.class, ab.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, ab.getSyntax().toString());
+  }
+
+  @Test
+  public void testBestBid() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    BestBid ab = mme.new BestBid();
+
+    assertEquals(BestBid.class, ab.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, ab.getSyntax().toString());
+  }
+
+  @Test
+  public void testBestOffer() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    BestOffer ab = mme.new BestOffer();
+
+    assertEquals(BestOffer.class, ab.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, ab.getSyntax().toString());
+  }
+
+  @Test
+  public void testMarketMean() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    MarketMean ab = mme.new MarketMean();
+
+    assertEquals(MarketMean.class, ab.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, ab.getSyntax().toString());
+  }
+
+  @Test
+  public void testSpread() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    Spread ab = mme.new Spread();
+
+    assertEquals(Spread.class, ab.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, ab.getSyntax().toString());
+  }
+
+  @Test
+  public void testCountTrades() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    CountTrades ab = mme.new CountTrades();
+
+    assertEquals(CountTrades.class, ab.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, ab.getSyntax().toString());
+  }
+
+  @Test
+  public void testCountBids() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    CountBids ab = mme.new CountBids();
+
+    assertEquals(CountBids.class, ab.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, ab.getSyntax().toString());
+  }
+
+  @Test
+  public void testCountOffers() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    CountOffers ab = mme.new CountOffers();
+
+    assertEquals(CountOffers.class, ab.getClass());
     String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
     assertEquals(ans, ab.getSyntax().toString());
   }

@@ -420,6 +420,10 @@ public class MatchingEngine {
     return Precision.round(in, 3);
   }
 
+  ///////////////////////////////////////////////////////////////////////////
+  // ----------------------- NetLogo Plotting Methods -------------------- //
+  ///////////////////////////////////////////////////////////////////////////
+
   /**
    *
    * @return
@@ -428,7 +432,7 @@ public class MatchingEngine {
     if (!getBuyBookSorted().isEmpty() && !getSellBookSorted().isEmpty()) {
       return roundF(getBuyBookSorted().get(0).getValue().getPrice() - getSellBookSorted().get(0).getValue().getPrice());
     } else {
-      return roundF(0.0f);
+      return Float.NaN;
     }
   }
 
@@ -475,7 +479,7 @@ public class MatchingEngine {
     }
 
     if (totalSize.equals(0)) {
-      return roundF(0.0f);
+      return Float.NaN;
     }
 
     return roundF(marketSum / totalSize);
@@ -489,7 +493,7 @@ public class MatchingEngine {
     if (!getAllTrades().isEmpty()) {
       return roundF(getAllTrades().get(getAllTrades().size() - 1).getPrice());
     } else {
-      return roundF(0.0f);
+      return Float.NaN;
     }
   }
 
@@ -501,7 +505,7 @@ public class MatchingEngine {
     if (!getBuyBookSorted().isEmpty()) {
       return roundF(getBuyBookSorted().get(0).getValue().getPrice());
     } else {
-      return roundF(0.0f);
+      return Float.NaN;
     }
   }
 
@@ -513,7 +517,7 @@ public class MatchingEngine {
     if (!getSellBookSorted().isEmpty()) {
       return roundF(getSellBookSorted().get(0).getValue().getPrice());
     } else {
-      return roundF(0.0f);
+      return Float.NaN;
     }
   }
 

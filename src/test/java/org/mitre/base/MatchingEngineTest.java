@@ -193,14 +193,14 @@ public class MatchingEngineTest {
 
     me.matchUpdate();
 
-    assertEquals(0.0f, me.getSpread(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.getSpread(), Precision.EPSILON);
     assertEquals(0, me.countBuys().intValue());
     assertEquals(0, me.countSells().intValue());
     assertEquals(0, me.countTrades().intValue());
-    assertEquals(0, me.getMarketMean(), Precision.EPSILON);
-    assertEquals(0, me.bestBuyPrice(), Precision.EPSILON);
-    assertEquals(0, me.bestSellPrice(), Precision.EPSILON);
-    assertEquals(0, me.lastFillPrice(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.getMarketMean(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.bestBuyPrice(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.bestSellPrice(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.lastFillPrice(), Precision.EPSILON);
   }
 
   @Test
@@ -210,14 +210,14 @@ public class MatchingEngineTest {
 
     me.matchUpdate();
 
-    assertEquals(0.0f, me.getSpread(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.getSpread(), Precision.EPSILON);
     assertEquals(0, me.countBuys().intValue());
     assertEquals(0, me.countSells().intValue());
     assertEquals(0, me.countTrades().intValue());
-    assertEquals(0, me.getMarketMean(), Precision.EPSILON);
-    assertEquals(0, me.bestBuyPrice(), Precision.EPSILON);
-    assertEquals(0, me.bestSellPrice(), Precision.EPSILON);
-    assertEquals(0, me.lastFillPrice(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.getMarketMean(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.bestBuyPrice(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.bestSellPrice(), Precision.EPSILON);
+    assertEquals(Float.NaN, me.lastFillPrice(), Precision.EPSILON);
 
     ob.addBuyOrder(new Order(3, 0.347f, "GC1!", "sam"));
     ob.addBuyOrder(new Order(5, 0.341f, "GC1!", "fred"));

@@ -250,7 +250,7 @@ public class MatchingExtension extends DefaultClassManager {
   /**
   *
   */
-  public class GetTrades implements Reporter {
+  public class PriceTicker implements Reporter {
     @Override
     public Syntax getSyntax() {
       return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
@@ -258,29 +258,14 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().getAllTrades().toString();
-    }
-  }
-
-  /**
-  *
-  */
-  public class GetBuyBook implements Reporter {
-    @Override
-    public Syntax getSyntax() {
-      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
-    }
-
-    @Override
-    public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().getBuyBook().toString();
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().lastFillPrice());
     }
   }
 
   /**
    *
    */
-  public class GetSellBook implements Reporter {
+  public class BestBid implements Reporter {
     @Override
     public Syntax getSyntax() {
       return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
@@ -288,7 +273,97 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().getSellBook().toString();
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().bestBuyPrice());
+    }
+  }
+
+  /**
+  *
+  */
+  public class BestOffer implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().bestSellPrice());
+    }
+  }
+
+  /**
+  *
+  */
+  public class MarketMean implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().getMarketMean());
+    }
+  }
+
+  /**
+  *
+  */
+  public class Spread implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().getSpread());
+    }
+  }
+
+  /**
+  *
+  */
+  public class CountTrades implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return ((LogoMatching) args[0].get()).getMatchingEngine().countTrades();
+    }
+  }
+
+  /**
+  *
+  */
+  public class CountBids implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return ((LogoMatching) args[0].get()).getMatchingEngine().countBuys();
+    }
+  }
+
+  /**
+  *
+  */
+  public class CountOffers implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      return ((LogoMatching) args[0].get()).getMatchingEngine().countSells();
     }
   }
 
@@ -307,10 +382,15 @@ public class MatchingExtension extends DefaultClassManager {
     // run the match updater
     primManager.addPrimitive("match-update", new MatchUpdate());
 
-    // get completed trades and buy/sell books
-    primManager.addPrimitive("get-trades", new GetTrades());
-    primManager.addPrimitive("get-buy-book", new GetBuyBook());
-    primManager.addPrimitive("get-sell-book", new GetSellBook());
+    // plotting methods
+    primManager.addPrimitive("price-ticker", new PriceTicker());
+    primManager.addPrimitive("best-bid", new BestBid());
+    primManager.addPrimitive("best-offer", new BestOffer());
+    primManager.addPrimitive("market-mean", new MarketMean());
+    primManager.addPrimitive("spread", new Spread());
+    primManager.addPrimitive("count-trades", new CountTrades());
+    primManager.addPrimitive("count-bids", new CountBids());
+    primManager.addPrimitive("count-offers", new CountOffers());
   }
 
   /**
