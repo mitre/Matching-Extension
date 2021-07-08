@@ -44,9 +44,7 @@ to go
   let tmp matching:add-sell-order t 4 0.349 "GC1!" "bob"
   let tmp matching:add-sell-order t 2 0.347 "GC1!" "sam"
   let tmp matching:add-buy-order t 5 0.344 "GC1!" "mike"
-  print t
   let tmp matching:match-update t
-  print t
 
   let t matching:create-default []
   let tmp matching:add-sell-order t 3 0.348 "GC1!" "sam"
@@ -54,9 +52,7 @@ to go
   let tmp matching:add-buy-order t 4 0.345 "GC1!" "bob"
   let tmp matching:add-buy-order t 3 0.347 "GC1!" "sam"
   let tmp matching:add-sell-order t 5 0.354 "GC1!" "mike"
-  print t
   let tmp matching:match-update t
-  print t
 
   tick
 end
