@@ -244,7 +244,7 @@ public class MatchingEngineTest {
 
     me.matchUpdate();
 
-    assertEquals(-0.001f, me.getSpread(), Precision.EPSILON);
+    assertEquals(0.000999987125f, me.getSpread(), Precision.EPSILON);
     assertEquals(4, me.countBuys().intValue());
     assertEquals(3, me.countSells().intValue());
     assertEquals(3, me.countTrades().intValue());

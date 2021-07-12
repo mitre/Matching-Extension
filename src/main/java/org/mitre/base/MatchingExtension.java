@@ -376,8 +376,8 @@ public class MatchingExtension extends DefaultClassManager {
     primManager.addPrimitive("create-default", new DefaultMatcher());
 
     // populate the order books and edit them
-    primManager.addPrimitive("add-buy-order", new AddBuyOrder());
-    primManager.addPrimitive("add-sell-order", new AddSellOrder());
+    primManager.addPrimitive("add-bid", new AddBuyOrder());
+    primManager.addPrimitive("add-offer", new AddSellOrder());
 
     // run the match updater
     primManager.addPrimitive("match-update", new MatchUpdate());

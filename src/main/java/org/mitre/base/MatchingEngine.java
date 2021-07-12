@@ -58,6 +58,7 @@ public class MatchingEngine {
     setBuyBook(ob.getBuyBook());
     setSellBook(ob.getSellBook());
     initTrades();
+    initSortedBooks();
     initProps(DEFAULT_MARKET);
     log.debug("Constructed OrderBook custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}", buyBook, sellBook);
   }
@@ -67,6 +68,7 @@ public class MatchingEngine {
     setBuyBook(ob.getBuyBook());
     setSellBook(ob.getSellBook());
     initTrades();
+    initSortedBooks();
     initProps(template);
     log.debug("Constructed OrderBook, config custom MatchingEngine. BUY_BOOK={} SELL_BOOK={}  CONFIG={}", buyBook,
         sellBook, props);
@@ -96,6 +98,14 @@ public class MatchingEngine {
    */
   private void initTrades() {
     this.trades = Lists.newArrayList();
+  }
+
+  /**
+   * set sorted books to empty
+   */
+  private void initSortedBooks() {
+    this.buyBookSorted = new ArrayList<>();
+    this.sellBookSorted = new ArrayList<>();
   }
 
   /**
@@ -430,7 +440,8 @@ public class MatchingEngine {
    */
   public Float getSpread() {
     if (!getBuyBookSorted().isEmpty() && !getSellBookSorted().isEmpty()) {
-      return Math.abs(getBuyBookSorted().get(0).getValue().getPrice() - getSellBookSorted().get(0).getValue().getPrice());
+      return Math
+          .abs(getSellBookSorted().get(0).getValue().getPrice() - getBuyBookSorted().get(0).getValue().getPrice());
     } else {
       return Float.NaN;
     }
