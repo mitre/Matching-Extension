@@ -209,7 +209,7 @@ public class MatchingExtension extends DefaultClassManager {
     public Object report(Argument[] args, Context context) throws ExtensionException {
       Order newOrder = orderFromArgs(args);
       ((LogoMatching) args[0].get()).getOrderBook().addBuyOrder(newOrder);
-      return newOrder.toString();
+      return new Object();
     }
   }
 
@@ -227,7 +227,7 @@ public class MatchingExtension extends DefaultClassManager {
     public Object report(Argument[] args, Context context) throws ExtensionException {
       Order newOrder = orderFromArgs(args);
       ((LogoMatching) args[0].get()).getOrderBook().addSellOrder(newOrder);
-      return newOrder.toString();
+      return new Object();
     }
   }
 
@@ -243,7 +243,7 @@ public class MatchingExtension extends DefaultClassManager {
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
       ((LogoMatching) args[0].get()).getMatchingEngine().matchUpdate();
-      return ((LogoMatching) args[0].get()).getMatchingEngine().getAllTrades().toString();
+      return new Object();
     }
   }
 
@@ -258,7 +258,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().lastFillPrice());
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().lastFillPrice().doubleValue());
     }
   }
 
@@ -273,7 +273,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().bestBuyPrice());
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().bestBuyPrice().doubleValue());
     }
   }
 
@@ -288,7 +288,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().bestSellPrice());
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().bestSellPrice().doubleValue());
     }
   }
 
@@ -303,7 +303,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().getMarketMean());
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().getMarketMean().doubleValue());
     }
   }
 
@@ -318,7 +318,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().getSpread());
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().getSpread().doubleValue());
     }
   }
 
@@ -333,7 +333,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().countTrades().intValue();
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().countTrades());
     }
   }
 
@@ -348,7 +348,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().countBuys().intValue();
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().countBuys());
     }
   }
 
@@ -363,7 +363,7 @@ public class MatchingExtension extends DefaultClassManager {
 
     @Override
     public Object report(Argument[] args, Context context) throws ExtensionException {
-      return ((LogoMatching) args[0].get()).getMatchingEngine().countSells().intValue();
+      return Double.valueOf(((LogoMatching) args[0].get()).getMatchingEngine().countSells());
     }
   }
 

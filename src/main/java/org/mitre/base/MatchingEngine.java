@@ -430,7 +430,7 @@ public class MatchingEngine {
    */
   public Float getSpread() {
     if (!getBuyBookSorted().isEmpty() && !getSellBookSorted().isEmpty()) {
-      return roundF(getSellBookSorted().get(0).getValue().getPrice() - getBuyBookSorted().get(0).getValue().getPrice());
+      return Math.abs(getBuyBookSorted().get(0).getValue().getPrice() - getSellBookSorted().get(0).getValue().getPrice());
     } else {
       return Float.NaN;
     }
