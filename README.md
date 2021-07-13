@@ -39,19 +39,19 @@ end
 to go
   ; corresponds to java unit test MatchingEngineTest.testMatchUpdater()
   let t matching:create-default []
-  let tmp matching:add-buy-order t 3 0.345 "GC1!" "sam"
-  let tmp matching:add-buy-order t 5 0.341 "GC1!" "fred"
-  let tmp matching:add-sell-order t 4 0.349 "GC1!" "bob"
-  let tmp matching:add-sell-order t 2 0.347 "GC1!" "sam"
-  let tmp matching:add-buy-order t 5 0.344 "GC1!" "mike"
+  let tmp matching:add-bid t 3 0.345 "GC1!" "sam"
+  let tmp matching:add-bid t 5 0.341 "GC1!" "fred"
+  let tmp matching:add-offer t 4 0.349 "GC1!" "bob"
+  let tmp matching:add-offer t 2 0.347 "GC1!" "sam"
+  let tmp matching:add-bid t 5 0.344 "GC1!" "mike"
   let tmp matching:match-update t
 
   let t matching:create-default []
-  let tmp matching:add-sell-order t 3 0.348 "GC1!" "sam"
-  let tmp matching:add-sell-order t 5 0.349 "GC1!" "fred"
-  let tmp matching:add-buy-order t 4 0.345 "GC1!" "bob"
-  let tmp matching:add-buy-order t 3 0.347 "GC1!" "sam"
-  let tmp matching:add-sell-order t 5 0.354 "GC1!" "mike"
+  let tmp matching:add-offer t 3 0.348 "GC1!" "sam"
+  let tmp matching:add-offer t 5 0.349 "GC1!" "fred"
+  let tmp matching:add-bid t 4 0.345 "GC1!" "bob"
+  let tmp matching:add-bid t 3 0.347 "GC1!" "sam"
+  let tmp matching:add-offer t 5 0.354 "GC1!" "mike"
   let tmp matching:match-update t
 
   tick
