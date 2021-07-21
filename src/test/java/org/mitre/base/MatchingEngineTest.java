@@ -290,6 +290,51 @@ public class MatchingEngineTest {
   }
 
   @Test
+  public void testNetLogo2() {
+    OrderBook ob = new OrderBook();
+    MatchingEngine me = new MatchingEngine(ob);
+
+    ob.addBuyOrder(new Order(15, 5.456093f, "SPX", "3"));
+    ob.addBuyOrder(new Order(20, 5.3952384f, "SPX", "4"));
+    ob.addBuyOrder(new Order(4, 5.0603933f, "SPX", "0"));
+    ob.addBuyOrder(new Order(37, 4.954774f, "SPX", "2"));
+    ob.addBuyOrder(new Order(80, 3.0970328f, "SPX", "4"));
+    ob.addBuyOrder(new Order(66, 2.6074696f, "SPX", "2"));
+    ob.addBuyOrder(new Order(40, 2.3769927f, "SPX", "1"));
+    ob.addBuyOrder(new Order(82, 1.9347206f, "SPX", "1"));
+    ob.addBuyOrder(new Order(85, 1.5234574f, "SPX", "1"));
+    ob.addBuyOrder(new Order(27, 1.3527801f, "SPX", "2"));
+    ob.addBuyOrder(new Order(89, 0.92889565f, "SPX", "2"));
+    ob.addBuyOrder(new Order(4, 0.46273425f, "SPX", "4"));
+    ob.addBuyOrder(new Order(6, -0.47480747f, "SPX", "4"));
+
+    ob.addSellOrder(new Order(43, 0.33726883f, "SPX", "2"));
+    ob.addSellOrder(new Order(76, 1.8909931f, "SPX", "4"));
+    ob.addSellOrder(new Order(86, 2.688896f, "SPX", "3"));
+    ob.addSellOrder(new Order(18, 2.7763693f, "SPX", "0"));
+    ob.addSellOrder(new Order(63, 3.1890047f, "SPX", "0"));
+    ob.addSellOrder(new Order(28, 4.1222425f, "SPX", "1"));
+    ob.addSellOrder(new Order(81, 4.507014f, "SPX", "1"));
+    ob.addSellOrder(new Order(51, 5.127572f, "SPX", "4"));
+    ob.addSellOrder(new Order(16, 5.664279f, "SPX", "4"));
+    ob.addSellOrder(new Order(95, 6.8820467f, "SPX", "2"));
+    ob.addSellOrder(new Order(12, 7.0235133f, "SPX", "3"));
+    ob.addSellOrder(new Order(13, 7.07225f, "SPX", "0"));
+    ob.addSellOrder(new Order(1, 7.404298f, "SPX", "0"));
+
+    assertEquals(13, me.getBuyBook().size());
+    assertEquals(13, me.getSellBook().size());
+    assertEquals(0, me.getAllTrades().size());
+
+    me.matchUpdate();
+
+    assertEquals(0, me.getAllTrades().size());
+    System.out.println(me.getBuyBookSorted().get(0));
+    System.out.println(me.getSellBookSorted().get(0));
+    System.out.println(me.getAllTrades());
+  }
+
+  @Test
   public void testToString() {
     MatchingEngine me = new MatchingEngine();
     assertEquals("MatchingEngine: FLOOD_CLIMATE size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0",
