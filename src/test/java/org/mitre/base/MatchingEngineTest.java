@@ -255,6 +255,41 @@ public class MatchingEngineTest {
   }
 
   @Test
+  public void testStuckOrder() {
+    OrderBook ob = new OrderBook();
+    MatchingEngine me = new MatchingEngine(ob);
+
+    me.matchUpdate();
+
+    ob.addSellOrder(new Order(2, 0.000f, "SPX", "sam"));
+    ob.addBuyOrder(new Order(5, 0.344f, "SPX", "mike"));
+
+    me.matchUpdate();
+
+    assertEquals(1, me.getBuyBook().size());
+    assertEquals(0, me.getSellBook().size());
+    assertEquals(1, me.getAllTrades().size());
+  }
+
+  @Test
+  public void testNetLogo1() {
+    OrderBook ob = new OrderBook();
+    MatchingEngine me = new MatchingEngine(ob);
+
+    ob.addSellOrder(new Order(43, 0.33726883f, "SPX", "2"));
+    ob.addBuyOrder(new Order(15, 5.456093f, "SPX", "3"));
+    me.matchUpdate();
+
+    assertEquals(0, me.getBuyBook().size());
+    assertEquals(1, me.getSellBook().size());
+    assertEquals(1, me.getAllTrades().size());
+
+    CompletedOrder co = me.getAllTrades().get(0);
+    assertEquals(2.896681f, co.getPrice(), Precision.EPSILON);
+    assertEquals(Integer.valueOf(15), co.getSize());
+  }
+
+  @Test
   public void testToString() {
     MatchingEngine me = new MatchingEngine();
     assertEquals("MatchingEngine: FLOOD_CLIMATE size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0",

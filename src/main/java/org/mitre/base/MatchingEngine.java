@@ -127,6 +127,11 @@ public class MatchingEngine {
     public V getValue() {
       return this.value;
     }
+
+    @Override
+    public String toString() {
+      return getValue().toString();
+    }
   }
 
   /**
@@ -387,7 +392,7 @@ public class MatchingEngine {
   /**
    * @return the buyBookSorted
    */
-  private List<Pair<Integer, Order>> getBuyBookSorted() {
+  public List<Pair<Integer, Order>> getBuyBookSorted() {
     return buyBookSorted;
   }
 
@@ -401,7 +406,7 @@ public class MatchingEngine {
   /**
    * @return the sellBookSorted
    */
-  private List<Pair<Integer, Order>> getSellBookSorted() {
+  public List<Pair<Integer, Order>> getSellBookSorted() {
     return sellBookSorted;
   }
 

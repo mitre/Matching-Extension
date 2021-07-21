@@ -368,12 +368,32 @@ public class MatchingExtension extends DefaultClassManager {
   }
 
   /**
+   *
+   */
+  public class DumpOrderBooks implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      String buyBook = ((LogoMatching) args[0].get()).getMatchingEngine().getBuyBookSorted().toString();
+      String sellBook = ((LogoMatching) args[0].get()).getMatchingEngine().getSellBookSorted().toString();
+      return "BuyBook: " + buyBook + "\nSellBook: " + sellBook;
+    }
+  }
+
+  /**
    * load primitives
    */
   @Override
   public void load(PrimitiveManager primManager) throws ExtensionException {
     // constructor in netlogo
     primManager.addPrimitive("create-default", new DefaultMatcher());
+
+    // debug classes to use
+    primManager.addPrimitive("dump-order-books", new DumpOrderBooks());
 
     // populate the order books and edit them
     primManager.addPrimitive("add-bid", new AddBuyOrder());
