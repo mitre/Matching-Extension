@@ -6,7 +6,7 @@
 # mvn spring-boot:build-image
 #
 
-FROM adoptopenjdk
+FROM openjdk
 
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
