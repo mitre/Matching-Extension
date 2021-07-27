@@ -6,9 +6,9 @@
 # mvn spring-boot:build-image
 #
 
-FROM openjdk
+FROM openjdk:18-slim-buster
 
-RUN addgroup -S spring && adduser -S spring -G spring
+RUN addgroup spring
 USER spring:spring
 
 ARG JAR_FILE=target/*.jar
