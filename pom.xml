@@ -21,6 +21,20 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<licenses>
+		<license>
+			<name>MITRE Internal</name>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Sam Rohrer</name>
+			<email>srohrer@mitre.org</email>
+			<organization>The MITRE Corporation</organization>
+		</developer>
+	</developers>
+
 	<build>
 		<pluginManagement>
 			<plugins>
