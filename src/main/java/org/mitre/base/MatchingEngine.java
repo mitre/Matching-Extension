@@ -311,32 +311,23 @@ public class MatchingEngine {
    *
    */
   public void matchUpdate() {
-    // dump HashMaps into lists
-    List<Pair<Integer, Order>> buyOrders = buyBook.entrySet().stream()
-        .map(e -> new Pair<Integer, Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
-    List<Pair<Integer, Order>> sellOrders = sellBook.entrySet().stream()
-        .map(e -> new Pair<Integer, Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
-
-    // sort lists by time and order size, as long as same contract
-    Collections.sort(buyOrders, Collections.reverseOrder(cmp));
-    Collections.sort(sellOrders, cmp);
-
-    // check that both have elements
-    if (buyOrders.isEmpty() || sellOrders.isEmpty()) {
+    if (getBuyBook().isEmpty() || getSellBook().isEmpty()) {
       return;
     }
 
-    // save sorted list to calculate spread
+    List<Pair<Integer, Order>> buyOrders = getBuyBook().entrySet().stream()
+        .map(e -> new Pair<Integer, Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
+    List<Pair<Integer, Order>> sellOrders = getSellBook().entrySet().stream()
+        .map(e -> new Pair<Integer, Order>(e.getKey(), e.getValue())).collect(Collectors.toList());
+
+    Collections.sort(buyOrders, Collections.reverseOrder(cmp));
+    Collections.sort(sellOrders, cmp);
+
     setBuyBookSorted(buyOrders);
     setSellBookSorted(sellOrders);
 
-    // find the matches
     ArrayList<Pair<Integer, Integer>> matches = findMatches(buyOrders, sellOrders);
-
-    // log completed trades to trades list
     logTrades(matches);
-
-    // remove matches from order books
     removeFilledOrders(matches);
   }
 
