@@ -86,7 +86,7 @@
 	<dependencies>
 		<!-- START NetLogo Dependencies -->
 		<dependency>
-			<groupId>org.nlogo</groupId>
+			<groupId>org</groupId>
 			<artifactId>netlogo</artifactId>
 			<version>6.1.1</version>
 		</dependency>
