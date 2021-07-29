@@ -43,6 +43,7 @@
 					<artifactId>spring-boot-maven-plugin</artifactId>
 				</plugin>
 				<!-- START DOCKER BUILD COMMENT -->
+				<!--
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<configuration>
@@ -70,23 +71,28 @@
 						<finalName>market-simulator</finalName>
 					</configuration>
 				</plugin>
+				-->
 				<!-- END DOCKER BUILD COMMENT -->
 			</plugins>
 		</pluginManagement>
 	</build>
 
-	<distributionManagement>
+	<repositories>
 		<repository>
 			<id>central</id>
 			<name>ETC-Artifactory-releases</name>
 			<url>https://artifacts.mitre.org:443/artifactory/java-libs-release</url>
 		</repository>
-	</distributionManagement>
+		<repository>
+			<id>nlogo.netlogo</id>
+			<url>https://dl.cloudsmith.io/public/netlogo/netlogo/maven/</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<!-- START NetLogo Dependencies -->
 		<dependency>
-			<groupId>org</groupId>
+			<groupId>org.nlogo</groupId>
 			<artifactId>netlogo</artifactId>
 			<version>6.1.1</version>
 		</dependency>
