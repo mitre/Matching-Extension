@@ -245,9 +245,9 @@ public class MatchingEngineTest {
     me.matchUpdate();
 
     assertEquals(0.000999987125f, me.getSpread(), Precision.EPSILON);
-    assertEquals(4, me.countBuys().intValue());
-    assertEquals(3, me.countSells().intValue());
-    assertEquals(3, me.countTrades().intValue());
+    assertEquals(2, me.countBuys().intValue());
+    assertEquals(1, me.countSells().intValue());
+    assertEquals(6, me.countTrades().intValue());
     assertEquals(0.347f, me.getMarketMean(), Precision.EPSILON);
     assertEquals(0.347f, me.bestBuyPrice(), Precision.EPSILON);
     assertEquals(0.348f, me.bestSellPrice(), Precision.EPSILON);
@@ -346,7 +346,9 @@ public class MatchingEngineTest {
 
     me.matchUpdate();
 
-    assertEquals(0, me.getAllTrades().size());
+    assertEquals(8, me.getBuyBook().size());
+    assertEquals(11, me.getSellBook().size());
+    assertEquals(7, me.getAllTrades().size());
   }
 
   @Test
