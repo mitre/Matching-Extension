@@ -1,3 +1,0 @@
-[submodule "target/lib"]
-	path = target/lib
-	url = git@gitlab.mitre.org:srohrer/netlogo-jar.git
