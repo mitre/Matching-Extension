@@ -1,8 +1,11 @@
 /**
  *
  */
-package org.mitre.base;
+package org.mitre.base.integrations;
 
+import org.mitre.base.MatchingEngine;
+import org.mitre.base.book.Order;
+import org.mitre.base.book.OrderBook;
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
 import org.nlogo.api.DefaultClassManager;

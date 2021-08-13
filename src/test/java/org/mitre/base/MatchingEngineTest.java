@@ -9,6 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
+import org.mitre.base.book.CompletedOrder;
+import org.mitre.base.book.Order;
+import org.mitre.base.book.OrderBook;
 
 /**
  *

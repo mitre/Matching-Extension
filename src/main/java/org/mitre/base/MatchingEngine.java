@@ -11,6 +11,10 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.apache.commons.math3.util.Precision;
+import org.mitre.base.book.CompletedOrder;
+import org.mitre.base.book.MarketPropertiesParser;
+import org.mitre.base.book.Order;
+import org.mitre.base.book.OrderBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package org.mitre.base;
+package org.mitre.base.book;
 
 import java.io.IOException;
 import java.io.InputStream;

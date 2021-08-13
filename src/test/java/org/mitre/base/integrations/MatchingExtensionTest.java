@@ -1,25 +1,27 @@
 /**
  *
  */
-package org.mitre.base;
+package org.mitre.base.integrations;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.mitre.base.MatchingExtension.AddBuyOrder;
-import org.mitre.base.MatchingExtension.AddSellOrder;
-import org.mitre.base.MatchingExtension.BestBid;
-import org.mitre.base.MatchingExtension.BestOffer;
-import org.mitre.base.MatchingExtension.CountBids;
-import org.mitre.base.MatchingExtension.CountOffers;
-import org.mitre.base.MatchingExtension.CountTrades;
-import org.mitre.base.MatchingExtension.DefaultMatcher;
-import org.mitre.base.MatchingExtension.DumpOrderBooks;
-import org.mitre.base.MatchingExtension.LogoMatching;
-import org.mitre.base.MatchingExtension.MarketMean;
-import org.mitre.base.MatchingExtension.MatchUpdate;
-import org.mitre.base.MatchingExtension.PriceTicker;
-import org.mitre.base.MatchingExtension.Spread;
+import org.mitre.base.MatchingEngine;
+import org.mitre.base.book.OrderBook;
+import org.mitre.base.integrations.MatchingExtension.AddBuyOrder;
+import org.mitre.base.integrations.MatchingExtension.AddSellOrder;
+import org.mitre.base.integrations.MatchingExtension.BestBid;
+import org.mitre.base.integrations.MatchingExtension.BestOffer;
+import org.mitre.base.integrations.MatchingExtension.CountBids;
+import org.mitre.base.integrations.MatchingExtension.CountOffers;
+import org.mitre.base.integrations.MatchingExtension.CountTrades;
+import org.mitre.base.integrations.MatchingExtension.DefaultMatcher;
+import org.mitre.base.integrations.MatchingExtension.DumpOrderBooks;
+import org.mitre.base.integrations.MatchingExtension.LogoMatching;
+import org.mitre.base.integrations.MatchingExtension.MarketMean;
+import org.mitre.base.integrations.MatchingExtension.MatchUpdate;
+import org.mitre.base.integrations.MatchingExtension.PriceTicker;
+import org.mitre.base.integrations.MatchingExtension.Spread;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.workspace.ExtensionPrimitiveManager;
 
