@@ -47,6 +47,18 @@ public class OrderTest {
   }
 
   @Test
+  public void testCustomConstructorTimeInt() {
+    Order ord = new Order(3, 4.732f, "test-contract", "buyer-sam", Integer.valueOf(4));
+
+    // assert default constructor
+    assertEquals(3, ord.getSize().intValue());
+    assertEquals("test-contract", ord.getContract());
+    assertEquals(4.732f, ord.getPrice().floatValue(), Precision.EPSILON);
+    assertEquals("buyer-sam", ord.getAgent());
+    assertEquals(Integer.valueOf(4), ord.getDtInt());
+  }
+
+  @Test
   public void testCompare() {
     Order cord = new Order(3, 0.983f, "comp-contract", "comp-buyer-sam");
     Order cord2 = new Order(1, 0.983f, "test-contract4", "buyer-sam13");
@@ -56,6 +68,19 @@ public class OrderTest {
       assertEquals(0, Order.compare(cord, cord2));
     } catch (UnsupportedOperationException e) {
       assertEquals("Must compare Orders of same contract", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testCompareIntInst() {
+    Order cord = new Order(3, 0.983f, "comp-contract", "comp-buyer-sam");
+    Order cord2 = new Order(1, 0.983f, "comp-contract", "buyer-sam13", Integer.valueOf(12));
+
+    // these are different contracts so should be different
+    try {
+      assertEquals(0, Order.compare(cord, cord2));
+    } catch (UnsupportedOperationException e) {
+      assertEquals("Must compare Orders of same time quantization", e.getMessage());
     }
   }
 
@@ -87,11 +112,37 @@ public class OrderTest {
   }
 
   @Test
+  public void testCompareTimeInt() throws Exception {
+    Order cord = new Order(3, 0.983f, "comp-contract", "comp-buyer-sam", Integer.valueOf(2));
+    TimeUnit.MILLISECONDS.sleep(100);
+    Order cord2 = new Order(3, 0.983f, "comp-contract", "buyer-sam13", Integer.valueOf(-1));
+
+    // these are same contract and different time, order by time
+    assertEquals(1, Order.compare(cord, cord2));
+    assertEquals(-1, Order.compare(cord2, cord));
+  }
+
+  @Test
   public void testComparePrice() {
     Instant tm = new Date(System.currentTimeMillis()).toInstant();
     Order cord = new Order(3, 0.981f, "comp-contract", "comp-buyer-sam", tm);
     Order cord2 = new Order(3, 0.989f, "comp-contract", "buyer-sam13", tm);
     Order cord3 = new Order(3, 0.985f, "comp-contract", "buyer-sam15", tm);
+
+    // these are same contract and same time, order by size
+    assertEquals(-1, Order.compare(cord, cord2));
+    assertEquals(1, Order.compare(cord2, cord));
+    assertEquals(-1, Order.compare(cord, cord3));
+    assertEquals(1, Order.compare(cord3, cord));
+    assertEquals(1, Order.compare(cord2, cord3));
+    assertEquals(-1, Order.compare(cord3, cord2));
+  }
+
+  @Test
+  public void testComparePriceInt() {
+    Order cord = new Order(3, 0.981f, "comp-contract", "comp-buyer-sam", Integer.valueOf(3));
+    Order cord2 = new Order(3, 0.989f, "comp-contract", "buyer-sam13", Integer.valueOf(3));
+    Order cord3 = new Order(3, 0.985f, "comp-contract", "buyer-sam15", Integer.valueOf(3));
 
     // these are same contract and same time, order by size
     assertEquals(-1, Order.compare(cord, cord2));

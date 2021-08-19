@@ -203,12 +203,16 @@ public class Order {
         return 1;
       } else {
         // price and size are equal, compare time
-        if (lhs.getDtInst().isBefore(rhs.getDtInst())) {
-          return -1;
-        } else if (lhs.getDtInst().isAfter(rhs.getDtInst())) {
-          return 1;
+        if (lhs.getUsingInstant().booleanValue()) {
+          if (lhs.getDtInst().isBefore(rhs.getDtInst())) {
+            return -1;
+          } else if (lhs.getDtInst().isAfter(rhs.getDtInst())) {
+            return 1;
+          } else {
+            return 0;
+          }
         } else {
-          return 0;
+          return lhs.getDtInt().compareTo(rhs.getDtInt());
         }
       }
     }
