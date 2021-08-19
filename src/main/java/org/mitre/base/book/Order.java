@@ -196,16 +196,16 @@ public class Order {
     } else if (lhs.getPrice() > rhs.getPrice()) {
       return 1;
     } else {
-      // price is equal, compare time
-      if (lhs.getDtInst().isBefore(rhs.getDtInst())) {
+      // price is equal, compare size
+      if (lhs.getSize() < rhs.getSize()) {
         return -1;
-      } else if (lhs.getDtInst().isAfter(rhs.getDtInst())) {
+      } else if (lhs.getSize() > rhs.getSize()) {
         return 1;
       } else {
-        // price and time are equal, compare size
-        if (lhs.getSize() < rhs.getSize()) {
+        // price and size are equal, compare time
+        if (lhs.getDtInst().isBefore(rhs.getDtInst())) {
           return -1;
-        } else if (lhs.getSize() > rhs.getSize()) {
+        } else if (lhs.getDtInst().isAfter(rhs.getDtInst())) {
           return 1;
         } else {
           return 0;
