@@ -43,7 +43,7 @@ public class OrderTest {
     assertEquals("test-contract", ord.getContract());
     assertEquals(4.732f, ord.getPrice().floatValue(), Precision.EPSILON);
     assertEquals("buyer-sam", ord.getAgent());
-    assertEquals(tm, ord.getDt());
+    assertEquals(tm, ord.getDtInst());
   }
 
   @Test
@@ -106,6 +106,6 @@ public class OrderTest {
   public void testToString() {
     Instant tm = new Date(System.currentTimeMillis()).toInstant();
     Order o = new Order(4, 1.132f, "ordtest", "buyer", tm);
-    assertEquals("Order@ " + tm.toString() + " of SIZE=4 and CONTRACT=ordtest @ $1.132 from AGENT=buyer", o.toString());
+    assertEquals("Order of SIZE=4 and CONTRACT=ordtest @ $1.132 from AGENT=buyer", o.toString());
   }
 }

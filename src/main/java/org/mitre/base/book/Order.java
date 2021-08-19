@@ -24,6 +24,10 @@ public class Order {
   private String contract;
   // time submitted
   private Instant dt;
+  // integer time submitted
+  private Integer dtInt;
+  // if using Instant
+  private Boolean usingInstant;
 
   // agent submitting
   private String agent;
@@ -34,7 +38,7 @@ public class Order {
     setPrice(0.0f);
     setContract("");
     setAgent("");
-    setDt(new Date(System.currentTimeMillis()).toInstant());
+    setDtInst(new Date(System.currentTimeMillis()).toInstant());
     log.debug("Constructed default Order");
   }
 
@@ -44,7 +48,7 @@ public class Order {
     setPrice(price);
     setContract(contract);
     setAgent(agent);
-    setDt(new Date(System.currentTimeMillis()).toInstant());
+    setDtInst(new Date(System.currentTimeMillis()).toInstant());
     log.debug("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT", size, contract, price, agent);
   }
 
@@ -53,7 +57,17 @@ public class Order {
     setPrice(price);
     setContract(contract);
     setAgent(agent);
-    setDt(inst);
+    setDtInst(inst);
+    log.debug("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT at {}", size, contract, price, agent,
+        inst);
+  }
+
+  public Order(int size, Float price, String contract, String agent, Integer inst) {
+    setSize(size);
+    setPrice(price);
+    setContract(contract);
+    setAgent(agent);
+    setDtInt(inst);
     log.debug("Constructed custom Order: {} SIZE of {} CONTRACT @ {} from {} AGENT at {}", size, contract, price, agent,
         inst);
   }
@@ -103,15 +117,49 @@ public class Order {
   /**
    * @return
    */
-  public Instant getDt() {
+  public Instant getDtInst() {
     return dt;
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Integer getDtInt() {
+    return dtInt;
   }
 
   /**
    * @param dt
    */
-  private void setDt(Instant dt) {
+  private void setDtInst(Instant dt) {
     this.dt = dt;
+    this.dtInt = null;
+    setUsingInstant(Boolean.TRUE);
+  }
+
+  /**
+   *
+   * @param dt
+   */
+  private void setDtInt(Integer dt) {
+    this.dtInt = dt;
+    this.dt = null;
+    setUsingInstant(Boolean.FALSE);
+  }
+
+  /**
+   * @return the usingInstant
+   */
+  private Boolean getUsingInstant() {
+    return usingInstant;
+  }
+
+  /**
+   * @param usingInstant the usingInstant to set
+   */
+  private void setUsingInstant(Boolean usingInstant) {
+    this.usingInstant = usingInstant;
   }
 
   /**
@@ -137,6 +185,11 @@ public class Order {
       throw new UnsupportedOperationException("Must compare Orders of same contract");
     }
 
+    // if using both Instant and Integer throw error
+    if (!lhs.getUsingInstant().equals(rhs.getUsingInstant())) {
+      throw new UnsupportedOperationException("Must compare Orders of same time quantization");
+    }
+
     // sort by price then time then size
     if (lhs.getPrice() < rhs.getPrice()) {
       return -1;
@@ -144,9 +197,9 @@ public class Order {
       return 1;
     } else {
       // price is equal, compare time
-      if (lhs.getDt().isBefore(rhs.getDt())) {
+      if (lhs.getDtInst().isBefore(rhs.getDtInst())) {
         return -1;
-      } else if (lhs.getDt().isAfter(rhs.getDt())) {
+      } else if (lhs.getDtInst().isAfter(rhs.getDtInst())) {
         return 1;
       } else {
         // price and time are equal, compare size
@@ -166,8 +219,8 @@ public class Order {
    */
   @Override
   public String toString() {
-    return "Order@ " + getDt().toString() + " of SIZE=" + getSize() + " and CONTRACT=" + getContract() + " @ $"
-        + getPrice() + " from AGENT=" + getAgent();
+    return "Order of SIZE=" + getSize() + " and CONTRACT=" + getContract() + " @ $" + getPrice() + " from AGENT="
+        + getAgent();
   }
 
 }

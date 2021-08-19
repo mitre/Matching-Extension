@@ -195,7 +195,8 @@ public class MatchingExtension extends DefaultClassManager {
    */
   private Order orderFromArgs(Argument[] args) throws LogoException, ExtensionException {
     return new Order(Integer.valueOf(args[1].getIntValue()), Float.valueOf((float) args[2].getDoubleValue()),
-        String.valueOf(args[3].getString()), String.valueOf(args[4].getString()));
+        String.valueOf(args[3].getString()), String.valueOf(args[4].getString()),
+        Integer.valueOf(args[5].getIntValue()));
   }
 
   /**
@@ -205,7 +206,7 @@ public class MatchingExtension extends DefaultClassManager {
     @Override
     public Syntax getSyntax() {
       return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType(), Syntax.NumberType(), Syntax.NumberType(),
-          Syntax.StringType(), Syntax.StringType() }, Syntax.WildcardType());
+          Syntax.StringType(), Syntax.StringType(), Syntax.NumberType() }, Syntax.WildcardType());
     }
 
     @Override
@@ -223,7 +224,7 @@ public class MatchingExtension extends DefaultClassManager {
     @Override
     public Syntax getSyntax() {
       return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType(), Syntax.NumberType(), Syntax.NumberType(),
-          Syntax.StringType(), Syntax.StringType() }, Syntax.WildcardType());
+          Syntax.StringType(), Syntax.StringType(), Syntax.NumberType() }, Syntax.WildcardType());
     }
 
     @Override

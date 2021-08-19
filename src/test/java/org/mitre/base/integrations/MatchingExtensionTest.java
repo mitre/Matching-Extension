@@ -132,7 +132,7 @@ public class MatchingExtensionTest {
     AddBuyOrder ab = mme.new AddBuyOrder();
 
     assertEquals(AddBuyOrder.class, ab.getClass());
-    String ans = "Syntax(10,0,List(8191, 1, 1, 4, 4),8191,None,None,false,OTPL,None,false,true)";
+    String ans = "Syntax(10,0,List(8191, 1, 1, 4, 4, 1),8191,None,None,false,OTPL,None,false,true)";
     assertEquals(ans, ab.getSyntax().toString());
   }
 
@@ -142,7 +142,7 @@ public class MatchingExtensionTest {
     AddSellOrder ab = mme.new AddSellOrder();
 
     assertEquals(AddSellOrder.class, ab.getClass());
-    String ans = "Syntax(10,0,List(8191, 1, 1, 4, 4),8191,None,None,false,OTPL,None,false,true)";
+    String ans = "Syntax(10,0,List(8191, 1, 1, 4, 4, 1),8191,None,None,false,OTPL,None,false,true)";
     assertEquals(ans, ab.getSyntax().toString());
   }
 
