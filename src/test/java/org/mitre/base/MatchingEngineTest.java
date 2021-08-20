@@ -5,6 +5,7 @@ package org.mitre.base;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.math3.util.Precision;
@@ -352,6 +353,24 @@ public class MatchingEngineTest {
     assertEquals(8, me.getBuyBook().size());
     assertEquals(11, me.getSellBook().size());
     assertEquals(7, me.getAllTrades().size());
+  }
+
+  @Test
+  public void testFileLogger() throws IOException {
+    OrderBook ob = new OrderBook();
+    MatchingEngine me = new MatchingEngine(ob);
+
+    ob.addBuyOrder(new Order(15, 5.456093f, "SPX", "3"));
+    ob.addBuyOrder(new Order(20, 5.3952384f, "SPX", "4"));
+    ob.addSellOrder(new Order(43, 0.33726883f, "SPX", "2"));
+
+    assertEquals(2, me.getBuyBook().size());
+    assertEquals(1, me.getSellBook().size());
+    assertEquals(0, me.getAllTrades().size());
+    me.matchUpdate();
+    assertEquals(2, me.getAllTrades().size());
+
+    me.logTradesToFile();
   }
 
   @Test

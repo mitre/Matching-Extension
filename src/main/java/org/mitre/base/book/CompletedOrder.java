@@ -26,6 +26,9 @@ public class CompletedOrder {
   // agent that is selling
   private String sellAgent;
 
+  // file output header
+  private static final String FILE_HEADER = "time, contract, size, price, buyAgent, sellAgent\n";
+
   // default constructor
   public CompletedOrder() {
     setSize(0);
@@ -146,6 +149,21 @@ public class CompletedOrder {
   }
 
   /**
+   * @return
+   */
+  public String toFile() {
+    return getCloseDt() + ", " + getContract() + ", " + getSize() + ", " + getPrice() + ", " + getBuyAgent() + ", "
+        + getSellAgent() + "\n";
+  }
+
+  /**
+   * @return the fILE_HEADER
+   */
+  public static String getHeader() {
+    return FILE_HEADER;
+  }
+
+  /**
    * @return string representation of class
    */
   @Override
@@ -153,4 +171,5 @@ public class CompletedOrder {
     return "CompletedOrder@ " + getCloseDt().toString() + " of SIZE=" + getSize() + " and CONTRACT=" + getContract()
         + " @ $" + getPrice() + " between SELLER=" + getSellAgent() + " and BUYER=" + getBuyAgent();
   }
+
 }

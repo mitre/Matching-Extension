@@ -1,5 +1,10 @@
 package org.mitre.base;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -471,6 +476,26 @@ public class MatchingEngine {
       return roundF(getSellBookSorted().get(0).getValue().getPrice());
     } else {
       return Float.NaN;
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // ----------------------- NetLogo File Log Methods -------------------- //
+  ///////////////////////////////////////////////////////////////////////////
+
+  /**
+   *
+   */
+  public void logTradesToFile() throws IOException {
+    String fileName = "test-file.csv";
+    Path path = Paths.get(fileName);
+    if (!Files.exists(path)) {
+      Files.createFile(path);
+    }
+
+    Files.write(path, CompletedOrder.getHeader().getBytes(), StandardOpenOption.APPEND);
+    for (CompletedOrder co : trades) {
+      Files.write(path, co.toFile().getBytes(), StandardOpenOption.APPEND);
     }
   }
 

@@ -24,14 +24,26 @@ public class CompletedOrderTest {
 
   @Test
   public void testCustomConstructor() {
-    CompletedOrder ord = new CompletedOrder(5, 1.342f, "test-contract", "buyer-sam", "seller-sanith");
+    CompletedOrder ord = new CompletedOrder(5, 1.342f, "test-contract", "buyer", "seller");
 
     // assert default constructor
     assertEquals(5, ord.getSize().intValue());
     assertEquals(1.342f, ord.getPrice().floatValue(), Precision.EPSILON);
     assertEquals("test-contract", ord.getContract());
-    assertEquals("buyer-sam", ord.getBuyAgent());
-    assertEquals("seller-sanith", ord.getSellAgent());
+    assertEquals("buyer", ord.getBuyAgent());
+    assertEquals("seller", ord.getSellAgent());
+  }
+
+  @SuppressWarnings("static-access")
+  @Test
+  public void testFileLog() {
+    Instant tm = new Date(System.currentTimeMillis()).toInstant();
+    CompletedOrder ord = new CompletedOrder(5, 1.342f, "test-contract", "buyer", "seller", tm);
+
+    assertEquals("time, contract, size, price, buyAgent, sellAgent\n", ord.getHeader());
+    String ans = tm.toString() + ", test-contract, 5, 1.342, buyer, seller\n";
+    assertEquals(ans, ord.toFile());
+
   }
 
   @Test

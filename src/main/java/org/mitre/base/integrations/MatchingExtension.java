@@ -3,6 +3,8 @@
  */
 package org.mitre.base.integrations;
 
+import java.io.IOException;
+
 import org.mitre.base.MatchingEngine;
 import org.mitre.base.book.Order;
 import org.mitre.base.book.OrderBook;
@@ -389,6 +391,26 @@ public class MatchingExtension extends DefaultClassManager {
   }
 
   /**
+   *
+   */
+  public class LogTradesFile implements Reporter {
+    @Override
+    public Syntax getSyntax() {
+      return SyntaxJ.reporterSyntax(new int[] { Syntax.WildcardType() }, Syntax.WildcardType());
+    }
+
+    @Override
+    public Object report(Argument[] args, Context context) throws ExtensionException {
+      try {
+        ((LogoMatching) args[0].get()).getMatchingEngine().logTradesToFile();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return new Object();
+    }
+  }
+
+  /**
    * load primitives
    */
   @Override
@@ -396,8 +418,9 @@ public class MatchingExtension extends DefaultClassManager {
     // constructor in netlogo
     primManager.addPrimitive("create-default", new DefaultMatcher());
 
-    // debug classes to use
+    // debug and logging classes to use
     primManager.addPrimitive("dump-order-books", new DumpOrderBooks());
+    primManager.addPrimitive("log-trades-file", new LogTradesFile());
 
     // populate the order books and edit them
     primManager.addPrimitive("add-bid", new AddBuyOrder());

@@ -17,6 +17,7 @@ import org.mitre.base.integrations.MatchingExtension.CountOffers;
 import org.mitre.base.integrations.MatchingExtension.CountTrades;
 import org.mitre.base.integrations.MatchingExtension.DefaultMatcher;
 import org.mitre.base.integrations.MatchingExtension.DumpOrderBooks;
+import org.mitre.base.integrations.MatchingExtension.LogTradesFile;
 import org.mitre.base.integrations.MatchingExtension.LogoMatching;
 import org.mitre.base.integrations.MatchingExtension.MarketMean;
 import org.mitre.base.integrations.MatchingExtension.MatchUpdate;
@@ -162,6 +163,16 @@ public class MatchingExtensionTest {
     DumpOrderBooks db = mme.new DumpOrderBooks();
 
     assertEquals(DumpOrderBooks.class, db.getClass());
+    String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
+    assertEquals(ans, db.getSyntax().toString());
+  }
+
+  @Test
+  public void testLogTrades() throws ExtensionException {
+    MatchingExtension mme = new MatchingExtension();
+    LogTradesFile db = mme.new LogTradesFile();
+
+    assertEquals(LogTradesFile.class, db.getClass());
     String ans = "Syntax(10,0,List(8191),8191,None,None,false,OTPL,None,false,true)";
     assertEquals(ans, db.getSyntax().toString());
   }
