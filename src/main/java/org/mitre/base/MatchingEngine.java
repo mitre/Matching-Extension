@@ -493,7 +493,7 @@ public class MatchingEngine {
    *
    */
   public void logTradesToFile() throws IOException {
-    String fileName = "test-file.csv";
+    String fileName = "transactions.csv";
     Path path = Paths.get(fileName);
     if (!Files.exists(path)) {
       Files.createFile(path);
