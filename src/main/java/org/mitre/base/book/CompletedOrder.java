@@ -20,6 +20,10 @@ public class CompletedOrder {
   private String contract;
   // time of order close
   private Instant closeDt;
+  // integer time of order close
+  private Integer closeDtInt;
+  // if we are using integer
+  private Boolean usingInstant;
 
   // agent that is buying
   private String buyAgent;
@@ -37,7 +41,7 @@ public class CompletedOrder {
     setCloseDt(new Date(System.currentTimeMillis()).toInstant());
     setBuyAgent("testBuyer");
     setSellAgent("testSeller");
-    log.debug("Constructed default CompletedOrder");
+    log.debug("Constructed default CompletedOrder.");
   }
 
   // custom constructor
@@ -48,8 +52,7 @@ public class CompletedOrder {
     setCloseDt(new Date(System.currentTimeMillis()).toInstant());
     setBuyAgent(buyAgent);
     setSellAgent(sellAgent);
-    log.debug("Constructed CompletedOrder: {} SIZE of {} CONTRACT @ {} between AGENTS {} and {}", size, contract, price,
-        buyAgent, sellAgent);
+    log.debug("Constructed UTC.now() close CompletedOrder.");
   }
 
   // custom constructor with time stamp
@@ -60,8 +63,18 @@ public class CompletedOrder {
     setCloseDt(close);
     setBuyAgent(buyAgent);
     setSellAgent(sellAgent);
-    log.debug("Constructed CompletedOrder: {} SIZE of {} CONTRACT @ {} between AGENTS {} and {}", size, contract, price,
-        buyAgent, sellAgent);
+    log.debug("Constructed Instant close CompletedOrder.");
+  }
+
+  // custom constructor with Integer time stamp
+  public CompletedOrder(Integer size, Float price, String contract, String buyAgent, String sellAgent, Integer close) {
+    setSize(size);
+    setPrice(price);
+    setContract(contract);
+    setCloseDtInt(close);
+    setBuyAgent(buyAgent);
+    setSellAgent(sellAgent);
+    log.debug("Constructed Integer close CompletedOrder.");
   }
 
   /**
@@ -104,6 +117,36 @@ public class CompletedOrder {
    */
   private void setCloseDt(Instant closeDt) {
     this.closeDt = closeDt;
+    setUsingInstant(Boolean.TRUE);
+  }
+
+  /**
+   * @return the closeDtInt
+   */
+  public Integer getCloseDtInt() {
+    return closeDtInt;
+  }
+
+  /**
+   * @param closeDtInt the closeDtInt to set
+   */
+  public void setCloseDtInt(Integer closeDtInt) {
+    this.closeDtInt = closeDtInt;
+    setUsingInstant(Boolean.FALSE);
+  }
+
+  /**
+   * @return the usingInstant
+   */
+  public Boolean getUsingInstant() {
+    return usingInstant;
+  }
+
+  /**
+   * @param usingInstant the usingInstant to set
+   */
+  public void setUsingInstant(Boolean usingInstant) {
+    this.usingInstant = usingInstant;
   }
 
   /**
@@ -152,7 +195,14 @@ public class CompletedOrder {
    * @return
    */
   public String toFile() {
-    return getCloseDt() + ", " + getContract() + ", " + getSize() + ", " + getPrice() + ", " + getBuyAgent() + ", "
+    String time = "";
+    if (getUsingInstant().booleanValue()) {
+      time = getCloseDt().toString();
+    } else {
+      time = getCloseDtInt().toString();
+    }
+
+    return time + ", " + getContract() + ", " + getSize() + ", " + getPrice() + ", " + getBuyAgent() + ", "
         + getSellAgent() + "\n";
   }
 

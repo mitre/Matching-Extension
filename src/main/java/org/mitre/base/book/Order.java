@@ -151,7 +151,7 @@ public class Order {
   /**
    * @return the usingInstant
    */
-  private Boolean getUsingInstant() {
+  public Boolean getUsingInstant() {
     return usingInstant;
   }
 

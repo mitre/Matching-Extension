@@ -406,7 +406,7 @@ public class MatchingExtension extends DefaultClassManager {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      return new Object();
+      return context;
     }
   }
 

@@ -6,6 +6,8 @@ package org.mitre.base;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.math3.util.Precision;
@@ -356,13 +358,50 @@ public class MatchingEngineTest {
   }
 
   @Test
-  public void testFileLogger() throws IOException {
+  public void testFileLoggerNone() throws IOException {
     OrderBook ob = new OrderBook();
     MatchingEngine me = new MatchingEngine(ob);
 
     ob.addBuyOrder(new Order(15, 5.456093f, "SPX", "3"));
     ob.addBuyOrder(new Order(20, 5.3952384f, "SPX", "4"));
     ob.addSellOrder(new Order(43, 0.33726883f, "SPX", "2"));
+
+    assertEquals(2, me.getBuyBook().size());
+    assertEquals(1, me.getSellBook().size());
+    assertEquals(0, me.getAllTrades().size());
+    me.matchUpdate();
+    assertEquals(2, me.getAllTrades().size());
+
+    me.logTradesToFile();
+  }
+
+  @Test
+  public void testFileLoggerInstant() throws IOException {
+    OrderBook ob = new OrderBook();
+    Instant tm = new Date(System.currentTimeMillis()).toInstant();
+    MatchingEngine me = new MatchingEngine(ob);
+
+    ob.addBuyOrder(new Order(15, 5.456093f, "SPX", "3", tm));
+    ob.addBuyOrder(new Order(20, 5.3952384f, "SPX", "4", tm));
+    ob.addSellOrder(new Order(43, 0.33726883f, "SPX", "2", tm));
+
+    assertEquals(2, me.getBuyBook().size());
+    assertEquals(1, me.getSellBook().size());
+    assertEquals(0, me.getAllTrades().size());
+    me.matchUpdate();
+    assertEquals(2, me.getAllTrades().size());
+
+    me.logTradesToFile();
+  }
+
+  @Test
+  public void testFileLoggerInteger() throws IOException {
+    OrderBook ob = new OrderBook();
+    MatchingEngine me = new MatchingEngine(ob);
+
+    ob.addBuyOrder(new Order(15, 5.456093f, "SPX", "3", Integer.valueOf(8)));
+    ob.addBuyOrder(new Order(20, 5.3952384f, "SPX", "4", Integer.valueOf(3)));
+    ob.addSellOrder(new Order(43, 0.33726883f, "SPX", "2", Integer.valueOf(4)));
 
     assertEquals(2, me.getBuyBook().size());
     assertEquals(1, me.getSellBook().size());

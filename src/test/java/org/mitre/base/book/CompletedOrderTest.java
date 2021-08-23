@@ -26,7 +26,6 @@ public class CompletedOrderTest {
   public void testCustomConstructor() {
     CompletedOrder ord = new CompletedOrder(5, 1.342f, "test-contract", "buyer", "seller");
 
-    // assert default constructor
     assertEquals(5, ord.getSize().intValue());
     assertEquals(1.342f, ord.getPrice().floatValue(), Precision.EPSILON);
     assertEquals("test-contract", ord.getContract());
@@ -34,16 +33,50 @@ public class CompletedOrderTest {
     assertEquals("seller", ord.getSellAgent());
   }
 
+  @Test
+  public void testCustomConstructorInstant() {
+    Instant tm = new Date(System.currentTimeMillis()).toInstant();
+    CompletedOrder ord = new CompletedOrder(5, 1.342f, "test-contract", "buyer", "seller", tm);
+
+    assertEquals(5, ord.getSize().intValue());
+    assertEquals(1.342f, ord.getPrice().floatValue(), Precision.EPSILON);
+    assertEquals("test-contract", ord.getContract());
+    assertEquals("buyer", ord.getBuyAgent());
+    assertEquals("seller", ord.getSellAgent());
+    assertEquals(tm, ord.getCloseDt());
+  }
+
+  @Test
+  public void testCustomConstructorInteger() {
+    CompletedOrder ord = new CompletedOrder(6, 4.342f, "test-contract", "buyer", "seller", Integer.valueOf(5));
+
+    assertEquals(6, ord.getSize().intValue());
+    assertEquals(4.342f, ord.getPrice().floatValue(), Precision.EPSILON);
+    assertEquals("test-contract", ord.getContract());
+    assertEquals("buyer", ord.getBuyAgent());
+    assertEquals("seller", ord.getSellAgent());
+    assertEquals(Integer.valueOf(5), ord.getCloseDtInt());
+  }
+
   @SuppressWarnings("static-access")
   @Test
-  public void testFileLog() {
+  public void testFileLogInstant() {
     Instant tm = new Date(System.currentTimeMillis()).toInstant();
     CompletedOrder ord = new CompletedOrder(5, 1.342f, "test-contract", "buyer", "seller", tm);
 
     assertEquals("time, contract, size, price, buyAgent, sellAgent\n", ord.getHeader());
     String ans = tm.toString() + ", test-contract, 5, 1.342, buyer, seller\n";
     assertEquals(ans, ord.toFile());
+  }
 
+  @SuppressWarnings("static-access")
+  @Test
+  public void testFileLogInteger() {
+    CompletedOrder ord = new CompletedOrder(5, 1.342f, "test-contract", "buyer", "seller", Integer.valueOf(1235));
+
+    assertEquals("time, contract, size, price, buyAgent, sellAgent\n", ord.getHeader());
+    String ans = Integer.valueOf(1235).toString() + ", test-contract, 5, 1.342, buyer, seller\n";
+    assertEquals(ans, ord.toFile());
   }
 
   @Test

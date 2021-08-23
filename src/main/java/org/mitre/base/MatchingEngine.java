@@ -227,9 +227,15 @@ public class MatchingEngine {
       Order buy = getBuyBook().get(el.getKey());
       Order sell = getSellBook().get(el.getValue());
 
-      this.addTrade(new CompletedOrder(Math.min(buy.getSize(), sell.getSize()),
-          Precision.round((buy.getPrice() + sell.getPrice()) / 2, 6), buy.getContract(), buy.getAgent(),
-          sell.getAgent()));
+      if (buy.getUsingInstant().booleanValue()) {
+        this.addTrade(new CompletedOrder(Math.min(buy.getSize(), sell.getSize()),
+            Precision.round((buy.getPrice() + sell.getPrice()) / 2, 6), buy.getContract(), buy.getAgent(),
+            sell.getAgent()));
+      } else {
+        this.addTrade(new CompletedOrder(Math.min(buy.getSize(), sell.getSize()),
+            Precision.round((buy.getPrice() + sell.getPrice()) / 2, 6), buy.getContract(), buy.getAgent(),
+            sell.getAgent(), Math.max(buy.getDtInt(), sell.getDtInt()) + 1));
+      }
 
       removeFilledOrders(el);
     }
