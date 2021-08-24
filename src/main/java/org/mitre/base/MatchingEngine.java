@@ -35,7 +35,7 @@ public class MatchingEngine {
   private final Logger log = LoggerFactory.getLogger(MatchingEngine.class);
 
   // configuration properties, default to flood
-  private static final String DEFAULT_MARKET = "floods";
+  private static final String DEFAULT_MARKET = "generic";
 
   @Autowired
   private Properties props = new MarketPropertiesParser(DEFAULT_MARKET).getProp();

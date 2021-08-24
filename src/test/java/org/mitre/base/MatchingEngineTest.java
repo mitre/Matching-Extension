@@ -87,7 +87,7 @@ public class MatchingEngineTest {
     TimeUnit.MILLISECONDS.sleep(100);
     ob.addBuyOrder(new Order(5, 0.344f, "GC1!", "mike"));
 
-    MatchingEngine me = new MatchingEngine(ob);
+    MatchingEngine me = new MatchingEngine(ob, "floods");
 
     assertEquals(0, me.getAllTrades().size());
     assertEquals(3, me.getBuyBook().size());
@@ -113,9 +113,9 @@ public class MatchingEngineTest {
     assertEquals(3, me2.getSellBook().size());
 
     me2.matchUpdate();
-    assertEquals(2, me2.getAllTrades().size());
-    assertEquals(0, me2.getBuyBook().size());
-    assertEquals(2, me2.getSellBook().size());
+    assertEquals(0, me2.getAllTrades().size());
+    assertEquals(2, me2.getBuyBook().size());
+    assertEquals(3, me2.getSellBook().size());
   }
 
   @Test
@@ -212,7 +212,7 @@ public class MatchingEngineTest {
   @Test
   public void testMatchUpdateNetLogoMarket() {
     OrderBook ob = new OrderBook();
-    MatchingEngine me = new MatchingEngine(ob);
+    MatchingEngine me = new MatchingEngine(ob, "floods");
 
     me.matchUpdate();
 
@@ -415,7 +415,7 @@ public class MatchingEngineTest {
   @Test
   public void testToString() {
     MatchingEngine me = new MatchingEngine();
-    assertEquals("MatchingEngine: FLOOD_CLIMATE size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0",
+    assertEquals("MatchingEngine: GENERIC size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0",
         me.toString());
   }
 }

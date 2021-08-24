@@ -87,7 +87,7 @@ public class MatchingExtensionTest {
   public void testLogoExtension() throws ExtensionException {
     LogoMatching lm = new LogoMatching();
 
-    String ans = "MatchingEngine: FLOOD_CLIMATE size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0";
+    String ans = "MatchingEngine: GENERIC size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0";
     assertEquals(ans, lm.dump(false, false, false));
     assertEquals(true, lm.recursivelyEqual(lm));
 
@@ -95,7 +95,7 @@ public class MatchingExtensionTest {
     MatchingEngine me = new MatchingEngine();
     LogoMatching lm2 = new LogoMatching(ob, me);
 
-    String ans2 = "MatchingEngine: FLOOD_CLIMATE size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0";
+    String ans2 = "MatchingEngine: GENERIC size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0";
     assertEquals(ans2, lm2.dump(false, false, false));
     assertEquals(false, lm2.recursivelyEqual(lm));
     assertEquals(true, lm2.recursivelyEqual(lm2));
@@ -123,7 +123,7 @@ public class MatchingExtensionTest {
     String ans = "Syntax(10,0,List(8),8191,None,None,false,OTPL,None,false,true)";
     assertEquals(ans, m.getSyntax().toString());
 
-    String ans2 = "MatchingEngine: FLOOD_CLIMATE size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0";
+    String ans2 = "MatchingEngine: GENERIC size(COMPLETED_TRADES)=0 size(BUY_BOOK)=0 size(SELL_BOOK)=0";
     assertEquals(ans2, m.report(null, null).toString());
   }
 
