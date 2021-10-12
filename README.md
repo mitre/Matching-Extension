@@ -4,7 +4,7 @@ A Java implementation of a market simulator using the spring-boot framework and 
 
 
 #### Requires
- - NetLogo 6.1.1 is installed and runnable on local machine.
+ - NetLogo 6.1.1 is installed on local machine.
 
 
 ### NetLogo Installation
