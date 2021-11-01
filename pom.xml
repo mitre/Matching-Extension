@@ -5,8 +5,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mitre</groupId>
-	<artifactId>market-simulator</artifactId>
-	<version>0.3.3-SNAPSHOT</version>
+	<artifactId>Matching-Extension</artifactId>
+	<version>1.0.0</version>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

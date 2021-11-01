@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Extension-Name: matching
-Tab-Name: Matching Market
+Tab-Name: Matching Extension
 Class-Name: org.mitre.base.integrations.MatchingExtension
 NetLogo-API-Version: 6.1
 NetLogo-Extension-API-Version: 6.1
