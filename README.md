@@ -15,7 +15,7 @@ A Java implementation of a matching market simulator using the spring-boot frame
  5. The NetLogo code should include: `extensions [matching]`
 
 
-#### Sample NetLogo Usage
+### Sample NetLogo Usage
 ```
   // create default matching engine, no arguments
   let t matching:create-default []
